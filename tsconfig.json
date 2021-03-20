@@ -19,10 +19,13 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "strict": true,
-    "target": "esnext"
-  },
-  "paths": {
-    "#/*": "./src",
+    "target": "esnext",
+    "baseUrl": ".", // This must be specified if "paths" is.
+    "paths": {
+      "#/*": [
+        "./*"
+      ]
+    }
   },
   "exclude": [
     "node_modules"
