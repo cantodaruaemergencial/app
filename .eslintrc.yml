@@ -38,4 +38,4 @@ rules:
     ]
 globals: { React: 'writable' }
 settings:
-  import/resolver: { node: { 'moduleDirectory': ['node_modules', 'src'] } }
+  import/resolver: typescript

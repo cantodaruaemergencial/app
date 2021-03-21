@@ -1,6 +1,7 @@
 import Head from 'next/head';
-import Link from 'next/link';
 import { ReactElement } from 'react';
+
+import NavBar from '#/components/NavBar';
 
 interface Props {
   children: ReactElement | ReactElement[];
@@ -18,20 +19,7 @@ const Layout = ({
       <meta name="viewport" content="initial-scale=1.0, width=device-width" />
     </Head>
     <header>
-      <nav>
-        <Link href="/">
-          <a>Home</a>
-        </Link>{' '}
-        |{' '}
-        <Link href="/about">
-          <a>About</a>
-        </Link>{' '}
-        |{' '}
-        <Link href="/users">
-          <a href="#">Users List</a>
-        </Link>{' '}
-        | <a href="/api/users">Users API</a>
-      </nav>
+      <NavBar />
     </header>
     {children}
     <footer>
