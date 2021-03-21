@@ -3,7 +3,7 @@ import Link from 'next/link';
 import { ReactElement } from 'react';
 
 interface Props {
-  children: ReactElement;
+  children: ReactElement | ReactElement[];
   title: string;
 }
 
