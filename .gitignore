@@ -31,3 +31,7 @@ yarn-error.log*
 
 # editor
 .vscode
+
+# pwa
+**/public/workbox-*.js*
+**/public/sw.js*
