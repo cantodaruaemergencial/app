@@ -25,7 +25,7 @@ export default function ButtonAppBar(): React.ReactElement {
 
   return (
     <div className={classes.root}>
-      <AppBar position="static">
+      <AppBar position="static" color="default">
         <Toolbar>
           <IconButton
             edge="start"
