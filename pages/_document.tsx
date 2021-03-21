@@ -1,5 +1,12 @@
 import { ServerStyleSheets } from '@material-ui/core/styles';
-import Document, { Html, Head, Main, NextScript } from 'next/document';
+import Document, {
+  Html,
+  Head,
+  Main,
+  NextScript,
+  DocumentInitialProps,
+  DocumentContext,
+} from 'next/document';
 import { Children, ReactElement } from 'react';
 
 import DefaultTheme from '#/utils/theme';
@@ -45,7 +52,7 @@ const pwaMetaData = (
   </>
 );
 
-export default class MyDocument extends Document {
+export default class CustomDocument extends Document {
   render(): ReactElement {
     return (
       <Html lang="en">
@@ -63,25 +70,27 @@ export default class MyDocument extends Document {
       </Html>
     );
   }
-}
 
-MyDocument.getInitialProps = async (ctx) => {
-  const sheets = new ServerStyleSheets();
-  const originalRenderPage = ctx.renderPage;
+  static async getInitialProps(
+    ctx: DocumentContext,
+  ): Promise<DocumentInitialProps> {
+    const initialProps = await Document.getInitialProps(ctx);
+    const sheets = new ServerStyleSheets();
+    const originalRenderPage = ctx.renderPage;
 
-  ctx.renderPage = () =>
-    originalRenderPage({
-      enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
-    });
+    // Enhance page rendering with MaterialUI styles
+    ctx.renderPage = () =>
+      originalRenderPage({
+        enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
+      });
 
-  const initialProps = await Document.getInitialProps(ctx);
-
-  return {
-    ...initialProps,
     // Styles fragment is rendered after the app and page rendering finish.
-    styles: [
-      ...Children.toArray(initialProps.styles),
-      sheets.getStyleElement(),
-    ],
-  };
-};
+    return {
+      ...initialProps,
+      styles: [
+        ...Children.toArray(initialProps.styles),
+        sheets.getStyleElement(),
+      ],
+    };
+  }
+}
