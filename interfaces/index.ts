@@ -4,7 +4,53 @@
 //
 // import { User } from 'path/to/interfaces';
 
-export interface User {
+type IFormVariants = 'Select' | 'DatePicker' | 'TextField';
+
+interface IMaritalStatus {
+  id: number;
+  maritalStatus:
+    | 'Solteiro'
+    | 'Casado'
+    | 'Viúvo'
+    | 'Divorciado'
+    | 'Separado'
+    | 'União'
+    | 'Amasiado'
+    | 'União estável';
+}
+
+interface IUser {
   id: number;
   name: string;
+  socialName: string;
+  birthdate: Date;
+  motherName: string;
+  birthPlace: string;
+  skinColor: string;
+  gender: string;
+  childrens: number;
+  hasBabitation: boolean;
+  homelessTime: string;
+  emergencyAid: boolean;
+  pbhBasket: boolean;
+  uniqueRegister: boolean;
+  hasGeneralRegister: boolean;
+  generalRegister: string;
+  hasCpf: boolean;
+  cpf: string;
+  hasCtps: boolean;
+  hasBirthCertificate: boolean;
+  maritalStatus: string;
+  schoolTraining: string;
+  referenceLocation: string;
+  occupation: string;
+  profession: string;
+  contactPhone: string;
+  referenceAddress: string;
+  demands: string;
+  observation: string;
+  createdBy: string;
+  createdTime: Date;
 }
+
+export type { IMaritalStatus, IUser, IFormVariants };
