@@ -1,8 +1,6 @@
 import Container from '@material-ui/core/Container';
-import TextField from '@material-ui/core/TextField';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import { useState } from 'react';
 
 import Layout from '#/components/Layout';
 
@@ -24,11 +22,13 @@ const useStyles = makeStyles(() =>
 
 const FormPage = (): React.ReactElement => {
   const classes = useStyles();
+
   return (
     <Layout title="Form">
       <Typography variant="h1">Cadastro de novos entrantes</Typography>
-      <TextField id="outlined-basic" label="Name" variant="outlined" />
-      <Container className={classes.container} />
+      <Container className={classes.container}>
+        <div>placeholder</div>
+      </Container>
     </Layout>
   );
 };
