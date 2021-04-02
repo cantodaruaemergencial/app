@@ -1,0 +1,11 @@
+{
+  "name": "@packages/config",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "sideEffects": false,
+  "main": "./main.ts",
+  "dependencies": {
+    "firebase": "^8.3.1"
+  }
+}
