@@ -1,28 +1,25 @@
 import MenuItem from '@material-ui/core/MenuItem';
 import MaterialSelect from '@material-ui/core/Select';
 
-type ISelectOptions = {
+export type ISelectOptions = {
   id: number;
   value: string;
 };
 
-interface ISelect {
+export interface ISelect {
   value: string;
-  onChange: () => void;
+  id: string;
+  onChange: (event: React.ChangeEvent<{ value: unknown }>) => void;
   selectOptions: ISelectOptions[];
 }
 
 const Select = ({
   value,
+  id,
   onChange,
   selectOptions,
 }: ISelect): React.ReactElement => (
-  <MaterialSelect
-    labelId="maritial-status-select"
-    id="maritial-status-select"
-    value={value}
-    onChange={onChange}
-  >
+  <MaterialSelect labelId={id} id={id} value={value} onChange={onChange}>
     {selectOptions.map((option) => (
       <MenuItem key={option.id} value={option.id}>
         {option.value}
