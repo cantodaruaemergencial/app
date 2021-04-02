@@ -3,6 +3,7 @@ import ThemeProvider from '@material-ui/styles/ThemeProvider';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 
+import { AuthProvider } from '#/packages/auth/auth-context';
 import DefaultTheme from '#/utils/theme';
 
 const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
@@ -15,10 +16,12 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
   }, []);
 
   return (
-    <ThemeProvider theme={DefaultTheme}>
-      <CssBaseline />
-      <Component {...pageProps} />
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={DefaultTheme}>
+        <CssBaseline />
+        <Component {...pageProps} />
+      </ThemeProvider>
+    </AuthProvider>
   );
 };
 
