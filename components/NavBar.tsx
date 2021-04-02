@@ -6,7 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 
-import { useAuthMethods } from '@packages/auth/auth-context';
+import { useAuthMethods } from '#/packages/auth/auth-context';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
