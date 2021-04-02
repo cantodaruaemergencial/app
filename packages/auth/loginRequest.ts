@@ -1,6 +1,6 @@
 import { makeLogin } from '@packages/config/firebase';
 
-export async function login(): Promise<void> {
+export async function loginRequest(): Promise<void> {
   try {
     const result = await makeLogin();
 
