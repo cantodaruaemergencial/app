@@ -1,0 +1,12 @@
+{
+  "name": "@packages/auth",
+  "version": "1.0.0",
+  "description": "",
+  "private": true,
+  "sideEffects": false,
+  "main": "./auth-context.ts",
+  "dependencies": {
+    "@reduxjs/toolkit": "^1.5.1",
+    "react": "^17.0.2"
+  }
+}

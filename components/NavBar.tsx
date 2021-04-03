@@ -6,6 +6,8 @@ import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles, Theme } from '@material-ui/core/styles';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import { useAuthMethods } from '#/packages/auth/auth-context';
+
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
@@ -22,6 +24,7 @@ const useStyles = makeStyles((theme: Theme) =>
 
 export default function ButtonAppBar(): React.ReactElement {
   const classes = useStyles();
+  const { login } = useAuthMethods();
 
   return (
     <div className={classes.root}>
@@ -38,7 +41,9 @@ export default function ButtonAppBar(): React.ReactElement {
           <Typography variant="h6" className={classes.title}>
             News
           </Typography>
-          <Button color="inherit">Login</Button>
+          <Button color="inherit" onClick={login}>
+            Login
+          </Button>
         </Toolbar>
       </AppBar>
     </div>
