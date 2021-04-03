@@ -3,6 +3,7 @@ import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
 
 import Layout from '#/components/Layout';
+import HookFormGen from '#/components/core/FormGenerator/hookFormGenerator';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -27,7 +28,18 @@ const FormPage = (): React.ReactElement => {
     <Layout title="Form">
       <Typography variant="h1">Cadastro de novos entrantes</Typography>
       <Container className={classes.container}>
-        <div>placeholder</div>
+        <HookFormGen
+          fields={{
+            name: 'input',
+            sex: 'select',
+          }}
+          options={{
+            sex: [
+              { name: 'Masculino', value: 'm' },
+              { name: 'Feminino', value: 'f' },
+            ],
+          }}
+        />
       </Container>
     </Layout>
   );

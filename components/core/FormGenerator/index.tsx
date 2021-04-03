@@ -19,10 +19,7 @@ export default function FormGenerator(
 ): React.ReactElement {
   return (
     <Container id="formContainer">
-      {formData.map((data) => {
-        const Component = formGeneratorInputs[data.type];
-        return <Component {...data.values} key={data.key} />;
-      })}
+      <div>bla</div>
     </Container>
   );
 }
