@@ -22,10 +22,6 @@ const Layout = ({
       <NavBar />
     </header>
     {children}
-    <footer>
-      <hr />
-      <span>Im here to stay (Footer)</span>
-    </footer>
   </div>
 );
 
