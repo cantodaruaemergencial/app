@@ -1,14 +1,9 @@
-import Link from 'next/link';
-
 import Layout from '#/components/Layout';
+import LoginPage from '#/components/LoginPage';
 
 const IndexPage = (): React.ReactElement => (
   <Layout title="App">
-    <p>
-      <Link href="/about">
-        <a>About</a>
-      </Link>
-    </p>
+    <LoginPage />
   </Layout>
 );
 
