@@ -1,6 +1,6 @@
 import { Container } from 'next/app';
 
-import Select, { ISelect } from '#/components/core/Select';
+import { ISelect } from '#/components/core/Select';
 
 type IFormTypes = 'select';
 
@@ -10,16 +10,16 @@ interface IFormSelect {
   key: string;
 }
 
-const formGeneratorInputs = {
-  select: Select,
-};
+// const formGeneratorInputs = {
+//   select: Select,
+// };
 
 export default function FormGenerator(
   formData: IFormSelect[],
 ): React.ReactElement {
   return (
     <Container id="formContainer">
-      <div>bla</div>
+      <div>{formData}</div>
     </Container>
   );
 }
