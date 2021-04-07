@@ -1,40 +1,93 @@
-import { Button, createStyles, makeStyles } from '@material-ui/core';
-import { ReactElement } from 'react';
+import {
+  Card,
+  createStyles,
+  makeStyles,
+  TextField,
+  Typography,
+} from '@material-ui/core';
+import { ReactElement, useState } from 'react';
+
+import Button from './Button';
 
 import { useAuthMethods } from '#/packages/auth/auth-context';
 
 const useStyles = makeStyles(() =>
   createStyles({
     loginCard: {
-      margin: '10rem auto',
-      width: '20rem',
-      minWidth: `5rem`,
+      margin: '5rem auto',
+      maxWidth: '20rem',
       padding: `1rem`,
       borderRadius: `0.5rem`,
-      border: 'solid 2px white',
       textAlign: `center`,
+      display: `flex`,
+      flexDirection: `column`,
+      justifyItems: 'space-between',
     },
     googleButton: {
-      backgroundColor: 'red',
-    },
-    logoImage: {
       width: '100%',
+    },
+    googleIcon: {
+      margin: '0 0.5rem',
+    },
+    helpingHandIcon: {
+      width: '50%',
+      padding: `1rem`,
     },
   }),
 );
 
+const GoogleLogo = () => {
+  const classes = useStyles();
+  return (
+    <img
+      src="images/googleIcon.png"
+      alt="google"
+      className={classes.googleIcon}
+    />
+  );
+};
+
+// TODO: temporary, will be replaced by an endpoint
+const PASSWORD = 'login';
+
 const LoginPage = (): ReactElement => {
   const classes = useStyles();
   const { login } = useAuthMethods();
+  const [password, setPassword] = useState<string>('');
+  const isPasswordValid = password === PASSWORD;
+
+  const helpText = !isPasswordValid
+    ? 'Caso não tenha, entre em contato com o admin do sistema'
+    : null;
 
   return (
-    <div className={classes.loginCard}>
-      <img className={classes.logoImage} src="images/logo.jpeg" alt="logo" />
-      <p>Seja bem vindo ao Canto da Rua</p>
-      <Button onClick={login} className={classes.googleButton}>
-        Login com Google
-      </Button>
-    </div>
+    <Card className={classes.loginCard}>
+      <Typography variant="h4" paragraph>
+        Seja bem vindo ao Canto da Rua
+      </Typography>
+      {isPasswordValid ? (
+        <Button
+          onClick={login}
+          className={classes.googleButton}
+          variant="outlined"
+          autoFocus
+        >
+          <GoogleLogo />
+          Login com Google
+        </Button>
+      ) : (
+        <TextField
+          autoFocus
+          label="Palavra-passe"
+          helperText={helpText}
+          variant="outlined"
+          type="password"
+          autoComplete="off"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        />
+      )}
+    </Card>
   );
 };
 
