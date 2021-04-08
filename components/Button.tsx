@@ -15,7 +15,6 @@ const useStyles = makeStyles(({ palette }: Theme) =>
   createStyles({
     outlined: {
       borderColor: palette.primary.main,
-      // padding: '10px 0',
       textAlign: 'center',
     },
     label: {
@@ -26,7 +25,6 @@ const useStyles = makeStyles(({ palette }: Theme) =>
 
 function Button(props: Props) {
   const classes = useStyles();
-  // const buttonStyles = useVariantStyles(variant);
   return <MuiButton {...props} classes={classes} />;
 }
 

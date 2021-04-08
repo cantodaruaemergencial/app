@@ -16,11 +16,11 @@ const useStyles = makeStyles(() =>
     loginCard: {
       margin: '5rem auto',
       maxWidth: '20rem',
-      padding: `1rem`,
-      borderRadius: `0.5rem`,
-      textAlign: `center`,
-      display: `flex`,
-      flexDirection: `column`,
+      padding: '1rem',
+      borderRadius: '0.5rem',
+      textAlign: 'center',
+      display: 'flex',
+      flexDirection: 'column',
       justifyItems: 'space-between',
     },
     googleButton: {
@@ -28,10 +28,6 @@ const useStyles = makeStyles(() =>
     },
     googleIcon: {
       margin: '0 0.5rem',
-    },
-    helpingHandIcon: {
-      width: '50%',
-      padding: `1rem`,
     },
   }),
 );
