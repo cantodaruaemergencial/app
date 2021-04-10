@@ -1,6 +1,4 @@
-import HookFormGen, {
-  FieldType,
-} from '#/components/core/FormGenerator/hookFormGenerator';
+import HookFormGen, { FieldType } from '#/components/core/FormGenerator';
 
 const fields: { [name: string]: FieldType } = {
   name: 'input',
