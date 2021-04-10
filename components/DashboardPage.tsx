@@ -11,7 +11,7 @@ import {
 
 const useStyles = makeStyles(() =>
   createStyles({
-    loginCard: {
+    dashboardCard: {
       margin: '5rem auto',
       maxWidth: '40rem',
       padding: '1rem',
@@ -21,36 +21,30 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       justifyItems: 'space-between',
     },
-    googleButton: {
-      width: '100%',
-    },
-    googleIcon: {
-      margin: '0 0.5rem',
-    },
   }),
 );
 
-const LoginPage = (): ReactElement => {
+const DashboardPage = (): ReactElement => {
   const classes = useStyles();
   const { userProfile } = useAuthState();
   const { logout } = useAuthMethods();
 
   useAsPrivateRoute();
 
-  if (userProfile == null) {
-    // TODO: show loading page
-    return <>Loading...</>;
-  }
-
   return (
-    <Card className={classes.loginCard}>
-      <Typography variant="h4" paragraph>
-        Seja bem {userProfile.displayName}!
-      </Typography>
-
-      <Button onClick={logout}>Logout</Button>
+    <Card className={classes.dashboardCard}>
+      {userProfile == null ? (
+        'Loading...'
+      ) : (
+        <>
+          <Typography variant="h4" paragraph>
+            Seja bem {userProfile.displayName}!
+          </Typography>
+          <Button onClick={logout}>Logout</Button>
+        </>
+      )}
     </Card>
   );
 };
 
-export default LoginPage;
+export default DashboardPage;
