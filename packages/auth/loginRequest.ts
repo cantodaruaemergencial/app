@@ -1,4 +1,4 @@
-import { makeLogin } from '@packages/config/firebase';
+import { makeLogin } from '#/packages/config/firebase';
 
 export async function loginRequest(): Promise<void> {
   try {
