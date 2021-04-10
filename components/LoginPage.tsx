@@ -5,11 +5,12 @@ import {
   TextField,
   Typography,
 } from '@material-ui/core';
-import { ReactElement, useState } from 'react';
+import { useRouter } from 'next/dist/client/router';
+import { ReactElement, useEffect, useState } from 'react';
 
 import Button from './Button';
 
-import { useAuthMethods } from '#/packages/auth/auth-context';
+import { useAuthMethods, useAuthState } from '#/packages/auth/auth-context';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -49,8 +50,17 @@ const PASSWORD = 'login';
 const LoginPage = (): ReactElement => {
   const classes = useStyles();
   const { login } = useAuthMethods();
+  const { isLoading, isLogged } = useAuthState();
   const [password, setPassword] = useState<string>('');
   const isPasswordValid = password === PASSWORD;
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLogged) {
+      // Redirect to desired path
+      router.replace('/dashboard');
+    }
+  }, [isLogged]);
 
   const helpText = !isPasswordValid
     ? 'Caso não tenha, entre em contato com o admin do sistema'
@@ -67,6 +77,7 @@ const LoginPage = (): ReactElement => {
           className={classes.googleButton}
           variant="outlined"
           autoFocus
+          disabled={isLoading}
         >
           <GoogleLogo />
           Login com Google
