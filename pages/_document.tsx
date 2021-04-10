@@ -74,7 +74,6 @@ export default class CustomDocument extends Document {
   static async getInitialProps(
     ctx: DocumentContext,
   ): Promise<DocumentInitialProps> {
-    const initialProps = await Document.getInitialProps(ctx);
     const sheets = new ServerStyleSheets();
     const originalRenderPage = ctx.renderPage;
 
@@ -83,6 +82,8 @@ export default class CustomDocument extends Document {
       originalRenderPage({
         enhanceApp: (App) => (props) => sheets.collect(<App {...props} />),
       });
+
+    const initialProps = await Document.getInitialProps(ctx);
 
     // Styles fragment is rendered after the app and page rendering finish.
     return {
