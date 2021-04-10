@@ -6,7 +6,7 @@ import { useEffect } from 'react';
 import { AuthProvider } from '#/packages/auth/auth-context';
 import DefaultTheme from '#/utils/theme';
 
-const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
+const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
   useEffect(() => {
     // Remove the server-side injected CSS.
     const jssStyles = document.querySelector('#jss-server-side');
@@ -25,4 +25,4 @@ const MyApp = ({ Component, pageProps }: AppProps): React.ReactElement => {
   );
 };
 
-export default MyApp;
+export default App;

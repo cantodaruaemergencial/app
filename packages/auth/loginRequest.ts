@@ -1,6 +1,8 @@
-import { makeLogin } from '@packages/config/firebase';
+import { UserProfile } from '../entities/types';
 
-export async function loginRequest(): Promise<void> {
+import { makeLogin } from '#/packages/config/firebase';
+
+export async function loginRequest(): Promise<UserProfile> {
   try {
     const result = await makeLogin();
 
@@ -9,16 +11,20 @@ export async function loginRequest(): Promise<void> {
     if (user == null) throw new Error('user is null');
 
     // This gives you a Google Access Token. You can use it to access the Google API.
-    console.log(credential.toJSON());
-    console.log(user.displayName);
+    return {
+      displayName: user.displayName ?? '',
+      email: user.email ?? '',
+    };
   } catch (error) {
     // The email of the user's account used.
     const { code, message, email, credential } = error;
-    console.error({
-      message,
-      code,
-      email,
-      credential,
-    });
+    throw TypeError(
+      JSON.stringify({
+        message,
+        code,
+        email,
+        credential,
+      }),
+    );
   }
 }

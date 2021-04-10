@@ -22,8 +22,7 @@
     "target": "esnext",
     "baseUrl": ".", // This must be specified if "paths" is.
     "paths": {
-      "#/*": ["./*"],
-      "@packages/*": ["./packages/*"]
+      "#/*": ["./*"]
     }
   },
   "exclude": ["node_modules"],

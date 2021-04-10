@@ -1,65 +1,77 @@
+import { useRouter } from 'next/dist/client/router';
 import {
   createContext,
   ReactElement,
+  ReactNode,
   useContext,
   useEffect,
   useMemo,
-  useReducer,
+  useState,
 } from 'react';
 
 import { setupFirebase } from '../config/firebase';
+import { UserProfile } from '../entities/types';
 
-import authFetchReducer, * as authFetchTypes from './auth-fetch-reducer';
-import authReducer, * as authTypes from './auth-reducer';
 import { loginRequest } from './loginRequest';
 
 interface AuthMethods {
-  readonly logged: (user: authTypes.UserInfo) => void;
   readonly logout: () => void;
   readonly login: () => Promise<void>;
 }
 
-interface Props {
-  readonly children: ReactElement;
+interface AuthState {
+  readonly isLogged: boolean;
+  readonly isLoading: boolean;
+  readonly userProfile: UserProfile | null;
 }
 
-const AuthStateCtx = createContext<authTypes.AuthState>(
-  authTypes.INITIAL_STATE,
-);
+interface Props {
+  readonly children: ReactNode;
+}
+
+const AuthStateCtx = createContext<AuthState>({
+  isLogged: false,
+  isLoading: false,
+  userProfile: null,
+});
 AuthStateCtx.displayName = 'AuthStateCtx';
 
-const AuthMethodsCtx = createContext<AuthMethods | null>(null);
-AuthStateCtx.displayName = 'AuthStateCtx';
+function missingProviderError() {
+  throw TypeError('Missing AuthProvider upwards in the tree');
+}
+const AuthMethodsCtx = createContext<AuthMethods>({
+  login: () => new Promise(missingProviderError),
+  logout: missingProviderError,
+});
+AuthMethodsCtx.displayName = 'AuthMethodsCtx';
 
-const AuthFetchStateCtx = createContext<authFetchTypes.AuthFetchState>(
-  authFetchTypes.INITIAL_STATE,
-);
-AuthFetchStateCtx.displayName = 'AuthFetchStateCtx';
+type Status = 'idle' | 'loading' | 'fetched';
 
 export function AuthProvider({ children }: Props): ReactElement {
-  const [authState, authDispatch] = useReducer(
-    authReducer,
-    authTypes.INITIAL_STATE,
-  );
-  const [fetchState, fetchDispatch] = useReducer(
-    authFetchReducer,
-    authFetchTypes.INITIAL_STATE,
-  );
-  const methods: AuthMethods = useMemo(
+  const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+  const [fetchStatus, setFetchStatus] = useState<Status>('idle');
+  const methods: AuthMethods = {
+    login: async () => {
+      setFetchStatus('loading');
+      try {
+        const userProfileResp = await loginRequest();
+        setUserProfile(userProfileResp);
+        setFetchStatus('fetched');
+      } catch (error) {
+        // TODO: Notify about error in another package
+        setFetchStatus('fetched');
+      }
+    },
+    logout: () => setUserProfile(null),
+  };
+
+  const states: AuthState = useMemo(
     () => ({
-      login: async () => {
-        fetchDispatch(authFetchTypes.login());
-        try {
-          await loginRequest();
-          fetchDispatch(authFetchTypes.loginDone());
-        } catch (error) {
-          fetchDispatch(authFetchTypes.loginFail((error as Error).message));
-        }
-      },
-      logged: (userInfo) => authDispatch(authTypes.loginSuccess(userInfo)),
-      logout: () => authDispatch(authTypes.logout()),
+      isLogged: userProfile != null,
+      isLoading: fetchStatus === 'loading',
+      userProfile,
     }),
-    [authDispatch, fetchDispatch],
+    [fetchStatus, userProfile],
   );
 
   useEffect(() => {
@@ -68,27 +80,28 @@ export function AuthProvider({ children }: Props): ReactElement {
   }, []);
 
   return (
-    <AuthStateCtx.Provider value={authState}>
+    <AuthStateCtx.Provider value={states}>
       <AuthMethodsCtx.Provider value={methods}>
-        <AuthFetchStateCtx.Provider value={fetchState}>
-          {children}
-        </AuthFetchStateCtx.Provider>
+        {children}
       </AuthMethodsCtx.Provider>
     </AuthStateCtx.Provider>
   );
 }
 
-export function useAuthState(): authTypes.AuthState {
+export function useAuthState(): AuthState {
   return useContext(AuthStateCtx);
 }
 
-export function useAuthFetchState(): authFetchTypes.AuthFetchState {
-  return useContext(AuthFetchStateCtx);
+export function useAuthMethods(): AuthMethods {
+  return useContext(AuthMethodsCtx);
 }
 
-export function useAuthMethods(): AuthMethods {
-  const methods = useContext(AuthMethodsCtx);
-  if (methods == null)
-    throw new TypeError(`Missing AuthProvider upwards in the tree`);
-  return methods;
+export function useAsPrivateRoute() {
+  const { isLogged } = useAuthState();
+  const router = useRouter();
+  useEffect(() => {
+    if (!isLogged) {
+      router.replace('/login');
+    }
+  }, [isLogged, router]);
 }
