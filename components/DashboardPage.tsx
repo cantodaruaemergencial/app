@@ -3,11 +3,7 @@ import { ReactElement } from 'react';
 
 import Button from './Button';
 
-import {
-  useAsPrivateRoute,
-  useAuthMethods,
-  useAuthState,
-} from '#/packages/auth/auth-context';
+import { useAuthMethods, useAuthState } from '#/packages/auth/auth-context';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -28,8 +24,6 @@ const DashboardPage = (): ReactElement => {
   const classes = useStyles();
   const { userProfile } = useAuthState();
   const { logout } = useAuthMethods();
-
-  useAsPrivateRoute();
 
   return (
     <Card className={classes.dashboardCard}>

@@ -28,6 +28,8 @@ interface Props {
   readonly children: ReactNode;
 }
 
+const publicRoutes = ['/', '/login'];
+
 const AuthStateCtx = createContext<AuthState>({
   isLogged: false,
   isLoading: false,
@@ -49,6 +51,7 @@ type Status = 'idle' | 'loading' | 'fetched';
 export function AuthProvider({ children }: Props): ReactElement {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [fetchStatus, setFetchStatus] = useState<Status>('idle');
+  const router = useRouter();
   const methods: AuthMethods = {
     login: async () => {
       setFetchStatus('loading');
@@ -80,7 +83,11 @@ export function AuthProvider({ children }: Props): ReactElement {
   useEffect(() => {
     // Init firebase settings
     setupFirebase();
-    setUserProfile(getUserProfile());
+    // Check user auth
+    const user = getUserProfile();
+    setUserProfile(user);
+    if (!publicRoutes.includes(router.pathname) && userProfile == null)
+      router.replace('/login');
   }, []);
 
   return (
@@ -98,12 +105,4 @@ export function useAuthState(): AuthState {
 
 export function useAuthMethods(): AuthMethods {
   return useContext(AuthMethodsCtx);
-}
-
-export function useAsPrivateRoute() {
-  const { isLogged } = useAuthState();
-  const router = useRouter();
-  useEffect(() => {
-    if (!isLogged) router.replace('/login');
-  }, [isLogged, router]);
 }
