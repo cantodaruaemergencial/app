@@ -18,13 +18,17 @@ export function makeLogout() {
   localStorage.removeItem(LOCAL_STORAGE_CREDENTIAL_KEY);
 }
 
-export function getUserProfile(): UserProfile {
+export function getUserProfile(): UserProfile | null {
   const credentialString = localStorage.getItem(LOCAL_STORAGE_CREDENTIAL_KEY);
-  if (credentialString == null) throw TypeError('No user data, please login');
+  if (credentialString == null) return null;
 
   const { user }: firebase.auth.UserCredential = JSON.parse(credentialString);
+  if (user == null) return null;
+  if (user.displayName == null) return null;
+  if (user.email == null) return null;
+
   return {
-    displayName: user?.displayName ?? '',
-    email: user?.email ?? '',
+    displayName: user.displayName,
+    email: user?.email,
   };
 }
