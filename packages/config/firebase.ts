@@ -26,39 +26,3 @@ export function setupFirebase(): void {
     firebase.initializeApp(firebaseConfig);
   }
 }
-
-function makeGoogleProvider(): firebase.auth.GoogleAuthProvider {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  return provider;
-}
-
-const LOCAL_STORAGE_KEY = 'firebase_credentials';
-const getFirebaseCredential = (): string => {
-  const credentialString = localStorage.getItem(LOCAL_STORAGE_KEY) ?? '{}';
-  const { oauthIdToken } = JSON.parse(credentialString);
-  return oauthIdToken;
-};
-const setFirebaseCredential = (credential: string) => {
-  localStorage.setItem(LOCAL_STORAGE_KEY, credential);
-};
-
-// Login and save credentials
-export async function makeLogin(): Promise<firebase.auth.UserCredential> {
-  const provider = makeGoogleProvider();
-  const result = await firebase.auth().signInWithPopup(provider);
-  setFirebaseCredential(JSON.stringify(result.credential?.toJSON()));
-  return result;
-}
-
-// Load previous session if available
-export async function reloadSession(): Promise<firebase.auth.UserCredential> {
-  const tokenId = getFirebaseCredential();
-  const credential = firebase.auth.GoogleAuthProvider.credential(tokenId);
-  const result = await firebase.auth().signInWithCredential(credential);
-  return result;
-}
-
-// Reset local credentials
-export function makeLogout() {
-  localStorage.removeItem(LOCAL_STORAGE_KEY);
-}

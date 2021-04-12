@@ -9,10 +9,9 @@ import {
   useState,
 } from 'react';
 
+import { getUserProfile, makeLogin, makeLogout } from '../api/firebase';
 import { setupFirebase } from '../config/firebase';
 import { UserProfile } from '../entities/types';
-
-import { loginRequest } from './loginRequest';
 
 interface AuthMethods {
   readonly logout: () => void;
@@ -54,15 +53,19 @@ export function AuthProvider({ children }: Props): ReactElement {
     login: async () => {
       setFetchStatus('loading');
       try {
-        const userProfileResp = await loginRequest();
-        setUserProfile(userProfileResp);
+        await makeLogin();
+        const userProfileFetched = getUserProfile();
+        setUserProfile(userProfileFetched);
         setFetchStatus('fetched');
       } catch (error) {
         // TODO: Notify about error in another package
         setFetchStatus('fetched');
       }
     },
-    logout: () => setUserProfile(null),
+    logout: () => {
+      setUserProfile(null);
+      makeLogout();
+    },
   };
 
   const states: AuthState = useMemo(
@@ -77,6 +80,7 @@ export function AuthProvider({ children }: Props): ReactElement {
   useEffect(() => {
     // Init firebase settings
     setupFirebase();
+    setUserProfile(getUserProfile());
   }, []);
 
   return (
@@ -100,8 +104,6 @@ export function useAsPrivateRoute() {
   const { isLogged } = useAuthState();
   const router = useRouter();
   useEffect(() => {
-    if (!isLogged) {
-      router.replace('/login');
-    }
+    if (!isLogged) router.replace('/login');
   }, [isLogged, router]);
 }
