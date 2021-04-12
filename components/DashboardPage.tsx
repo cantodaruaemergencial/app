@@ -38,7 +38,7 @@ const DashboardPage = (): ReactElement => {
       ) : (
         <>
           <Typography variant="h4" paragraph>
-            Seja bem {userProfile.displayName}!
+            Seja bem-vindo {userProfile.displayName}!
           </Typography>
           <Button onClick={logout}>Logout</Button>
         </>
