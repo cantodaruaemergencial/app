@@ -9,10 +9,9 @@ import {
   useState,
 } from 'react';
 
+import { getUserProfile, makeLogin, makeLogout } from '../api/firebase';
 import { setupFirebase } from '../config/firebase';
 import { UserProfile } from '../entities/types';
-
-import { loginRequest } from './loginRequest';
 
 interface AuthMethods {
   readonly logout: () => void;
@@ -28,6 +27,8 @@ interface AuthState {
 interface Props {
   readonly children: ReactNode;
 }
+
+const publicRoutes = ['/', '/login'];
 
 const AuthStateCtx = createContext<AuthState>({
   isLogged: false,
@@ -50,19 +51,24 @@ type Status = 'idle' | 'loading' | 'fetched';
 export function AuthProvider({ children }: Props): ReactElement {
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
   const [fetchStatus, setFetchStatus] = useState<Status>('idle');
+  const router = useRouter();
   const methods: AuthMethods = {
     login: async () => {
       setFetchStatus('loading');
       try {
-        const userProfileResp = await loginRequest();
-        setUserProfile(userProfileResp);
+        await makeLogin();
+        const userProfileFetched = getUserProfile();
+        setUserProfile(userProfileFetched);
         setFetchStatus('fetched');
       } catch (error) {
         // TODO: Notify about error in another package
         setFetchStatus('fetched');
       }
     },
-    logout: () => setUserProfile(null),
+    logout: () => {
+      setUserProfile(null);
+      makeLogout();
+    },
   };
 
   const states: AuthState = useMemo(
@@ -77,6 +83,11 @@ export function AuthProvider({ children }: Props): ReactElement {
   useEffect(() => {
     // Init firebase settings
     setupFirebase();
+    // Check user auth
+    const user = getUserProfile();
+    setUserProfile(user);
+    if (!publicRoutes.includes(router.pathname) && userProfile == null)
+      router.replace('/login');
   }, []);
 
   return (
@@ -94,14 +105,4 @@ export function useAuthState(): AuthState {
 
 export function useAuthMethods(): AuthMethods {
   return useContext(AuthMethodsCtx);
-}
-
-export function useAsPrivateRoute() {
-  const { isLogged } = useAuthState();
-  const router = useRouter();
-  useEffect(() => {
-    if (!isLogged) {
-      router.replace('/login');
-    }
-  }, [isLogged, router]);
 }

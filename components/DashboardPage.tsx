@@ -3,11 +3,7 @@ import { ReactElement } from 'react';
 
 import Button from './Button';
 
-import {
-  useAsPrivateRoute,
-  useAuthMethods,
-  useAuthState,
-} from '#/packages/auth/auth-context';
+import { useAuthMethods, useAuthState } from '#/packages/auth/auth-context';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -29,8 +25,6 @@ const DashboardPage = (): ReactElement => {
   const { userProfile } = useAuthState();
   const { logout } = useAuthMethods();
 
-  useAsPrivateRoute();
-
   return (
     <Card className={classes.dashboardCard}>
       {userProfile == null ? (
@@ -38,7 +32,7 @@ const DashboardPage = (): ReactElement => {
       ) : (
         <>
           <Typography variant="h4" paragraph>
-            Seja bem {userProfile.displayName}!
+            Seja bem-vindo {userProfile.displayName}!
           </Typography>
           <Button onClick={logout}>Logout</Button>
         </>

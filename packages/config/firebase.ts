@@ -22,21 +22,7 @@ const firebaseConfig = {
 
 // Initialize Firebase
 export function setupFirebase(): void {
-  try {
+  if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig);
-  } catch (err) {
-    console.error(err);
   }
-}
-
-function makeGoogleProvider(): firebase.auth.GoogleAuthProvider {
-  const provider = new firebase.auth.GoogleAuthProvider();
-  return provider;
-}
-
-export async function makeLogin(): Promise<firebase.auth.UserCredential> {
-  const provider = makeGoogleProvider();
-  const result = await firebase.auth().signInWithPopup(provider);
-  if (result == null) throw new Error('result is null');
-  return result;
 }
