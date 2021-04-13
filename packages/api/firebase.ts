@@ -23,12 +23,11 @@ export function getUserProfile(): UserProfile | null {
   if (credentialString == null) return null;
 
   const { user }: firebase.auth.UserCredential = JSON.parse(credentialString);
-  if (user == null) return null;
-  if (user.displayName == null) return null;
-  if (user.email == null) return null;
+  if (user == null || user.displayName == null || user.email == null)
+    return null;
 
   return {
     displayName: user.displayName,
-    email: user?.email,
+    email: user.email,
   };
 }
