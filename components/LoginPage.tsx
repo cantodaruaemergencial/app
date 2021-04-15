@@ -49,7 +49,7 @@ const PASSWORD = 'login';
 
 const LoginPage = (): ReactElement => {
   const classes = useStyles();
-  const { login } = useAuthMethods();
+  const { handleGoogleClick } = useAuthMethods();
   const { isLoading, isLogged } = useAuthState();
   const [password, setPassword] = useState<string>('');
   const isPasswordValid = password === PASSWORD;
@@ -73,7 +73,7 @@ const LoginPage = (): ReactElement => {
       </Typography>
       {isPasswordValid ? (
         <Button
-          onClick={login}
+          onClick={handleGoogleClick}
           className={classes.googleButton}
           variant="outlined"
           autoFocus
