@@ -15,32 +15,30 @@ export function handleGoogleRedirect(): void {
 }
 
 export async function validateUser(token: string): Promise<UserProfile> {
-  let data;
-
   try {
     const res = await fetch(
       `${NEXT_PUBLIC_STRAPI_API_URL}/${providerPaths.google.callback}${token}`,
     );
 
-    data = await res.json();
+    const data = await res.json();
+
+    const userProfile: UserProfile = {
+      displayName: data?.user?.username,
+      key: data?.jwt,
+      email: data?.user?.email,
+      provider: data?.user?.provider,
+    };
+
+    localStorage.setItem(
+      LOCAL_STORAGE_CREDENTIAL_KEY,
+      JSON.stringify(userProfile),
+    );
+
+    return userProfile;
   } catch (error) {
     // TODO: Need to create error system, maybe setup an error boundry.
     throw new Error('Failed to connect');
   }
-
-  const userProfile: UserProfile = {
-    displayName: data?.user?.username,
-    key: data?.jwt,
-    email: data?.user?.email,
-    provider: data?.user?.provider,
-  };
-
-  localStorage.setItem(
-    LOCAL_STORAGE_CREDENTIAL_KEY,
-    JSON.stringify(userProfile),
-  );
-
-  return userProfile;
 }
 
 export function getUserProfile(): UserProfile | null {
