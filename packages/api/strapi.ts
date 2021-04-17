@@ -48,10 +48,8 @@ export function getUserProfile(): UserProfile | null {
   if (credentialString == null) return null;
 
   const userProfile: UserProfile = JSON.parse(credentialString);
-  const { displayName, email, key, provider } = userProfile;
 
-  if (displayName == null || email == null || key == null || provider == null)
-    return null;
+  if (!userProfile) return null;
 
   return userProfile;
 }
