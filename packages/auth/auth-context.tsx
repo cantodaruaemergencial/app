@@ -9,18 +9,12 @@ import {
   useState,
 } from 'react';
 
-import {
-  getUserProfile,
-  validateUser,
-  makeLogout,
-  handleGoogleClick,
-} from '../api/strapi';
+import { getUserProfile, validateUser, makeLogout } from '../api/strapi';
 import { UserProfile } from '../entities/types';
 
 interface AuthMethods {
   readonly logout: () => void;
   readonly login: (token: string) => Promise<void>;
-  readonly handleGoogleClick: () => void;
 }
 
 interface AuthState {
@@ -48,7 +42,6 @@ function missingProviderError() {
 const AuthMethodsCtx = createContext<AuthMethods>({
   login: () => new Promise(missingProviderError),
   logout: missingProviderError,
-  handleGoogleClick: () => handleGoogleClick,
 });
 AuthMethodsCtx.displayName = 'AuthMethodsCtx';
 
@@ -75,7 +68,6 @@ export function AuthProvider({ children }: Props): ReactElement {
       setUserProfile(null);
       makeLogout();
     },
-    handleGoogleClick: () => handleGoogleClick(),
   };
 
   const states: AuthState = useMemo(

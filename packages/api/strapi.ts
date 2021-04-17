@@ -10,7 +10,7 @@ const providerPaths = {
   },
 };
 
-export function handleGoogleClick(): void {
+export function handleGoogleRedirect(): void {
   document.location.href = `${NEXT_PUBLIC_STRAPI_API_URL}/${providerPaths.google.redirect}`;
 }
 

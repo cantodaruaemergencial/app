@@ -10,7 +10,8 @@ import { ReactElement, useEffect, useState } from 'react';
 
 import Button from './Button';
 
-import { useAuthMethods, useAuthState } from '#/packages/auth/auth-context';
+import { handleGoogleRedirect } from '#/packages/api/strapi';
+import { useAuthState } from '#/packages/auth/auth-context';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -49,7 +50,6 @@ const PASSWORD = 'login';
 
 const LoginPage = (): ReactElement => {
   const classes = useStyles();
-  const { handleGoogleClick } = useAuthMethods();
   const { isLoading, isLogged } = useAuthState();
   const [password, setPassword] = useState<string>('');
   const isPasswordValid = password === PASSWORD;
@@ -73,7 +73,7 @@ const LoginPage = (): ReactElement => {
       </Typography>
       {isPasswordValid ? (
         <Button
-          onClick={handleGoogleClick}
+          onClick={handleGoogleRedirect}
           className={classes.googleButton}
           variant="outlined"
           autoFocus
