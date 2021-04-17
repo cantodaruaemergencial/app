@@ -2,7 +2,6 @@ import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { createStyles, makeStyles } from '@material-ui/core/styles';
-import Image from 'next/image';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -26,9 +25,7 @@ export default function ButtonAppBar(): React.ReactElement {
     <div className={classes.root}>
       <AppBar position="static" color="default">
         <Toolbar>
-          <Image
-            width={50}
-            height={50}
+          <img
             className={classes.logoImage}
             src="/images/helpingHand.png"
             alt="logo"

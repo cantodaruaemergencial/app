@@ -1,4 +1,6 @@
 import { Card, createStyles, makeStyles } from '@material-ui/core';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import Typography from '@material-ui/core/Typography';
 import { useRouter } from 'next/dist/client/router';
 import { ReactElement, useEffect } from 'react';
 
@@ -9,12 +11,16 @@ const useStyles = makeStyles(() =>
     loginCard: {
       margin: '5rem auto',
       maxWidth: '20rem',
-      padding: '1rem',
+      padding: '2rem',
       borderRadius: '0.5rem',
       textAlign: 'center',
       display: 'flex',
       flexDirection: 'column',
-      justifyItems: 'space-between',
+      alignItems: 'center',
+    },
+    title: {
+      flexGrow: 1,
+      padding: '0.5rem 0 2.5rem 0',
     },
   }),
 );
@@ -22,7 +28,7 @@ const useStyles = makeStyles(() =>
 const StrapiGoogleAuth = (): ReactElement => {
   const classes = useStyles();
   const { login } = useAuthMethods();
-  const { isLoading, isLogged } = useAuthState();
+  const { isLogged } = useAuthState();
 
   const router = useRouter();
 
@@ -43,7 +49,10 @@ const StrapiGoogleAuth = (): ReactElement => {
 
   return (
     <Card className={classes.loginCard}>
-      {isLoading ? <div>...Loading</div> : <div>Logged</div>}
+      <Typography variant="h3" className={classes.title}>
+        Logging In
+      </Typography>
+      <CircularProgress size={50} />
     </Card>
   );
 };
