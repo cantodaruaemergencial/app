@@ -85,7 +85,7 @@ export function AuthProvider({ children }: Props): ReactElement {
 
     if (!publicRoutes.includes(router.pathname) && userProfile == null)
       router.replace('/login');
-  }, []);
+  }, [userProfile]);
 
   return (
     <AuthStateCtx.Provider value={states}>
