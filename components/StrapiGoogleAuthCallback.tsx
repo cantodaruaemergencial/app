@@ -25,7 +25,7 @@ const useStyles = makeStyles(() =>
   }),
 );
 
-const StrapiGoogleAuth = (): ReactElement => {
+const StrapiGoogleAuthCallback = (): ReactElement => {
   const classes = useStyles();
   const { login } = useAuthMethods();
   const { isLogged } = useAuthState();
@@ -57,4 +57,4 @@ const StrapiGoogleAuth = (): ReactElement => {
   );
 };
 
-export default StrapiGoogleAuth;
+export default StrapiGoogleAuthCallback;
