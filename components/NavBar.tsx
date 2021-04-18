@@ -27,7 +27,7 @@ export default function ButtonAppBar(): React.ReactElement {
         <Toolbar>
           <img
             className={classes.logoImage}
-            src="images/helpingHand.png"
+            src="/images/helpingHand.png"
             alt="logo"
           />
           <Typography variant="h6" className={classes.title}>

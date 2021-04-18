@@ -9,13 +9,12 @@ import {
   useState,
 } from 'react';
 
-import { getUserProfile, makeLogin, makeLogout } from '../api/firebase';
-import { setupFirebase } from '../config/firebase';
+import { getUserProfile, validateUser, makeLogout } from '../api/strapi';
 import { UserProfile } from '../entities/types';
 
 interface AuthMethods {
   readonly logout: () => void;
-  readonly login: () => Promise<void>;
+  readonly login: (token: string) => Promise<void>;
 }
 
 interface AuthState {
@@ -53,10 +52,10 @@ export function AuthProvider({ children }: Props): ReactElement {
   const [fetchStatus, setFetchStatus] = useState<Status>('idle');
   const router = useRouter();
   const methods: AuthMethods = {
-    login: async () => {
+    login: async (token: string) => {
       setFetchStatus('loading');
       try {
-        await makeLogin();
+        await validateUser(token);
         const userProfileFetched = getUserProfile();
         setUserProfile(userProfileFetched);
         setFetchStatus('fetched');
@@ -81,14 +80,12 @@ export function AuthProvider({ children }: Props): ReactElement {
   );
 
   useEffect(() => {
-    // Init firebase settings
-    setupFirebase();
-    // Check user auth
     const user = getUserProfile();
     setUserProfile(user);
+
     if (!publicRoutes.includes(router.pathname) && userProfile == null)
       router.replace('/login');
-  }, []);
+  }, [userProfile]);
 
   return (
     <AuthStateCtx.Provider value={states}>
