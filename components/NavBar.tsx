@@ -1,40 +1,43 @@
-import AppBar from '@material-ui/core/AppBar';
-import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
-import { createStyles, makeStyles } from '@material-ui/core/styles';
+import { Avatar, AppBar, Container, Box, Button } from '@material-ui/core';
+import Link from 'next/link';
+import styled from 'styled-components';
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    root: {
-      flexGrow: 1,
-    },
-    title: {
-      flexGrow: 1,
-    },
-    logoImage: {
-      width: '4rem',
-      padding: '.5rem',
-    },
-  }),
-);
+const Logo = styled(Avatar)`
+  && {
+    width: 4rem;
+    height: 4rem;
+    margin-right: 4rem;
+    cursor: pointer;
+  }
+`;
+
+const Toolbar = styled(Container)`
+  && {
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+  }
+`;
+
+const Links = styled(Box)`
+  display: flex;
+`;
 
 export default function ButtonAppBar(): React.ReactElement {
-  const classes = useStyles();
-
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Toolbar>
-          <img
-            className={classes.logoImage}
-            src="/images/helpingHand.png"
-            alt="logo"
-          />
-          <Typography variant="h6" className={classes.title}>
-            Canto da Rua
-          </Typography>
-        </Toolbar>
-      </AppBar>
-    </div>
+    <AppBar position="static" color="default">
+      <Toolbar>
+        <Link href="/dashboard">
+          <Logo alt="Canto da Rua" src="/images/logo.png" />
+        </Link>
+        <Links>
+          <Link href="/people">
+            <Button>Pessoas</Button>
+          </Link>
+        </Links>
+      </Toolbar>
+    </AppBar>
   );
 }

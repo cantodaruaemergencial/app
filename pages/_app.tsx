@@ -1,5 +1,5 @@
 import CssBaseline from '@material-ui/core/CssBaseline';
-import ThemeProvider from '@material-ui/styles/ThemeProvider';
+import { MuiThemeProvider } from '@material-ui/core/styles';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 
@@ -17,10 +17,10 @@ const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
 
   return (
     <AuthProvider>
-      <ThemeProvider theme={DefaultTheme}>
+      <MuiThemeProvider theme={DefaultTheme}>
         <CssBaseline />
         <Component {...pageProps} />
-      </ThemeProvider>
+      </MuiThemeProvider>
     </AuthProvider>
   );
 };
