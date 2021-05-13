@@ -1,11 +1,10 @@
 import { Container as MuiContainer } from '@material-ui/core';
-import React, { ReactElement, useEffect, useState } from 'react';
+import React, { ReactElement } from 'react';
 import styled from 'styled-components';
 
 import Form from '../Form/Form';
 import PageHeader from '../PageHeader';
 
-import PeopleService from '#/services/PeopleService';
 import { Form as FormType } from '#/types/Forms';
 
 const Container = styled(MuiContainer)`
@@ -16,22 +15,15 @@ const Container = styled(MuiContainer)`
 
 interface Props {
   personId?: string;
+  form: FormType;
 }
 
-const PersonPage = ({ personId }: Props): ReactElement => {
-  const [form, setForm] = useState<FormType>();
-
-  useEffect(() => {
-    PeopleService.getPersonForm().then((personForm) => setForm(personForm));
-  }, []);
-
-  return (
-    <Container>
-      <PageHeader title="Cadastro" />
-      {personId}
-      {form && <Form form={form} />}
-    </Container>
-  );
-};
+const PersonPage = ({ personId, form }: Props): ReactElement => (
+  <Container>
+    <PageHeader title="Cadastro" />
+    {personId}
+    {form && <Form form={form} />}
+  </Container>
+);
 
 export default PersonPage;

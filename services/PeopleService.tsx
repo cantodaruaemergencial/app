@@ -1,7 +1,36 @@
+import { Api } from '#/packages/api/strapi';
 import { Form, FieldType, FormSection } from '#/types/Forms';
 
 class PeopleService {
+  static getGenders = () => Api.get('genders');
+
+  static getSkinColors = () => Api.get('skin-colors');
+
+  static getMaritalStatuses = () => Api.get('marital-statuses');
+
+  static getSchoolTrainings = () => Api.get('school-trainings');
+
+  static getExternalServices = () => Api.get('external-services');
+
+  static getBenefits = () => Api.get('benefits');
+
   static getPersonForm = async (): Promise<Form> => {
+    const [
+      genders,
+      // skinColors,
+      maritalStatuses,
+      schoolTrainings,
+      externalServices,
+      benefits,
+    ] = await Promise.all([
+      PeopleService.getGenders(),
+      // PeopleService.getSkinColors(),
+      PeopleService.getMaritalStatuses(),
+      PeopleService.getSchoolTrainings(),
+      PeopleService.getExternalServices(),
+      PeopleService.getBenefits(),
+    ]);
+
     const sections: FormSection[] = [
       {
         label: 'Dados Pessoais',
@@ -41,16 +70,25 @@ class PeopleService {
             property: 'gender',
             label: 'Sexo',
             type: FieldType.select,
+            options: genders.map((g: any) => ({
+              value: g.id,
+              label: g.Gender,
+            })),
           },
           {
             property: 'skin_color',
             label: 'Cor/Raça',
             type: FieldType.select,
+            // options: skinColors.map((g: any) => ({ value: g.id, label: g.SkinColor })),
           },
           {
             property: 'marital_status',
             label: 'Estado Civil',
             type: FieldType.select,
+            options: maritalStatuses.map((ms: any) => ({
+              value: ms.id,
+              label: ms.MaritalStatus,
+            })),
           },
           {
             property: 'Childrens',
@@ -61,6 +99,10 @@ class PeopleService {
             property: 'school_training',
             label: 'Formação Escolar',
             type: FieldType.select,
+            options: schoolTrainings.map((st: any) => ({
+              value: st.id,
+              label: st.SchoolTraining,
+            })),
           },
           {
             property: 'Occupation',
@@ -126,6 +168,24 @@ class PeopleService {
             property: 'HasUniqueRegister',
             label: 'Possui Cadastro Único?',
             type: FieldType.boolean,
+          },
+          {
+            property: 'Benefits',
+            label: 'Recebe algum benefício?',
+            type: FieldType.multiple,
+            options: benefits.map((b: any) => ({
+              value: b.id,
+              label: b.benefit,
+            })),
+          },
+          {
+            property: 'ExternalServices',
+            label: 'Utiliza ou frequenta algum dos serviços?',
+            type: FieldType.multiple,
+            options: externalServices.map((es: any) => ({
+              value: es.id,
+              label: es.ExternalService,
+            })),
           },
           {
             property: 'HasHabitation',

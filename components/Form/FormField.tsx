@@ -38,7 +38,7 @@ interface RenderType {
 }
 
 const FormField = ({
-  field: { property, label, description, type },
+  field: { property, label, description, type, options },
   control,
   className,
 }: Props) => {
@@ -90,11 +90,7 @@ const FormField = ({
 
     return (
       <Autocomplete
-        options={[
-          { value: 1, label: 'opção 1' },
-          { value: 2, label: 'opção 2' },
-          { value: 3, label: 'opção 3' },
-        ]}
+        options={options || []}
         onChange={handleOnChange}
         getOptionLabel={(o) => o.label}
         getOptionSelected={(o, v) => o.value === v.value}

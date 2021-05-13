@@ -1,9 +1,17 @@
 import { UserProfile } from '#/packages/entities/types';
 
 const LOCAL_STORAGE_CREDENTIAL_KEY = 'strapi:credentials';
+
 const {
   NEXT_PUBLIC_STRAPI_API_URL = 'https://api-dev-7dg574osfa-ue.a.run.app',
 } = process.env;
+
+export class Api {
+  static get = async (url: string) => {
+    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`);
+    return res.json();
+  };
+}
 
 const providerPaths = {
   google: {
