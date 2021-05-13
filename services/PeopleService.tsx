@@ -85,7 +85,7 @@ class PeopleService {
           {
             property: 'GeneralRegister',
             label: 'Número do RG',
-            type: FieldType.number,
+            type: FieldType.input,
           },
           {
             property: 'HasCpf',
@@ -95,7 +95,7 @@ class PeopleService {
           {
             property: 'Cpf',
             label: 'Número do CPF',
-            type: FieldType.number,
+            type: FieldType.input,
           },
           {
             property: 'HasBirthCertificate',
@@ -155,7 +155,7 @@ class PeopleService {
           {
             property: 'ReferenceLocation',
             label: 'Endereço de referência',
-            description: 'Familiar ou amigo',
+            description: 'Endereço de familiar ou amigo',
             type: FieldType.input,
           },
           {

@@ -1,4 +1,4 @@
-import { Box, Button, Container as MuiContainer } from '@material-ui/core';
+import { Container as MuiContainer } from '@material-ui/core';
 import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -12,11 +12,6 @@ const Container = styled(MuiContainer)`
   && {
     max-width: 600px;
   }
-`;
-
-const Buttons = styled(Box)`
-  display: flex;
-  justify-content: flex-end;
 `;
 
 interface Props {
@@ -35,11 +30,6 @@ const PersonPage = ({ personId }: Props): ReactElement => {
       <PageHeader title="Cadastro" />
       {personId}
       {form && <Form form={form} />}
-      <Buttons>
-        <Button variant="contained" color="primary">
-          Salvar
-        </Button>
-      </Buttons>
     </Container>
   );
 };

@@ -20,13 +20,18 @@ const Title = styled(Typography)`
 interface Props {
   className?: string;
   section: FormSectionType;
+  control: any;
 }
 
-const FormSection = ({ section: { label, fields }, className }: Props) => (
+const FormSection = ({
+  section: { label, fields },
+  control,
+  className,
+}: Props) => (
   <Container className={className}>
     <Title variant="h4">{label}</Title>
     {fields.map((f) => (
-      <FormField key={f.property} field={f} />
+      <FormField key={f.property} field={f} control={control} />
     ))}
   </Container>
 );
