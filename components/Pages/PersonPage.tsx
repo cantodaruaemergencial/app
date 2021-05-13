@@ -1,16 +1,17 @@
 import { Box, Button, Container as MuiContainer } from '@material-ui/core';
-import { ReactElement } from 'react';
+import React, { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import Card from '../Card';
+import Form from '../Form/Form';
 import PageHeader from '../PageHeader';
 
-const Container = styled(MuiContainer)`
-  max-width: 600px;
-`;
+import PeopleService from '#/services/PeopleService';
+import { Form as FormType } from '#/types/Forms';
 
-const Section = styled(Card)`
-  margin-bottom: 1rem;
+const Container = styled(MuiContainer)`
+  && {
+    max-width: 600px;
+  }
 `;
 
 const Buttons = styled(Box)`
@@ -23,15 +24,17 @@ interface Props {
 }
 
 const PersonPage = ({ personId }: Props): ReactElement => {
-  const editMode = !!personId;
+  const [form, setForm] = useState<FormType>();
+
+  useEffect(() => {
+    PeopleService.getPersonForm().then((personForm) => setForm(personForm));
+  }, []);
 
   return (
     <Container>
       <PageHeader title="Cadastro" />
-      <Section title="Dados Pessoais" />
-      <Section title="Informações Adicionais" />
-      <Section title="Situação Ocupacional" />
-      <Section title="Contatos e Observações" />
+      {personId}
+      {form && <Form form={form} />}
       <Buttons>
         <Button variant="contained" color="primary">
           Salvar
