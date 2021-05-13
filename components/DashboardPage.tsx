@@ -2,6 +2,7 @@ import { Card, createStyles, makeStyles, Typography } from '@material-ui/core';
 import { ReactElement } from 'react';
 
 import Button from './Button';
+import CreatePersonForm from './CreatePersonForm';
 
 import { useAuthMethods, useAuthState } from '#/packages/auth/auth-context';
 
@@ -26,18 +27,21 @@ const DashboardPage = (): ReactElement => {
   const { logout } = useAuthMethods();
 
   return (
-    <Card className={classes.dashboardCard}>
-      {userProfile == null ? (
-        'Loading...'
-      ) : (
-        <>
-          <Typography variant="h4" paragraph>
-            Seja bem-vindo {userProfile.displayName}!
-          </Typography>
-          <Button onClick={logout}>Logout</Button>
-        </>
-      )}
-    </Card>
+    <>
+      <Card className={classes.dashboardCard}>
+        {userProfile == null ? (
+          'Loading...'
+        ) : (
+          <>
+            <Typography variant="h4" paragraph>
+              Seja bem-vindo {userProfile.displayName}!
+            </Typography>
+            <Button onClick={logout}>Logout</Button>
+          </>
+        )}
+      </Card>
+      <CreatePersonForm />
+    </>
   );
 };
 

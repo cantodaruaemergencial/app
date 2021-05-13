@@ -80,9 +80,12 @@ export function AuthProvider({ children }: Props): ReactElement {
   );
 
   useEffect(() => {
-    const user = getUserProfile();
-    setUserProfile(user);
+    if (!userProfile) {
+      const user = getUserProfile();
+      setUserProfile(user);
+    }
 
+    console.log('blaaaah');
     if (!publicRoutes.includes(router.pathname) && userProfile == null)
       router.replace('/login');
   }, [userProfile]);
