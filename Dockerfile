@@ -1,17 +1,19 @@
-FROM node:12
+# Dockerfile
 
-ENV PORT 3000
+# base image
+FROM node:alpine
 
-# Create app directory
-RUN mkdir -p /usr/src/app
-WORKDIR /usr/src/app
+# create & set working directory
+RUN mkdir -p /usr/src
+WORKDIR /usr/src
 
-# Installing dependencies
-COPY package*.json /usr/src/app/
-RUN yarn
+# copy source files
+COPY . /usr/src
 
-# Copying source files
-COPY . /usr/src/app
+# install dependencies
+RUN npm install
 
-# Running the app
-CMD "yarn" "dev"
+# start app
+RUN npm run build
+EXPOSE 3000
+CMD npm run start
