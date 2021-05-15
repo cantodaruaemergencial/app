@@ -57,7 +57,7 @@ const Form = ({ form, className }: Props) => {
   });
 
   const onSubmit = (data: unknown) => {
-    // console.log(data);
+    console.log(data);
   };
 
   return (
