@@ -1,11 +1,9 @@
 import { Box, Button } from '@material-ui/core';
-import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import FormSection from './FormSection';
 
-import PeopleService from '#/services/PeopleService';
 import { FieldType, Form as FormType, FormField } from '#/types/Forms';
 
 const Container = styled(Box)``;
