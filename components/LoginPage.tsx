@@ -5,16 +5,12 @@ import {
   Typography,
   TextField,
 } from '@material-ui/core';
-
-import { ReactElement, useState } from 'react';
-
-import AuthService from '#/services/AuthService';
+import { useRouter } from 'next/dist/client/router';
+import { ReactElement, useEffect, useState } from 'react';
 
 import Button from './Button';
 
-const handleLogin = (user: string, password: string) => {
-  AuthService.login(user, password);
-};
+import { useAuthState, useAuthMethods } from '#/packages/auth/auth-context';
 
 const useStyles = makeStyles(() =>
   createStyles({
@@ -40,21 +36,31 @@ const useStyles = makeStyles(() =>
 
 const LoginPage = (): ReactElement => {
   const classes = useStyles();
-  const [user, setUser] = useState<string>('');
+  const { isLoading, isLogged } = useAuthState();
+  const { login } = useAuthMethods();
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const router = useRouter();
+
+  useEffect(() => {
+    if (isLogged) {
+      router.replace('/people');
+    }
+  }, [isLogged]);
 
   return (
     <Card className={classes.loginCard}>
       <Typography variant="h4" paragraph>
         Seja bem vindo ao Canto da Rua
         <TextField
+          autoFocus
           className={classes.input}
-          label="Usuário"
+          label="Email"
           variant="outlined"
           type="email"
           autoComplete="off"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
         />
         <TextField
           className={classes.input}
@@ -68,9 +74,10 @@ const LoginPage = (): ReactElement => {
         <Button
           className={classes.button}
           onClick={() => {
-            handleLogin(user, password);
+            login(email, password);
           }}
           variant="outlined"
+          disabled={isLoading}
         >
           Login
         </Button>

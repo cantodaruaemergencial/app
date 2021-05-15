@@ -30,30 +30,19 @@ export class Api {
   };
 }
 
-const providerPaths = {
-  google: {
-    redirect: 'connect/google',
-    callback: 'auth/google/callback',
-  },
-};
-
-export function handleGoogleRedirect(): void {
-  document.location.href = `${NEXT_PUBLIC_STRAPI_API_URL}/${providerPaths.google.redirect}`;
-}
-
-export async function validateUser(token: string): Promise<UserProfile> {
+export async function validateUser(
+  email: string,
+  password: string,
+): Promise<UserProfile> {
   try {
-    const res = await fetch(
-      `${NEXT_PUBLIC_STRAPI_API_URL}/${providerPaths.google.callback}${token}`,
-    );
-
-    const data = await res.json();
+    const data = await Api.post('admin/login', { email, password });
 
     const userProfile: UserProfile = {
-      displayName: data?.user?.username,
-      key: data?.jwt,
+      displayName:
+        data?.user?.username ??
+        `${data?.user?.username} ${data?.user?.lastname}`,
+      key: data?.token,
       email: data?.user?.email,
-      provider: data?.user?.provider,
     };
 
     localStorage.setItem(
