@@ -35,12 +35,12 @@ export async function validateUser(
   password: string,
 ): Promise<UserProfile> {
   try {
-    const data = await Api.post('admin/login', { email, password });
+    const { data } = await Api.post('admin/login', { email, password });
 
     const userProfile: UserProfile = {
       displayName:
         data?.user?.username ??
-        `${data?.user?.username} ${data?.user?.lastname}`,
+        `${data?.user?.firstname ?? ''} ${data?.user?.lastname ?? ''}`,
       key: data?.token,
       email: data?.user?.email,
     };
@@ -52,7 +52,6 @@ export async function validateUser(
 
     return userProfile;
   } catch (error) {
-    // TODO: Need to create error system, maybe setup an error boundry.
     throw new Error('Failed to connect');
   }
 }
@@ -68,7 +67,6 @@ export function getUserProfile(): UserProfile | null {
   return userProfile;
 }
 
-// Reset local credentials
 export function makeLogout() {
   localStorage.removeItem(LOCAL_STORAGE_CREDENTIAL_KEY);
 }

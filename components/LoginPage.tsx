@@ -44,7 +44,7 @@ const LoginPage = (): ReactElement => {
 
   useEffect(() => {
     if (isLogged) {
-      router.replace('/people');
+      router.replace('/dashboard');
     }
   }, [isLogged]);
 
@@ -52,36 +52,36 @@ const LoginPage = (): ReactElement => {
     <Card className={classes.loginCard}>
       <Typography variant="h4" paragraph>
         Seja bem vindo ao Canto da Rua
-        <TextField
-          autoFocus
-          className={classes.input}
-          label="Email"
-          variant="outlined"
-          type="email"
-          autoComplete="off"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <TextField
-          className={classes.input}
-          label="Senha"
-          variant="outlined"
-          type="password"
-          autoComplete="off"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        <Button
-          className={classes.button}
-          onClick={() => {
-            login(email, password);
-          }}
-          variant="outlined"
-          disabled={isLoading}
-        >
-          Login
-        </Button>
       </Typography>
+      <TextField
+        autoFocus
+        className={classes.input}
+        label="Email"
+        variant="outlined"
+        type="email"
+        autoComplete="off"
+        value={email}
+        onChange={(e) => setEmail(e.target.value)}
+      />
+      <TextField
+        className={classes.input}
+        label="Senha"
+        variant="outlined"
+        type="password"
+        autoComplete="off"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+      />
+      <Button
+        className={classes.button}
+        onClick={() => {
+          login(email, password);
+        }}
+        variant="outlined"
+        disabled={isLoading}
+      >
+        Login
+      </Button>
     </Card>
   );
 };
