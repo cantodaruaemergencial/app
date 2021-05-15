@@ -3,7 +3,7 @@ import { UserProfile } from '#/packages/entities/types';
 const LOCAL_STORAGE_CREDENTIAL_KEY = 'strapi:credentials';
 
 const {
-  NEXT_PUBLIC_STRAPI_API_URL = 'https://api-dev-7dg574osfa-ue.a.run.app',
+  NEXT_PUBLIC_STRAPI_API_URL = 'https://api-mvp.cantodaruaemergencial.com.br',
 } = process.env;
 
 export class Api {

@@ -1,10 +1,20 @@
+import { RegisterOptions } from 'react-hook-form';
+
 export enum FieldType {
   input,
   boolean,
   date,
   select,
-  multiple,
+  selectMultiple,
   number,
+}
+
+interface DateConfig {
+  disableFuture: boolean;
+}
+
+interface InputConfig {
+  maxLength?: number;
 }
 
 export interface FormField {
@@ -14,11 +24,14 @@ export interface FormField {
   type: FieldType;
   value?: string | string[] | number;
   options?: FormFieldOption[];
+  rules?: RegisterOptions;
+  dateConfig?: DateConfig;
+  inputConfig?: InputConfig;
 }
 
 export interface FormFieldOption {
   label: string;
-  value: string;
+  value: number;
 }
 
 export interface FormSection {

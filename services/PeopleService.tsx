@@ -1,18 +1,29 @@
 import { Api } from '#/packages/api/strapi';
-import { Form, FieldType, FormSection } from '#/types/Forms';
+import { FieldType, Form, FormFieldOption, FormSection } from '#/types/Forms';
+import {
+  Benefit,
+  ExternalService,
+  Gender,
+  MaritalStatus,
+  SchoolTraining,
+  SkinColor,
+} from '#/types/People';
 
 class PeopleService {
-  static getGenders = () => Api.get('genders');
+  static getGenders = (): Promise<Gender[]> => Api.get('genders');
 
-  static getSkinColors = () => Api.get('skin-colors');
+  static getSkinColors = (): Promise<SkinColor[]> => Api.get('skin-colors');
 
-  static getMaritalStatuses = () => Api.get('marital-statuses');
+  static getMaritalStatuses = (): Promise<MaritalStatus[]> =>
+    Api.get('marital-statuses');
 
-  static getSchoolTrainings = () => Api.get('school-trainings');
+  static getSchoolTrainings = (): Promise<SchoolTraining[]> =>
+    Api.get('school-trainings');
 
-  static getExternalServices = () => Api.get('external-services');
+  static getExternalServices = (): Promise<ExternalService[]> =>
+    Api.get('external-services');
 
-  static getBenefits = () => Api.get('benefits');
+  static getBenefits = (): Promise<Benefit[]> => Api.get('benefits');
 
   static getPersonForm = async (): Promise<Form> => {
     const [
@@ -31,6 +42,11 @@ class PeopleService {
       PeopleService.getBenefits(),
     ]);
 
+    const skinColors: SkinColor[] = [
+      { id: 1, SkinColor: 'Branco' },
+      { id: 2, SkinColor: 'Preto' },
+    ];
+
     const sections: FormSection[] = [
       {
         label: 'Dados Pessoais',
@@ -39,80 +55,132 @@ class PeopleService {
             property: 'CardNumber',
             label: 'Cartão',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'Name',
             label: 'Nome',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'SocialName',
             label: 'Nome Social',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
           },
           {
             property: 'MotherName',
             label: 'Nome da Mãe',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
           },
           {
             property: 'BirthDate',
             label: 'Data de Nascimento',
             type: FieldType.date,
+            dateConfig: { disableFuture: true },
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'BirthPlace',
             label: 'Naturalidade',
             description: 'Exemplo: Belo Horizonte - MG',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'gender',
             label: 'Sexo',
             type: FieldType.select,
-            options: genders.map((g: any) => ({
-              value: g.id,
-              label: g.Gender,
-            })),
+            options: genders.map(
+              (g): FormFieldOption => ({
+                value: g.id,
+                label: g.Gender,
+              }),
+            ),
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'skin_color',
             label: 'Cor/Raça',
             type: FieldType.select,
-            // options: skinColors.map((g: any) => ({ value: g.id, label: g.SkinColor })),
+            options: skinColors.map(
+              (g): FormFieldOption => ({
+                value: g.id,
+                label: g.SkinColor,
+              }),
+            ),
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'marital_status',
             label: 'Estado Civil',
             type: FieldType.select,
-            options: maritalStatuses.map((ms: any) => ({
-              value: ms.id,
-              label: ms.MaritalStatus,
-            })),
+            options: maritalStatuses.map(
+              (ms): FormFieldOption => ({
+                value: ms.id,
+                label: ms.MaritalStatus,
+              }),
+            ),
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'Childrens',
             label: 'Número de Filhos',
             type: FieldType.number,
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'school_training',
             label: 'Formação Escolar',
             type: FieldType.select,
-            options: schoolTrainings.map((st: any) => ({
-              value: st.id,
-              label: st.SchoolTraining,
-            })),
+            options: schoolTrainings.map(
+              (st): FormFieldOption => ({
+                value: st.id,
+                label: st.SchoolTraining,
+              }),
+            ),
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'Occupation',
             label: 'Ocupação',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'Profession',
             label: 'Profissão',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
+            rules: {
+              required: true,
+            },
           },
         ],
       },
@@ -128,6 +196,7 @@ class PeopleService {
             property: 'GeneralRegister',
             label: 'Número do RG',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
           },
           {
             property: 'HasCpf',
@@ -138,6 +207,7 @@ class PeopleService {
             property: 'Cpf',
             label: 'Número do CPF',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
           },
           {
             property: 'HasBirthCertificate',
@@ -172,20 +242,24 @@ class PeopleService {
           {
             property: 'Benefits',
             label: 'Recebe algum benefício?',
-            type: FieldType.multiple,
-            options: benefits.map((b: any) => ({
-              value: b.id,
-              label: b.benefit,
-            })),
+            type: FieldType.selectMultiple,
+            options: benefits.map(
+              (b): FormFieldOption => ({
+                value: b.id,
+                label: b.benefit,
+              }),
+            ),
           },
           {
             property: 'ExternalServices',
-            label: 'Utiliza ou frequenta algum dos serviços?',
-            type: FieldType.multiple,
-            options: externalServices.map((es: any) => ({
-              value: es.id,
-              label: es.ExternalService,
-            })),
+            label: 'Utiliza algum dos serviços?',
+            type: FieldType.selectMultiple,
+            options: externalServices.map(
+              (es): FormFieldOption => ({
+                value: es.id,
+                label: es.ExternalService,
+              }),
+            ),
           },
           {
             property: 'HasHabitation',
@@ -196,11 +270,13 @@ class PeopleService {
             property: 'HomelessTime',
             label: 'Tempo em situação de rua',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
           },
           {
             property: 'ReferenceAddress',
             label: 'Local de referência',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
           },
         ],
       },
@@ -217,16 +293,22 @@ class PeopleService {
             label: 'Endereço de referência',
             description: 'Endereço de familiar ou amigo',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
+            rules: {
+              required: true,
+            },
           },
           {
             property: 'Demands',
             label: 'Demandas',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
           },
           {
             property: 'Observation',
             label: 'Observações',
             type: FieldType.input,
+            inputConfig: { maxLength: 255 },
           },
         ],
       },

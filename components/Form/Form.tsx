@@ -4,7 +4,7 @@ import styled from 'styled-components';
 
 import FormSection from './FormSection';
 
-import { Form as FormType } from '#/types/Forms';
+import { FieldType, Form as FormType, FormField } from '#/types/Forms';
 
 const Container = styled(Box)``;
 
@@ -24,12 +24,40 @@ interface Props {
 }
 
 const Form = ({ form, className }: Props) => {
+  const getDefaultValues = () => {
+    const defaultValues: { [key: string]: unknown } = {};
+
+    const getDefaultValue = (field: FormField) => {
+      switch (field.type) {
+        case FieldType.boolean:
+          return false;
+        case FieldType.selectMultiple:
+          return [];
+        case FieldType.select:
+        case FieldType.input:
+        case FieldType.number:
+          return '';
+        default:
+          return null;
+      }
+    };
+
+    form.sections.forEach((s) => {
+      s.fields.forEach((f) => {
+        defaultValues[f.property] = getDefaultValue(f);
+      });
+    });
+
+    return defaultValues;
+  };
+
   const { control, handleSubmit } = useForm({
     mode: 'onSubmit',
+    defaultValues: getDefaultValues(),
   });
 
-  const onSubmit = (data: any) => {
-    console.log(data);
+  const onSubmit = (data: unknown) => {
+    // console.log(data);
   };
 
   return (

@@ -1,5 +1,7 @@
+import MomentUtils from '@date-io/moment';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import type { AppProps } from 'next/app';
 import { useEffect } from 'react';
 
@@ -17,10 +19,12 @@ const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
 
   return (
     <AuthProvider>
-      <MuiThemeProvider theme={DefaultTheme}>
-        <CssBaseline />
-        <Component {...pageProps} />
-      </MuiThemeProvider>
+      <MuiPickersUtilsProvider utils={MomentUtils}>
+        <MuiThemeProvider theme={DefaultTheme}>
+          <CssBaseline />
+          <Component {...pageProps} />
+        </MuiThemeProvider>
+      </MuiPickersUtilsProvider>
     </AuthProvider>
   );
 };
