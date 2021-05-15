@@ -7,11 +7,14 @@ import {
   ExternalService,
   Gender,
   MaritalStatus,
+  Person,
   SchoolTraining,
   SkinColor,
 } from '#/types/People';
 
 class PeopleService {
+  static getPeople = (): Promise<Person[]> => Api.get('people');
+
   static getGenders = (): Promise<Gender[]> => Api.get('genders');
 
   static getSkinColors = (): Promise<SkinColor[]> => Api.get('skin-colors');

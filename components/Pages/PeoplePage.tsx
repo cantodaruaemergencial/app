@@ -1,11 +1,47 @@
-import { Button, Container } from '@material-ui/core';
+import { Avatar, Box, Button, Container, Typography } from '@material-ui/core';
 import { AddCircleRounded } from '@material-ui/icons';
+import initials from 'initials';
 import Link from 'next/link';
-import { ReactElement } from 'react';
+import { ReactElement, useEffect, useState } from 'react';
+import styled from 'styled-components';
 
+import Card from '../Card';
 import PageHeader from '../PageHeader';
 
+import PeopleService from '#/services/PeopleService';
+import { Person } from '#/types/People';
+
+const PersonBox = styled(Card)`
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+`;
+
+const PersonInfo = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  padding: 0 1rem;
+  flex: 1;
+`;
+
+const Entrances = styled(Box)`
+  display: flex;
+  flex-direction: column;
+`;
+
 const PeoplePage = (): ReactElement => {
+  const [people, setPeople] = useState<Person[]>([]);
+
+  const fetchPeople = () => {
+    PeopleService.getPeople().then((result) => {
+      setPeople(result);
+    });
+  };
+
+  useEffect(() => {
+    fetchPeople();
+  }, []);
+
   const renderAddButton = () => (
     <Link href="/people/new-person">
       <Button
@@ -21,11 +57,27 @@ const PeoplePage = (): ReactElement => {
   return (
     <Container>
       <PageHeader title="Pessoas" sideComponent={renderAddButton()} />
-      <Link href="/people/444">
-        <Button variant="contained" color="primary">
-          Pessoa 444
-        </Button>
-      </Link>
+      <Box>
+        {people.map((p) => (
+          <PersonBox key={p.id} condensed>
+            <Avatar>{initials(p.Name)}</Avatar>
+            <PersonInfo>
+              <Typography>
+                {p.Name}
+                {p.SocialName ? ` (${p.SocialName})` : ''}
+              </Typography>
+              <Typography variant="caption">
+                <b>Cartão</b> {p.CardNumber}
+              </Typography>
+            </PersonInfo>
+            <Entrances>
+              <Typography variant="caption">
+                <b>{p.entrances.length}</b> Entradas
+              </Typography>
+            </Entrances>
+          </PersonBox>
+        ))}
+      </Box>
     </Container>
   );
 };

@@ -27,3 +27,42 @@ export interface ExternalService {
   id: number;
   ExternalService: string;
 }
+
+export interface Entrance {
+  id: number;
+  Date: Date;
+}
+
+export interface Person {
+  id: number;
+  Name: string;
+  SocialName: string;
+  MotherName: string;
+  BirthDate: string;
+  BirthPlace: string;
+  HomelessTime: string;
+  gender: Gender;
+  GeneralRegister: string;
+  Childrens: number;
+  HasHabitation: boolean;
+  HasEmergencyAid: boolean;
+  HasPbhBasket: boolean;
+  HasUniqueRegister: boolean;
+  HasGeneralRegister: boolean;
+  HasCpf: boolean;
+  Cpf: string;
+  HasCtps: boolean;
+  HasBirthCertificate: boolean;
+  // marital_status: MaritalStatus;
+  // school_training: SchoolTraining;
+  ReferenceLocation: string;
+  Occupation: string;
+  Profession: string;
+  ContactPhone: string;
+  ReferenceAddress: string;
+  Demands: string;
+  Observation: string;
+  // skin_color: SkinColor;
+  CardNumber: string;
+  entrances: Entrance[];
+}

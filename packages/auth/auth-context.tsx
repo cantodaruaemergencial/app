@@ -31,8 +31,8 @@ const publicRoutes = [
   '/',
   '/login',
   '/dashboard',
-  '/person',
-  '/person/new-person',
+  '/people',
+  '/people/new-person',
 ];
 
 const AuthStateCtx = createContext<AuthState>({
