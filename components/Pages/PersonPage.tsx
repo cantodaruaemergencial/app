@@ -32,7 +32,7 @@ const PersonPage = ({ personId, form }: Props): ReactElement => {
 
   const onSubmit = async (data: { [key: string]: unknown }) => {
     PeopleService.saveNewPerson(data)
-      .then((res) => {
+      .then(() => {
         enqueueSnackbar('Cadastro realizado com sucesso!', {
           variant: 'success',
         });
