@@ -2,22 +2,25 @@ import {
   Card,
   createStyles,
   makeStyles,
-  TextField,
   Typography,
+  TextField,
 } from '@material-ui/core';
-import { useRouter } from 'next/dist/client/router';
-import { ReactElement, useEffect, useState } from 'react';
+
+import { ReactElement, useState } from 'react';
+
+import AuthService from '#/services/AuthService';
 
 import Button from './Button';
 
-import { handleGoogleRedirect } from '#/packages/api/strapi';
-import { useAuthState } from '#/packages/auth/auth-context';
+const handleLogin = (user: string, password: string) => {
+  AuthService.login(user, password);
+};
 
 const useStyles = makeStyles(() =>
   createStyles({
     loginCard: {
       margin: '5rem auto',
-      maxWidth: '20rem',
+      maxWidth: '30rem',
       padding: '1rem',
       borderRadius: '0.5rem',
       textAlign: 'center',
@@ -25,75 +28,53 @@ const useStyles = makeStyles(() =>
       flexDirection: 'column',
       justifyItems: 'space-between',
     },
-    googleButton: {
-      width: '100%',
+    input: {
+      margin: '0.5rem auto',
     },
-    googleIcon: {
-      margin: '0 0.5rem',
+    button: {
+      display: 'block',
+      margin: '0 auto',
     },
   }),
 );
 
-const GoogleLogo = () => {
-  const classes = useStyles();
-  return (
-    <img
-      src="images/googleIcon.png"
-      alt="google"
-      className={classes.googleIcon}
-    />
-  );
-};
-
-// TODO: temporary, will be replaced by an endpoint
-const PASSWORD = 'login';
-
 const LoginPage = (): ReactElement => {
   const classes = useStyles();
-  const { isLoading, isLogged } = useAuthState();
+  const [user, setUser] = useState<string>('');
   const [password, setPassword] = useState<string>('');
-  const isPasswordValid = password === PASSWORD;
-  const router = useRouter();
-
-  useEffect(() => {
-    if (isLogged) {
-      // Redirect to desired path
-      router.replace('/dashboard');
-    }
-  }, [isLogged]);
-
-  const helpText = !isPasswordValid
-    ? 'Caso não tenha, entre em contato com o admin do sistema'
-    : null;
 
   return (
     <Card className={classes.loginCard}>
       <Typography variant="h4" paragraph>
         Seja bem vindo ao Canto da Rua
-      </Typography>
-      {isPasswordValid ? (
-        <Button
-          onClick={handleGoogleRedirect}
-          className={classes.googleButton}
-          variant="outlined"
-          autoFocus
-          disabled={isLoading}
-        >
-          <GoogleLogo />
-          Login com Google
-        </Button>
-      ) : (
         <TextField
-          autoFocus
-          label="Palavra-passe"
-          helperText={helpText}
+          className={classes.input}
+          label="Usuário"
+          variant="outlined"
+          type="email"
+          autoComplete="off"
+          value={user}
+          onChange={(e) => setUser(e.target.value)}
+        />
+        <TextField
+          className={classes.input}
+          label="Senha"
           variant="outlined"
           type="password"
           autoComplete="off"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-      )}
+        <Button
+          className={classes.button}
+          onClick={() => {
+            handleLogin(user, password);
+          }}
+          variant="outlined"
+        >
+          Login
+        </Button>
+      </Typography>
     </Card>
   );
 };
