@@ -16,6 +16,9 @@ export class Api {
     const requestOptions = {
       method: 'POST',
       body: JSON.stringify(body),
+      headers: {
+        'Content-Type': 'application/json',
+      },
     };
 
     const res = await fetch(

@@ -33,11 +33,10 @@ const PersonPage = ({ personId, form }: Props): ReactElement => {
   const onSubmit = async (data: { [key: string]: unknown }) => {
     PeopleService.saveNewPerson(data)
       .then((res) => {
-        console.log(res);
         enqueueSnackbar('Cadastro realizado com sucesso!', {
           variant: 'success',
         });
-        setTimeout(() => router.replace('/people'), 1000);
+        router.replace('/people');
       })
       .catch((error) => {
         console.log(error);

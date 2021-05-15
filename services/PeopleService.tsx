@@ -331,8 +331,7 @@ class PeopleService {
       }
     });
 
-    console.log(body);
-    return Api.post('person', body);
+    return Api.post('people', body);
   };
 }
 
