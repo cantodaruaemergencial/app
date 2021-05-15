@@ -12,14 +12,20 @@ export class Api {
     return res.json();
   };
 
-  static post = async (url: string, data: object) => {
-    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, {
+  static post = async (url: string, body = {}) => {
+    const requestOptions = {
       method: 'POST',
-      body: JSON.stringify(data),
+      body: JSON.stringify(body),
       headers: {
         'Content-Type': 'application/json',
       },
-    });
+    };
+
+    const res = await fetch(
+      `${NEXT_PUBLIC_STRAPI_API_URL}/${url}`,
+      requestOptions,
+    );
+
     return res.json();
   };
 }

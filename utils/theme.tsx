@@ -71,6 +71,12 @@ const theme = createMuiTheme({
         fontWeight: 600,
       },
     },
+    MuiMenu: {
+      paper: {
+        backgroundColor: '#f7f7f7',
+      },
+    },
+    MuiFormHelperText: { root: { opacity: 1 } },
   },
 });
 
