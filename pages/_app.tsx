@@ -3,6 +3,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import type { AppProps } from 'next/app';
+import { SnackbarProvider } from 'notistack';
 import { useEffect } from 'react';
 
 import { AuthProvider } from '#/packages/auth/auth-context';
@@ -19,12 +20,19 @@ const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
 
   return (
     <AuthProvider>
-      <MuiPickersUtilsProvider utils={MomentUtils}>
-        <MuiThemeProvider theme={DefaultTheme}>
-          <CssBaseline />
-          <Component {...pageProps} />
-        </MuiThemeProvider>
-      </MuiPickersUtilsProvider>
+      <SnackbarProvider
+        anchorOrigin={{
+          vertical: 'top',
+          horizontal: 'right',
+        }}
+      >
+        <MuiPickersUtilsProvider utils={MomentUtils}>
+          <MuiThemeProvider theme={DefaultTheme}>
+            <CssBaseline />
+            <Component {...pageProps} />
+          </MuiThemeProvider>
+        </MuiPickersUtilsProvider>
+      </SnackbarProvider>
     </AuthProvider>
   );
 };

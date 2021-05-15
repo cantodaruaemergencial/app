@@ -1,3 +1,5 @@
+import { isMoment, Moment } from 'moment';
+
 import { Api } from '#/packages/api/strapi';
 import { FieldType, Form, FormFieldOption, FormSection } from '#/types/Forms';
 import {
@@ -315,6 +317,22 @@ class PeopleService {
     ];
 
     return { sections };
+  };
+
+  static saveNewPerson = async (formData: {
+    [key: string]: unknown;
+  }): Promise<unknown> => {
+    const body = { ...formData };
+
+    Object.keys(body).forEach((k) => {
+      if (isMoment(body[k])) {
+        const momentDate: Moment = body[k] as Moment;
+        body[k] = momentDate.format('YYYY-MM-DD');
+      }
+    });
+
+    console.log(body);
+    return Api.post('person', body);
   };
 }
 

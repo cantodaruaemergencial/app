@@ -11,6 +11,20 @@ export class Api {
     const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`);
     return res.json();
   };
+
+  static post = async (url: string, body = {}) => {
+    const requestOptions = {
+      method: 'POST',
+      body: JSON.stringify(body),
+    };
+
+    const res = await fetch(
+      `${NEXT_PUBLIC_STRAPI_API_URL}/${url}`,
+      requestOptions,
+    );
+
+    return res.json();
+  };
 }
 
 const providerPaths = {

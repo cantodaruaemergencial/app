@@ -1,9 +1,11 @@
 import { Box, Button } from '@material-ui/core';
+import { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import styled from 'styled-components';
 
 import FormSection from './FormSection';
 
+import PeopleService from '#/services/PeopleService';
 import { FieldType, Form as FormType, FormField } from '#/types/Forms';
 
 const Container = styled(Box)``;
@@ -21,9 +23,10 @@ const Buttons = styled(Box)`
 interface Props {
   className?: string;
   form: FormType;
+  onSubmit: (data: { [key: string]: unknown }) => Promise<void>;
 }
 
-const Form = ({ form, className }: Props) => {
+const Form = ({ form, onSubmit, className }: Props) => {
   const getDefaultValues = () => {
     const defaultValues: { [key: string]: unknown } = {};
 
@@ -55,10 +58,6 @@ const Form = ({ form, className }: Props) => {
     mode: 'onSubmit',
     defaultValues: getDefaultValues(),
   });
-
-  const onSubmit = (data: unknown) => {
-    console.log(data);
-  };
 
   return (
     <Container className={className}>
