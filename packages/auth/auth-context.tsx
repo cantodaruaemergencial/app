@@ -27,13 +27,7 @@ interface Props {
   readonly children: ReactNode;
 }
 
-const publicRoutes = [
-  '/',
-  '/login',
-  '/dashboard',
-  '/person',
-  '/person/new-person',
-];
+const publicRoutes = ['/', '/login'];
 
 const AuthStateCtx = createContext<AuthState>({
   isLogged: false,
