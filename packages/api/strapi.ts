@@ -6,26 +6,43 @@ const {
   NEXT_PUBLIC_STRAPI_API_URL = 'https://api-mvp.cantodaruaemergencial.com.br',
 } = process.env;
 
+export function getUserProfile(): UserProfile | null {
+  const credentialString = localStorage.getItem(LOCAL_STORAGE_CREDENTIAL_KEY);
+  if (credentialString == null) return null;
+  const userProfile: UserProfile = JSON.parse(credentialString);
+  if (!userProfile) return null;
+  return userProfile;
+}
+
+export function makeLogout() {
+  localStorage.removeItem(LOCAL_STORAGE_CREDENTIAL_KEY);
+}
+
 export class Api {
+  static getHeaders = () => {
+    const userProfile = getUserProfile();
+    return {
+      'Content-Type': 'application/json',
+      Authorization: userProfile?.key ? `Bearer ${userProfile.key}` : '',
+    };
+  };
+
   static get = async (url: string) => {
-    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`);
+    const options = {
+      method: 'GET',
+      headers: Api.getHeaders(),
+    };
+    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
     return res.json();
   };
 
   static post = async (url: string, body = {}) => {
-    const requestOptions = {
+    const options = {
       method: 'POST',
       body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: Api.getHeaders(),
     };
-
-    const res = await fetch(
-      `${NEXT_PUBLIC_STRAPI_API_URL}/${url}`,
-      requestOptions,
-    );
-
+    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
     return res.json();
   };
 }
@@ -54,19 +71,4 @@ export async function validateUser(
   } catch (error) {
     throw new Error('Failed to connect');
   }
-}
-
-export function getUserProfile(): UserProfile | null {
-  const credentialString = localStorage.getItem(LOCAL_STORAGE_CREDENTIAL_KEY);
-  if (credentialString == null) return null;
-
-  const userProfile: UserProfile = JSON.parse(credentialString);
-
-  if (!userProfile) return null;
-
-  return userProfile;
-}
-
-export function makeLogout() {
-  localStorage.removeItem(LOCAL_STORAGE_CREDENTIAL_KEY);
 }

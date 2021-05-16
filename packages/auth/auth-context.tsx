@@ -14,7 +14,7 @@ import { UserProfile } from '../entities/types';
 
 interface AuthMethods {
   readonly logout: () => void;
-  readonly login: (email: string, password: string) => Promise<void>;
+  readonly login: (token: string) => Promise<void>;
 }
 
 interface AuthState {
@@ -27,7 +27,7 @@ interface Props {
   readonly children: ReactNode;
 }
 
-const publicRoutes = ['/', '/login'];
+const publicRoutes = ['/', '/login', '/dashboard'];
 
 const AuthStateCtx = createContext<AuthState>({
   isLogged: false,
@@ -52,10 +52,10 @@ export function AuthProvider({ children }: Props): ReactElement {
   const [fetchStatus, setFetchStatus] = useState<Status>('idle');
   const router = useRouter();
   const methods: AuthMethods = {
-    login: async (email: string, password: string) => {
+    login: async (token: string) => {
       setFetchStatus('loading');
       try {
-        await validateUser(email, password);
+        await validateUser(token);
         const userProfileFetched = getUserProfile();
         setUserProfile(userProfileFetched);
         setFetchStatus('fetched');

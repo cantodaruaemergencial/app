@@ -6,7 +6,7 @@ import {
   TextField,
 } from '@material-ui/core';
 import { useRouter } from 'next/dist/client/router';
-import { ReactElement, useEffect, useState } from 'react';
+import { ReactElement, useState } from 'react';
 
 import Button from './Button';
 
@@ -42,11 +42,9 @@ const LoginPage = (): ReactElement => {
   const [password, setPassword] = useState<string>('');
   const router = useRouter();
 
-  useEffect(() => {
-    if (isLogged) {
-      router.replace('/dashboard');
-    }
-  }, [isLogged]);
+  if (isLogged) {
+    router.replace('/dashboard');
+  }
 
   return (
     <Card className={classes.loginCard}>
