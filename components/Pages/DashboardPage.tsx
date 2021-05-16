@@ -4,6 +4,8 @@ import styled from 'styled-components';
 
 import PageHeader from '../PageHeader';
 
+import DashboardGenderComponent from './Dashboard/DashboardGenderComponent';
+
 import { useAuthState } from '#/packages/auth/auth-context';
 
 const DashboardCard = styled(Card)`
@@ -19,7 +21,9 @@ const DashboardPage = (): ReactElement => {
   return (
     <Container>
       <PageHeader title={title} />
-      <DashboardCard>Em construção</DashboardCard>
+      <DashboardCard>
+        <DashboardGenderComponent />
+      </DashboardCard>
     </Container>
   );
 };
