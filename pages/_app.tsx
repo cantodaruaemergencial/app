@@ -4,7 +4,7 @@ import CssBaseline from '@material-ui/core/CssBaseline';
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import { MuiPickersUtilsProvider } from '@material-ui/pickers';
 import type { AppProps } from 'next/app';
-import { SnackbarProvider, SnackbarProviderProps } from 'notistack';
+import { SnackbarProvider } from 'notistack';
 import { useEffect } from 'react';
 
 import AuthProvider from '#/packages/auth/auth-context';
