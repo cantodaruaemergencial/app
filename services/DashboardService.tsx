@@ -1,9 +1,3 @@
-import { Api } from '#/packages/api/strapi';
-import { DashboardGender } from '#/types/Dashboard';
-
-class DashboardService {
-  static genders = (): Promise<DashboardGender[]> =>
-    Api.get('dashboard/genders');
-}
+class DashboardService {}
 
 export default DashboardService;
