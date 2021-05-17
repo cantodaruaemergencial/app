@@ -1,6 +1,7 @@
 import { Box } from '@material-ui/core';
 import Head from 'next/head';
 import { ReactElement } from 'react';
+import styled from 'styled-components';
 
 import NavBar from '#/components/NavBar';
 import { useAuthState } from '#/packages/auth/auth-context';
@@ -10,6 +11,12 @@ interface Props {
   title: string;
 }
 
+const Container = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+`;
+
 const Layout = ({
   children,
   title = 'This is the default title',
@@ -17,7 +24,7 @@ const Layout = ({
   const { userProfile } = useAuthState();
 
   return (
-    <Box>
+    <Container>
       <Head>
         <title>{title}</title>
         <meta charSet="utf-8" />
@@ -25,7 +32,7 @@ const Layout = ({
       </Head>
       {userProfile && <NavBar />}
       {children}
-    </Box>
+    </Container>
   );
 };
 

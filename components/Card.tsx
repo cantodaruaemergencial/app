@@ -4,10 +4,12 @@ import { ReactNode } from 'react';
 import styled from 'styled-components';
 
 const StyledCard = styled(MuiCard)`
-  padding: 2rem 1.5rem;
+  && {
+    padding: 2rem 1.5rem;
 
-  &.condensed {
-    padding: 1rem;
+    &.condensed {
+      padding: 1rem;
+    }
   }
 `;
 

@@ -51,6 +51,10 @@ const pwaMetaData = (
       .MuiAutocomplete-paper.MuiAutocomplete-paper {
         background-color: #f7f7f7;
       }
+
+      *:focus {
+        outline: none;
+      }
       `}</style>
   </>
 );

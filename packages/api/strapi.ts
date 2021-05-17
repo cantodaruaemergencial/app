@@ -52,13 +52,18 @@ export class Api {
 
   static get = async <ResultType extends unknown>(
     url: string,
+    params?: { [key: string]: any },
   ): Promise<{ status: number; data: ResultType }> => {
     const options = {
       method: 'GET',
       headers: Api.getHeaders(),
     };
 
-    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
+    const queryString = params ? `?${new URLSearchParams(params)}` : '';
+    const res = await fetch(
+      `${NEXT_PUBLIC_STRAPI_API_URL}/${url}${queryString}`,
+      options,
+    );
 
     return {
       status: res.status,

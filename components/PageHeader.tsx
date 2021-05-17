@@ -6,6 +6,7 @@ const Header = styled.header`
   display: flex;
   align-items: baseline;
   justify-content: space-between;
+  flex: 0 0 auto;
 `;
 
 interface Props {

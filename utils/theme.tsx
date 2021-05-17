@@ -76,6 +76,16 @@ const theme = createMuiTheme({
         backgroundColor: '#f7f7f7',
       },
     },
+    MuiPaper: {
+      elevation1: {
+        boxShadow:
+          '0px 5px 5px -3px rgba(0,0,0,0.02),0px 12px 12px -1px rgba(0,0,0,0.05),0px 3px 12px 2px rgba(0,0,0,0.02)',
+      },
+      elevation4: {
+        boxShadow:
+          '0px 5px 5px -3px rgba(0,0,0,0.02),0px 12px 12px -1px rgba(0,0,0,0.05),0px 3px 12px 2px rgba(0,0,0,0.02)',
+      },
+    },
     MuiFormHelperText: { root: { opacity: 1 } },
   },
 });

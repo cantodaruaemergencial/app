@@ -13,7 +13,10 @@ import {
 } from '#/types/People';
 
 class PeopleService {
-  static getPeople = () => Api.get<Person[]>('people').then((res) => res.data);
+  static getPeople = (startIndex: number, limit: number) => {
+    const query = { _start: startIndex, _limit: limit };
+    return Api.get<Person[]>('people', query).then((res) => res.data);
+  };
 
   static getGenders = () =>
     Api.publicGet<Gender[]>('genders').then((res) => res.data);
