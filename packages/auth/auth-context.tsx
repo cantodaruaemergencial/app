@@ -1,4 +1,5 @@
 import { useRouter } from 'next/dist/client/router';
+import { useSnackbar } from 'notistack';
 import {
   createContext,
   ReactElement,
@@ -14,7 +15,7 @@ import { UserProfile } from '../entities/types';
 
 interface AuthMethods {
   readonly logout: () => void;
-  readonly login: (token: string) => Promise<void>;
+  readonly login: (email: string, password: string) => Promise<void>;
 }
 
 interface AuthState {
@@ -27,24 +28,20 @@ interface Props {
   readonly children: ReactNode;
 }
 
-const publicRoutes = [
-  '/',
-  '/login',
-  '/dashboard',
-  '/people',
-  '/people/new-person',
-];
+const publicRoutes = ['/', '/login', '/dashboard'];
 
 const AuthStateCtx = createContext<AuthState>({
   isLogged: false,
   isLoading: false,
   userProfile: null,
 });
+
 AuthStateCtx.displayName = 'AuthStateCtx';
 
 function missingProviderError() {
   throw TypeError('Missing AuthProvider upwards in the tree');
 }
+
 const AuthMethodsCtx = createContext<AuthMethods>({
   login: () => new Promise(missingProviderError),
   logout: missingProviderError,
@@ -53,21 +50,27 @@ AuthMethodsCtx.displayName = 'AuthMethodsCtx';
 
 type Status = 'idle' | 'loading' | 'fetched';
 
-export function AuthProvider({ children }: Props): ReactElement {
+const AuthProvider = ({ children }: Props): ReactElement => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const [userProfile, setUserProfile] = useState<UserProfile | null>(null);
+
   const [fetchStatus, setFetchStatus] = useState<Status>('idle');
+
   const router = useRouter();
+
   const methods: AuthMethods = {
-    login: async (token: string) => {
+    login: async (email: string, password: string) => {
       setFetchStatus('loading');
       try {
-        await validateUser(token);
+        await validateUser(email, password);
         const userProfileFetched = getUserProfile();
         setUserProfile(userProfileFetched);
         setFetchStatus('fetched');
       } catch (error) {
-        // TODO: Notify about error in another package
         setFetchStatus('fetched');
+        const message = error?.message || 'Ocorreu um erro ao realizar login.';
+        enqueueSnackbar(message, { variant: 'error' });
       }
     },
     logout: () => {
@@ -91,7 +94,7 @@ export function AuthProvider({ children }: Props): ReactElement {
 
     if (!publicRoutes.includes(router.pathname) && userProfile == null)
       router.replace('/login');
-  }, [userProfile]);
+  }, []);
 
   return (
     <AuthStateCtx.Provider value={states}>
@@ -100,7 +103,7 @@ export function AuthProvider({ children }: Props): ReactElement {
       </AuthMethodsCtx.Provider>
     </AuthStateCtx.Provider>
   );
-}
+};
 
 export function useAuthState(): AuthState {
   return useContext(AuthStateCtx);
@@ -109,3 +112,5 @@ export function useAuthState(): AuthState {
 export function useAuthMethods(): AuthMethods {
   return useContext(AuthMethodsCtx);
 }
+
+export default AuthProvider;

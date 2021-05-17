@@ -39,7 +39,6 @@ const PersonPage = ({ personId, form }: Props): ReactElement => {
         router.replace('/people');
       })
       .catch((error) => {
-        console.log(error);
         enqueueSnackbar('Ocorreu um erro. Tente novamente.', {
           variant: 'error',
         });

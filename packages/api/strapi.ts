@@ -4,56 +4,68 @@ const LOCAL_STORAGE_CREDENTIAL_KEY = 'strapi:credentials';
 
 const {
   NEXT_PUBLIC_STRAPI_API_URL = 'https://api-mvp.cantodaruaemergencial.com.br',
+  // NEXT_PUBLIC_STRAPI_API_URL = 'http://localhost:1337',
 } = process.env;
 
+export function getUserProfile(): UserProfile | null {
+  const credentialString = localStorage.getItem(LOCAL_STORAGE_CREDENTIAL_KEY);
+  if (credentialString == null) return null;
+  const userProfile: UserProfile = JSON.parse(credentialString);
+  if (!userProfile) return null;
+  return userProfile;
+}
+
+export function makeLogout() {
+  localStorage.removeItem(LOCAL_STORAGE_CREDENTIAL_KEY);
+}
+
 export class Api {
+  static getHeaders = () => {
+    const userProfile = getUserProfile();
+    return {
+      'Content-Type': 'application/json',
+      Authorization: userProfile?.token ? `Bearer ${userProfile.token}` : '',
+    };
+  };
+
   static get = async (url: string) => {
-    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`);
+    const options = {
+      method: 'GET',
+      headers: Api.getHeaders(),
+    };
+    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
     return res.json();
   };
 
   static post = async (url: string, body = {}) => {
-    const requestOptions = {
+    const options = {
       method: 'POST',
       body: JSON.stringify(body),
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers: Api.getHeaders(),
     };
 
-    const res = await fetch(
-      `${NEXT_PUBLIC_STRAPI_API_URL}/${url}`,
-      requestOptions,
-    );
-
+    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
     return res.json();
   };
 }
 
-const providerPaths = {
-  google: {
-    redirect: 'connect/google',
-    callback: 'auth/google/callback',
-  },
-};
-
-export function handleGoogleRedirect(): void {
-  document.location.href = `${NEXT_PUBLIC_STRAPI_API_URL}/${providerPaths.google.redirect}`;
-}
-
-export async function validateUser(token: string): Promise<UserProfile> {
+export async function validateUser(
+  email: string,
+  password: string,
+): Promise<UserProfile> {
   try {
-    const res = await fetch(
-      `${NEXT_PUBLIC_STRAPI_API_URL}/${providerPaths.google.callback}${token}`,
-    );
+    const { status, data } = await Api.post('admin/login', { email, password });
 
-    const data = await res.json();
+    if (status !== 200) {
+      throw new Error('Erro ao realizar login!');
+    }
 
     const userProfile: UserProfile = {
-      displayName: data?.user?.username,
-      key: data?.jwt,
+      displayName:
+        data?.user?.username ??
+        `${data?.user?.firstname ?? ''} ${data?.user?.lastname ?? ''}`,
+      token: data?.token,
       email: data?.user?.email,
-      provider: data?.user?.provider,
     };
 
     localStorage.setItem(
@@ -63,23 +75,7 @@ export async function validateUser(token: string): Promise<UserProfile> {
 
     return userProfile;
   } catch (error) {
-    // TODO: Need to create error system, maybe setup an error boundry.
-    throw new Error('Failed to connect');
+    const message = error?.message || 'Falha ao conectar.';
+    throw new Error(message);
   }
-}
-
-export function getUserProfile(): UserProfile | null {
-  const credentialString = localStorage.getItem(LOCAL_STORAGE_CREDENTIAL_KEY);
-  if (credentialString == null) return null;
-
-  const userProfile: UserProfile = JSON.parse(credentialString);
-
-  if (!userProfile) return null;
-
-  return userProfile;
-}
-
-// Reset local credentials
-export function makeLogout() {
-  localStorage.removeItem(LOCAL_STORAGE_CREDENTIAL_KEY);
 }

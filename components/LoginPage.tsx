@@ -1,80 +1,94 @@
 import {
-  Card,
-  createStyles,
-  makeStyles,
-  Typography,
-  TextField,
+  Avatar,
+  Container as MuiContainer,
+  TextField as MuiTextField,
+  Button as MuiButton,
 } from '@material-ui/core';
+import { useRouter } from 'next/dist/client/router';
 import { ReactElement, useState } from 'react';
+import styled from 'styled-components';
 
-import Button from './Button';
+import Card from './Card';
 
-import AuthService from '#/services/AuthService';
+import { useAuthMethods, useAuthState } from '#/packages/auth/auth-context';
 
-const handleLogin = (user: string, password: string) => {
-  AuthService.login(user, password);
-};
+const Container = styled(MuiContainer)`
+  && {
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    max-width: 400px;
+  }
+`;
 
-const useStyles = makeStyles(() =>
-  createStyles({
-    loginCard: {
-      margin: '5rem auto',
-      maxWidth: '30rem',
-      padding: '1rem',
-      borderRadius: '0.5rem',
-      textAlign: 'center',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyItems: 'space-between',
-    },
-    input: {
-      margin: '0.5rem auto',
-    },
-    button: {
-      display: 'block',
-      margin: '0 auto',
-    },
-  }),
-);
+const TextField = styled(MuiTextField)`
+  && {
+    margin-bottom: 1rem;
+  }
+`;
+
+const Button = styled(MuiButton)`
+  && {
+    width: 100%;
+  }
+`;
+
+const Logo = styled(Avatar)`
+  && {
+    width: 8rem;
+    height: 8rem;
+    margin: 3rem auto;
+  }
+`;
 
 const LoginPage = (): ReactElement => {
-  const classes = useStyles();
-  const [user, setUser] = useState<string>('');
+  const { isLoading, isLogged } = useAuthState();
+  const { login } = useAuthMethods();
+  const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
+  const router = useRouter();
+
+  if (isLogged) {
+    router.replace('/dashboard');
+  }
 
   return (
-    <Card className={classes.loginCard}>
-      <Typography variant="h4" paragraph>
-        Seja bem vindo ao Canto da Rua
+    <Container>
+      <Card>
+        <Logo alt="Canto da Rua" src="/images/logo.png" />
+
         <TextField
-          className={classes.input}
-          label="Usuário"
+          autoFocus
+          label="Email"
           variant="outlined"
           type="email"
           autoComplete="off"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          fullWidth
         />
         <TextField
-          className={classes.input}
           label="Senha"
           variant="outlined"
           type="password"
           autoComplete="off"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          fullWidth
         />
         <Button
-          className={classes.button}
           onClick={() => {
-            handleLogin(user, password);
+            login(email, password);
           }}
           variant="outlined"
+          disabled={isLoading}
         >
           Login
         </Button>
-      </Typography>
-    </Card>
+      </Card>
+    </Container>
   );
 };
 
