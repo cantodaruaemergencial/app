@@ -65,12 +65,12 @@ const PersonCard = ({
   if (!isRowLoaded) return renderSkeleton();
 
   return (
-    <PersonWrapper style={style} key={key}>
+    <PersonWrapper style={style} key={item.id}>
       <PersonBox condensed>
         <Avatar>{initials(item.Name)}</Avatar>
         <PersonInfo>
           <Typography>
-            {item.id} {item.Name}
+            {item.Name}
             {item.SocialName ? ` (${item.SocialName})` : ''}
           </Typography>
           <Typography variant="caption">

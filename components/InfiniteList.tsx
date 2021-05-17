@@ -8,6 +8,8 @@ import {
   ListRowProps,
 } from 'react-virtualized';
 
+import EmptyState from './EmptyState';
+
 export type InfiniteListRowRenderer = (
   item: any,
   isRowLoaded: boolean,
@@ -32,16 +34,21 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
 
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
 
+  let infiteLoaderRef: InfiniteLoader | null = null;
+
   const rowCount = hasNextPage ? list.length + 8 : list.length;
 
   const isRowLoaded = ({ index }: ListRowProps | Index) => Boolean(list[index]);
 
   const getItem = ({ index }: ListRowProps) => list[index];
 
-  useEffect(() => {
+  const resetList = () => {
     setList([]);
     setHasNextPage(true);
-  }, [filter]);
+
+    if (!infiteLoaderRef) return;
+    infiteLoaderRef.resetLoadMoreRowsCache();
+  };
 
   const loadMoreRows = ({
     startIndex,
@@ -54,12 +61,23 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
     });
   };
 
+  useEffect(() => {
+    const filterIsEmpty = Object.keys(filter).length === 0;
+
+    if (filterIsEmpty) return;
+
+    resetList();
+  }, [filter]);
+
   return (
     <InfiniteLoader
       isRowLoaded={isRowLoaded}
       loadMoreRows={loadMoreRows}
       rowCount={rowCount}
       className={className}
+      ref={(child) => {
+        infiteLoaderRef = child;
+      }}
     >
       {({ onRowsRendered, registerChild }) => (
         <AutoSizer>
@@ -69,7 +87,7 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
               onRowsRendered={onRowsRendered}
               rowCount={rowCount}
               rowHeight={100}
-              noRowsRenderer={() => <p>Nenhum resultado encontrado</p>}
+              noRowsRenderer={() => <EmptyState />}
               rowRenderer={(props) =>
                 rowRenderer(getItem(props), isRowLoaded(props), props)
               }
