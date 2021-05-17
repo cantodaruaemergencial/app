@@ -1,3 +1,5 @@
+import qs from 'qs';
+
 import { UserProfile } from '#/packages/entities/types';
 import { Auth } from '#/types/Auth';
 
@@ -59,7 +61,7 @@ export class Api {
       headers: Api.getHeaders(),
     };
 
-    const queryString = params ? `?${new URLSearchParams(params)}` : '';
+    const queryString = params ? `?${qs.stringify(params)}` : '';
     const res = await fetch(
       `${NEXT_PUBLIC_STRAPI_API_URL}/${url}${queryString}`,
       options,

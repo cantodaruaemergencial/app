@@ -13,8 +13,28 @@ import {
 } from '#/types/People';
 
 class PeopleService {
-  static getPeople = (startIndex: number, limit: number) => {
-    const query = { _start: startIndex, _limit: limit };
+  static getPeople = (
+    startIndex: number,
+    limit: number,
+    filter?: { nameOrCardNumber?: string },
+  ) => {
+    const filterQuery = filter?.nameOrCardNumber
+      ? {
+          _where: {
+            _or: [
+              [{ Name_contains: filter?.nameOrCardNumber }],
+              [{ CardNumber_contains: filter?.nameOrCardNumber }],
+            ],
+          },
+        }
+      : {};
+
+    const query = {
+      _start: startIndex,
+      _limit: limit,
+      ...filterQuery,
+    };
+
     return Api.get<Person[]>('people', query).then((res) => res.data);
   };
 

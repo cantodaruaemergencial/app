@@ -1,4 +1,4 @@
-import { ReactNode, useState } from 'react';
+import { ReactNode, useEffect, useState } from 'react';
 import {
   AutoSizer,
   Index,
@@ -17,15 +17,17 @@ export type InfiniteListRowRenderer = (
 export type InfiniteListFetchRows = (
   startIndex: number,
   limit: number,
+  filter: any,
 ) => Promise<any>;
 
 interface Props {
   fetchRows: InfiniteListFetchRows;
   rowRenderer: InfiniteListRowRenderer;
+  filter?: any;
   className?: string;
 }
 
-const InfiniteList = ({ fetchRows, rowRenderer, className }: Props) => {
+const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
   const [list, setList] = useState<any[]>([]);
 
   const [hasNextPage, setHasNextPage] = useState<boolean>(true);
@@ -36,12 +38,17 @@ const InfiniteList = ({ fetchRows, rowRenderer, className }: Props) => {
 
   const getItem = ({ index }: ListRowProps) => list[index];
 
+  useEffect(() => {
+    setList([]);
+    setHasNextPage(true);
+  }, [filter]);
+
   const loadMoreRows = ({
     startIndex,
     stopIndex,
   }: IndexRange): Promise<any> => {
     const limit = stopIndex - startIndex;
-    return fetchRows(startIndex, limit).then((result) => {
+    return fetchRows(startIndex, limit, filter).then((result) => {
       setHasNextPage(result.length > 0);
       setList([...list, ...result]);
     });
@@ -61,7 +68,8 @@ const InfiniteList = ({ fetchRows, rowRenderer, className }: Props) => {
               ref={registerChild}
               onRowsRendered={onRowsRendered}
               rowCount={rowCount}
-              rowHeight={88}
+              rowHeight={100}
+              noRowsRenderer={() => <p>Nenhum resultado encontrado</p>}
               rowRenderer={(props) =>
                 rowRenderer(getItem(props), isRowLoaded(props), props)
               }

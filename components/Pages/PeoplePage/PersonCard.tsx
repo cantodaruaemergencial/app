@@ -36,9 +36,13 @@ interface Props {
   props: ListRowProps;
 }
 
-const PersonCard = ({ item, isRowLoaded, props }: Props): ReactElement => {
+const PersonCard = ({
+  item,
+  isRowLoaded,
+  props: { key, style, index },
+}: Props): ReactElement => {
   const renderSkeleton = () => (
-    <PersonWrapper {...props}>
+    <PersonWrapper style={style} key={`${key}-${index}-skeleton`}>
       <PersonBox condensed>
         <Skeleton variant="circle" width={40} height={40} />
         <PersonInfo>
@@ -61,7 +65,7 @@ const PersonCard = ({ item, isRowLoaded, props }: Props): ReactElement => {
   if (!isRowLoaded) return renderSkeleton();
 
   return (
-    <PersonWrapper {...props}>
+    <PersonWrapper style={style} key={key}>
       <PersonBox condensed>
         <Avatar>{initials(item.Name)}</Avatar>
         <PersonInfo>
