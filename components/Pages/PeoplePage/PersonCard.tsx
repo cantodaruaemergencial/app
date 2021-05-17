@@ -67,7 +67,7 @@ const PersonCard = ({
   return (
     <PersonWrapper style={style} key={item.id}>
       <PersonBox condensed>
-        <Avatar>{initials(item.Name)}</Avatar>
+        <Avatar>{initials(item.Name).slice(0, 2)}</Avatar>
         <PersonInfo>
           <Typography>
             {item.Name}
