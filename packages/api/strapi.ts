@@ -34,7 +34,10 @@ export class Api {
       headers: Api.getHeaders(),
     };
     const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
-    return res.json();
+    return {
+      status: res.status,
+      data: res.json(),
+    };
   };
 
   static post = async (url: string, body = {}) => {
@@ -45,7 +48,10 @@ export class Api {
     };
 
     const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
-    return res.json();
+    return {
+      status: res.status,
+      data: res.json(),
+    };
   };
 }
 
@@ -55,6 +61,8 @@ export async function validateUser(
 ): Promise<UserProfile> {
   try {
     const { status, data } = await Api.post('admin/login', { email, password });
+
+    console.log(status);
 
     if (status !== 200) {
       throw new Error('Erro ao realizar login!');
