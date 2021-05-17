@@ -1,6 +1,6 @@
 import Layout from '#/components/Layout';
 import PersonPage from '#/components/Pages/PersonPage';
-import PeopleService from '#/services/PeopleService';
+// import PeopleService from '#/services/PeopleService';
 import { Form } from '#/types/Forms';
 
 interface Props {
@@ -14,7 +14,7 @@ const NewPerson = ({ form }: Props): React.ReactElement => (
 );
 
 export const getStaticProps = async () => {
-  const form = await PeopleService.getPersonForm();
+  const form = {} as Form; // await PeopleService.getPersonForm();
 
   return {
     props: {
