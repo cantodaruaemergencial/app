@@ -92,7 +92,7 @@ const AuthProvider = ({ children }: Props): ReactElement => {
     const user = getUserProfile();
     setUserProfile(user);
 
-    if (!publicRoutes.includes(router.pathname) && userProfile == null)
+    if (!publicRoutes.includes(router.pathname) && user == null)
       router.replace('/login');
   }, []);
 

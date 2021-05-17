@@ -13,22 +13,27 @@ import {
 } from '#/types/People';
 
 class PeopleService {
-  static getPeople = (): Promise<Person[]> => Api.get('people');
+  static getPeople = () => Api.get<Person[]>('people').then((res) => res.data);
 
-  static getGenders = (): Promise<Gender[]> => Api.get('genders');
+  static getGenders = () =>
+    Api.publicGet<Gender[]>('genders').then((res) => res.data);
 
-  static getSkinColors = (): Promise<SkinColor[]> => Api.get('skin-colors');
+  static getSkinColors = () =>
+    Api.publicGet<SkinColor[]>('skin-colors').then((res) => res.data);
 
-  static getMaritalStatuses = (): Promise<MaritalStatus[]> =>
-    Api.get('marital-statuses');
+  static getMaritalStatuses = () =>
+    Api.publicGet<MaritalStatus[]>('marital-statuses').then((res) => res.data);
 
-  static getSchoolTrainings = (): Promise<SchoolTraining[]> =>
-    Api.get('school-trainings');
+  static getSchoolTrainings = () =>
+    Api.publicGet<SchoolTraining[]>('school-trainings').then((res) => res.data);
 
-  static getExternalServices = (): Promise<ExternalService[]> =>
-    Api.get('external-services');
+  static getExternalServices = () =>
+    Api.publicGet<ExternalService[]>('external-services').then(
+      (res) => res.data,
+    );
 
-  static getBenefits = (): Promise<Benefit[]> => Api.get('benefits');
+  static getBenefits = () =>
+    Api.publicGet<Benefit[]>('benefits').then((res) => res.data);
 
   static getPersonForm = async (): Promise<Form> => {
     const [
@@ -47,9 +52,9 @@ class PeopleService {
       PeopleService.getBenefits(),
     ]);
 
-    const skinColors: SkinColor[] = [
-      { id: 1, SkinColor: 'Branco' },
-      { id: 2, SkinColor: 'Preto' },
+    const skinColors = [
+      { id: 1, SkinColor: 'Preto' },
+      { id: 2, SkinColor: 'Branco' },
     ];
 
     const sections: FormSection[] = [

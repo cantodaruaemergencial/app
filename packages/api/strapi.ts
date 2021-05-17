@@ -1,4 +1,5 @@
 import { UserProfile } from '#/packages/entities/types';
+import { Auth } from '#/types/Auth';
 
 const LOCAL_STORAGE_CREDENTIAL_KEY = 'strapi:credentials';
 
@@ -7,6 +8,7 @@ const {
 } = process.env;
 
 export function getUserProfile(): UserProfile | null {
+  if (!localStorage) return null;
   const credentialString = localStorage.getItem(LOCAL_STORAGE_CREDENTIAL_KEY);
   if (credentialString == null) return null;
   const userProfile: UserProfile = JSON.parse(credentialString);
@@ -19,27 +21,55 @@ export function makeLogout() {
 }
 
 export class Api {
+  static getPublicHeaders = () => ({
+    'Content-Type': 'application/json',
+  });
+
   static getHeaders = () => {
     const userProfile = getUserProfile();
+
     return {
-      'Content-Type': 'application/json',
+      ...Api.getPublicHeaders(),
       Authorization: userProfile?.token ? `Bearer ${userProfile.token}` : '',
     };
   };
 
-  static get = async (url: string) => {
+  static publicGet = async <ResultType extends unknown>(
+    url: string,
+  ): Promise<{ status: number; data: ResultType }> => {
+    const options = {
+      method: 'GET',
+      headers: Api.getPublicHeaders(),
+    };
+
+    const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
+
+    return {
+      status: res.status,
+      data: res.json() as ResultType,
+    };
+  };
+
+  static get = async <ResultType extends unknown>(
+    url: string,
+  ): Promise<{ status: number; data: ResultType }> => {
     const options = {
       method: 'GET',
       headers: Api.getHeaders(),
     };
+
     const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
+
     return {
       status: res.status,
-      data: res.json(),
+      data: res.json() as ResultType,
     };
   };
 
-  static post = async (url: string, body = {}) => {
+  static post = async <ResultType extends unknown>(
+    url: string,
+    body = {},
+  ): Promise<{ status: number; data: ResultType }> => {
     const options = {
       method: 'POST',
       body: JSON.stringify(body),
@@ -47,9 +77,12 @@ export class Api {
     };
 
     const res = await fetch(`${NEXT_PUBLIC_STRAPI_API_URL}/${url}`, options);
+
+    const result = await res.json();
+
     return {
       status: res.status,
-      data: res.json(),
+      data: result,
     };
   };
 }
@@ -59,9 +92,13 @@ export async function validateUser(
   password: string,
 ): Promise<UserProfile> {
   try {
-    const { status, data } = await Api.post('admin/login', { email, password });
-
-    console.log(status);
+    const {
+      status,
+      data: { data },
+    } = await Api.post<Auth>('admin/login', {
+      email,
+      password,
+    });
 
     if (status !== 200) {
       throw new Error('Erro ao realizar login!');

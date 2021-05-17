@@ -33,9 +33,11 @@ const PeoplePage = (): ReactElement => {
   const [people, setPeople] = useState<Person[]>([]);
 
   const fetchPeople = () => {
-    PeopleService.getPeople().then((result) => {
-      setPeople(result);
-    });
+    PeopleService.getPeople()
+      .then((result) => {
+        setPeople(result);
+      })
+      .catch((error) => console.log(error));
   };
 
   useEffect(() => {
@@ -72,7 +74,7 @@ const PeoplePage = (): ReactElement => {
             </PersonInfo>
             <Entrances>
               <Typography variant="caption">
-                <b>{p.entrances.length}</b> Entradas
+                <b>{p.entrances?.length || 0}</b> Entradas
               </Typography>
             </Entrances>
           </PersonBox>
