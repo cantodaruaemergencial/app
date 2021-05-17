@@ -1,11 +1,13 @@
-import { Avatar, Box, Typography } from '@material-ui/core';
+import { Box, Typography } from '@material-ui/core';
+import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
 import { Skeleton } from '@material-ui/lab';
-import initials from 'initials';
 import { ReactElement } from 'react';
 import { ListRowProps } from 'react-virtualized';
 import styled from 'styled-components';
 
 import Card from '../../Card';
+
+import Avatar from '#/components/Avatar';
 
 const PersonWrapper = styled(Box)`
   padding-bottom: 0.5rem;
@@ -18,6 +20,12 @@ const PersonBox = styled(Card)`
   height: 100%;
 `;
 
+const Name = styled(Typography)`
+  && {
+    font-weight: 600;
+  }
+`;
+
 const PersonInfo = styled(Box)`
   display: flex;
   flex-direction: column;
@@ -25,9 +33,15 @@ const PersonInfo = styled(Box)`
   flex: 1;
 `;
 
-const Entrances = styled(Box)`
+const Options = styled(Box)`
   display: flex;
   flex-direction: column;
+`;
+
+const Option = styled(Box)`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
 
 interface Props {
@@ -53,35 +67,42 @@ const PersonCard = ({
             <Skeleton variant="text" width={80} />
           </Typography>
         </PersonInfo>
-        <Entrances>
+        <Options>
           <Typography variant="caption">
             <Skeleton variant="text" width={120} />
           </Typography>
-        </Entrances>
+        </Options>
       </PersonBox>
     </PersonWrapper>
   );
 
   if (!isRowLoaded) return renderSkeleton();
 
+  const enteredToday = !!item.TodayEntranceTime;
+
+  const color = enteredToday ? 'success' : '';
+
+  const lastEntrance = enteredToday ? 'Entrou Hoje' : 'Não entrou';
+
   return (
     <PersonWrapper style={style} key={item.id}>
       <PersonBox condensed>
-        <Avatar>{initials(item.Name).slice(0, 2)}</Avatar>
+        <Avatar name={item.Name} color={color} />
         <PersonInfo>
-          <Typography>
+          <Name variant="body2">
             {item.Name}
             {item.SocialName ? ` (${item.SocialName})` : ''}
-          </Typography>
+          </Name>
           <Typography variant="caption">
             <b>Cartão</b> {item.CardNumber}
           </Typography>
         </PersonInfo>
-        <Entrances>
-          <Typography variant="caption">
-            <b>{item.entrances?.length || 0}</b> Entradas
-          </Typography>
-        </Entrances>
+        <Options>
+          <Option>
+            <CheckCircleRoundedIcon />
+            <Typography variant="caption">{lastEntrance}</Typography>
+          </Option>
+        </Options>
       </PersonBox>
     </PersonWrapper>
   );

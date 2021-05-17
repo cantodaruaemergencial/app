@@ -36,6 +36,12 @@ class PeopleService {
     };
 
     return Api.get<Person[]>('people', query).then((res) => res.data);
+    // .then((l) => {
+    //   l.forEach((p) => {
+    //     p.TodayEntranceTime = Math.random() > 0.5 ? new Date() : null;
+    //   });
+    //   return l;
+    // });
   };
 
   static getGenders = () =>
