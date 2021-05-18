@@ -1,3 +1,5 @@
+import { Moment } from 'moment';
+
 export interface Gender {
   id: number;
   Gender: string;
@@ -26,11 +28,6 @@ export interface Benefit {
 export interface ExternalService {
   id: number;
   ExternalService: string;
-}
-
-export interface Entrance {
-  id: number;
-  Date: Date;
 }
 
 export interface Person {
@@ -72,6 +69,12 @@ export interface BasePerson {
   Name: string;
   SocialName: string;
   CardNumber: string;
-  LastEntranceDate?: Date | null;
+  LastEntranceDate?: Moment | null;
   EnteredToday: boolean;
+}
+
+export interface Entrance {
+  id: number;
+  DateTime: Moment;
+  person: Person;
 }

@@ -1,6 +1,7 @@
 import { Box, Button, Container as MuiContainer } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
 import { AddCircleRounded } from '@material-ui/icons';
+import { useSnackbar } from 'notistack';
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 
@@ -12,8 +13,11 @@ import PageHeader from '../../PageHeader';
 
 import PersonCard from './PersonCard';
 
+import ConfirmationModal from '#/components/ConfirmationModal';
 import SearchField from '#/components/SearchField';
 import PeopleService from '#/services/PeopleService';
+import { ConfirmationModal as ConfirmationModalType } from '#/types/ConfirmationModal';
+import { BasePerson, Entrance } from '#/types/People';
 
 const Container = styled(MuiContainer)`
   && {
@@ -55,13 +59,58 @@ const List = styled(InfiniteList)`
 `;
 
 const PeoplePage = (): ReactElement => {
+  const { enqueueSnackbar } = useSnackbar();
+
   const [selectedFilter, setSelectedFilter] = useState({});
+
+  const [
+    confirmationModal,
+    setConfirmationModal,
+  ] = useState<ConfirmationModalType>({
+    title: 'Confirmar entrada',
+    open: false,
+  });
 
   const fetchPeople: InfiniteListFetchRows = (startIndex, limit, filter) =>
     PeopleService.getPeople(startIndex, limit, filter);
 
   const onChangeFilter = (value?: string) =>
     setSelectedFilter({ nameOrCardNumber: value });
+
+  const addNewEntrance = (
+    person: BasePerson,
+    callback: (entrance: Entrance) => void,
+  ) => {
+    const message = `Deseja confirmar a entrada de ${person.Name}?`;
+
+    setConfirmationModal({
+      ...confirmationModal,
+      data: {
+        person,
+        callback,
+      },
+      message,
+      open: true,
+    });
+  };
+
+  const handleCloseConfirmationModal = () =>
+    setConfirmationModal({ ...confirmationModal, open: false });
+
+  const confirmEntrance = () => {
+    PeopleService.postEntrance(confirmationModal.data.person).then(
+      ({ status, data }) => {
+        if (status === 200) {
+          handleCloseConfirmationModal();
+          confirmationModal.data.callback(data);
+        } else {
+          enqueueSnackbar('Ocorreu um erro ao confirmar a entrada.', {
+            variant: 'error',
+          });
+        }
+      },
+    );
+  };
 
   const renderControls = () => (
     <>
@@ -77,7 +126,12 @@ const PeoplePage = (): ReactElement => {
   );
 
   const rowRenderer: InfiniteListRowRenderer = (item, isRowLoaded, props) => (
-    <PersonCard item={item} isRowLoaded={isRowLoaded} props={props} />
+    <PersonCard
+      item={item}
+      isRowLoaded={isRowLoaded}
+      props={props}
+      addNewEntrance={addNewEntrance}
+    />
   );
 
   return (
@@ -90,6 +144,15 @@ const PeoplePage = (): ReactElement => {
           filter={selectedFilter}
         />
       </ListContainer>
+      <ConfirmationModal
+        {...confirmationModal}
+        handleClose={handleCloseConfirmationModal}
+        actions={
+          <Button autoFocus onClick={confirmEntrance} color="primary">
+            Confirmar
+          </Button>
+        }
+      />
     </Container>
   );
 };

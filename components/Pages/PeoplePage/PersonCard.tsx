@@ -2,7 +2,7 @@ import { Box, Button, Typography, withTheme } from '@material-ui/core';
 import { AddCircleRounded } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
 import moment from 'moment';
-import { ReactElement } from 'react';
+import { ReactElement, useState } from 'react';
 import { ListRowProps } from 'react-virtualized';
 import styled from 'styled-components';
 
@@ -11,7 +11,7 @@ import Card from '../../Card';
 import Avatar from '#/components/Avatar';
 import Chip from '#/components/Chip';
 import { Color } from '#/types/Color';
-import { BasePerson } from '#/types/People';
+import { BasePerson, Entrance } from '#/types/People';
 
 const PersonWrapper = styled(Box)`
   padding-bottom: 0.75rem;
@@ -84,11 +84,16 @@ interface Props {
   item: BasePerson;
   isRowLoaded: boolean;
   props: ListRowProps;
+  addNewEntrance: (
+    person: BasePerson,
+    callback: (entrance: Entrance) => void,
+  ) => void;
 }
 
 const PersonCard = ({
   item,
   isRowLoaded,
+  addNewEntrance,
   props: { key, index },
 }: Props): ReactElement => {
   const renderSkeleton = () => (
@@ -128,21 +133,29 @@ const PersonCard = ({
     LastEntranceDate,
   } = item;
 
+  const [entrance, setEntrance] = useState({ LastEntranceDate, EnteredToday });
+
   const lastEntranceLabel = () => {
-    if (LastEntranceDate === null) return 'Nunca entrou';
+    if (entrance.LastEntranceDate === null) return 'Nunca entrou';
 
-    const text = EnteredToday ? 'Entrou ' : 'Últ. vez ';
+    const text = entrance.EnteredToday ? 'Entrou ' : 'Últ. vez ';
 
-    const fromText = moment(LastEntranceDate).fromNow();
+    const fromText = moment(entrance.LastEntranceDate).fromNow();
 
     return text + fromText;
   };
 
   const getColor = () => {
-    if (EnteredToday) return Color.success;
-    if (LastEntranceDate !== null) return Color.info;
+    if (entrance.EnteredToday) return Color.success;
+    if (entrance.LastEntranceDate !== null) return Color.info;
     return Color.disabled;
   };
+
+  const updateItem = (lastEntrance: Entrance) =>
+    setEntrance({
+      LastEntranceDate: lastEntrance.DateTime,
+      EnteredToday: true,
+    });
 
   return (
     <PersonWrapper key={Id}>
@@ -163,12 +176,13 @@ const PersonCard = ({
           <Option>
             <Chip label={lastEntranceLabel()} color={getColor()} />
           </Option>
-          {!EnteredToday && (
+          {!entrance.EnteredToday && (
             <Option>
               <Button
                 variant="outlined"
                 size="small"
                 startIcon={<AddCircleRounded />}
+                onClick={() => addNewEntrance(item, updateItem)}
               >
                 Entrada
               </Button>

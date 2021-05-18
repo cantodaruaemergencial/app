@@ -1,4 +1,4 @@
-import { isMoment, Moment } from 'moment';
+import moment, { isMoment, Moment } from 'moment';
 
 import { Api } from '#/packages/api/strapi';
 import { FieldType, Form, FormFieldOption, FormSection } from '#/types/Forms';
@@ -10,6 +10,7 @@ import {
   BasePerson,
   SchoolTraining,
   SkinColor,
+  Entrance,
 } from '#/types/People';
 
 class PeopleService {
@@ -20,7 +21,7 @@ class PeopleService {
   ) => {
     const query = {
       start: startIndex,
-      limit: limit,
+      limit,
       filter: filter?.nameOrCardNumber,
     };
 
@@ -29,9 +30,12 @@ class PeopleService {
       .then((data) =>
         data?.map((p) => {
           p.LastEntranceDate = p.LastEntranceDate
-            ? new Date(p.LastEntranceDate)
+            ? moment(p.LastEntranceDate)
             : null;
-          p.EnteredToday = +p.EnteredToday === 1;
+
+          p.EnteredToday =
+            !!p.LastEntranceDate && moment().isSame(p.LastEntranceDate, 'day');
+
           return p;
         }),
       );
@@ -357,6 +361,15 @@ class PeopleService {
     });
 
     return Api.post('people', body);
+  };
+
+  static postEntrance = async (person: BasePerson) => {
+    const body = {
+      person: person.Id,
+      DateTime: new Date(),
+    };
+
+    return Api.post<Entrance>('/person-entrances', body);
   };
 }
 
