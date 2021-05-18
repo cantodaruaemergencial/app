@@ -49,7 +49,7 @@ const pwaMetaData = (
       }
 
       .MuiAutocomplete-paper.MuiAutocomplete-paper {
-        background-color: #f7f7f7;
+        background-color: #f3f6f9;
       }
 
       *:focus {

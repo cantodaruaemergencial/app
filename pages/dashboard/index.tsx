@@ -1,5 +1,5 @@
 import Layout from '#/components/Layout';
-import DashboardPage from '#/components/Pages/DashboardPage';
+import DashboardPage from '#/components/Pages/DashboardPage/DashboardPage';
 
 const Dashboard = (): React.ReactElement => (
   <Layout title="Dashboard - Canto da Rua">

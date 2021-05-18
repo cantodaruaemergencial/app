@@ -10,6 +10,10 @@ const StyledCard = styled(MuiCard)`
     &.condensed {
       padding: 1.25rem 1rem;
     }
+
+    &.rounder {
+      border-radius: 16px;
+    }
   }
 `;
 
@@ -25,16 +29,18 @@ interface Props extends CardProps {
   title?: string;
   children?: ReactNode;
   condensed?: boolean;
+  rounder?: boolean;
 }
 
 const Card = ({
   title,
   children,
   condensed = false,
+  rounder = false,
   className,
   ...props
 }: Props) => (
-  <StyledCard {...props} className={clsx(className, { condensed })}>
+  <StyledCard {...props} className={clsx(className, { condensed, rounder })}>
     {title && (
       <CardHeader>
         <Title variant="h4">{title}</Title>
