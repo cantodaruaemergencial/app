@@ -35,9 +35,9 @@ const Entrances = styled(DashboardCard)`
   grid-area: entrances;
 `;
 
-const Services = styled(Card)`
-  grid-area: services;
-`;
+// const Services = styled(Card)`
+//   grid-area: services;
+// `;
 
 const DashboardPage = (): ReactElement => {
   const [dashboardData, setDashboardData] = useState<DashboardData>();
@@ -59,7 +59,7 @@ const DashboardPage = (): ReactElement => {
       <DashboardContainer>
         <Entrances {...entrances} />
         <ServiceAttendances {...serviceAttendances} />
-        <Services rounder />
+        {/* <Services rounder /> */}
       </DashboardContainer>
     </Container>
   );
