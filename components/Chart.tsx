@@ -140,7 +140,6 @@ const Chart = ({
       datasets,
     };
   };
-  console.log(customizedOptions);
 
   switch (type) {
     case 'bar':

@@ -50,7 +50,7 @@ interface Props {
   label: string;
   value: number;
   format?: Format;
-  historicValues: HistoricalValue[];
+  historicalValues: HistoricalValue[];
   otherValues?: OtherValueType[];
   className?: string;
 }
@@ -60,7 +60,7 @@ const DashboardCard = ({
   value,
   format = Format.number,
   otherValues = [],
-  historicValues,
+  historicalValues,
   className,
 }: Props) => {
   const renderOtherValue = (otherValue: OtherValueType) => (
@@ -83,7 +83,7 @@ const DashboardCard = ({
         </Box>
         <OtherValues>{otherValues.map(renderOtherValue)}</OtherValues>
       </Numbers>
-      <HistoricalValues values={historicValues} format={format} />
+      <HistoricalValues values={historicalValues} format={format} />
     </DashCard>
   );
 };

@@ -14,7 +14,7 @@ const DateComponent = (): ReactElement => {
   const [dates, setDates] = useState<DashboardDate[]>([]);
 
   useEffect(() => {
-    DashboardService.getDates().then((data) => {
+    DashboardService.getEntrancesByDate().then((data) => {
       setDates(data);
     });
   }, []);
