@@ -8,6 +8,8 @@ import DashboardGenderComponent from './Dashboard/DashboardGenderComponent';
 
 import { useAuthState } from '#/packages/auth/auth-context';
 
+import DashboardService from '#/services/DashboardService';
+
 const DashboardCard = styled(Card)`
   padding: 2rem;
 `;
@@ -22,7 +24,7 @@ const DashboardPage = (): ReactElement => {
     <Container>
       <PageHeader title={title} />
       <DashboardCard>
-        <DashboardGenderComponent />
+        <DashboardGenderComponent fetchData={DashboardService.getGenders()} />
       </DashboardCard>
     </Container>
   );
