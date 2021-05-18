@@ -9,6 +9,7 @@ const Container = styled(Box)`
   padding: 0.25rem 0.5rem;
   border-radius: 4px;
   box-shadow: ${Shadows[1]};
+  grid-area: search;
 
   .MuiSvgIcon-root {
     margin: 0 0.5rem;

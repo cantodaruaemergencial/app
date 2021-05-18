@@ -1,22 +1,40 @@
 import { Typography } from '@material-ui/core';
+import { withTheme } from '@material-ui/core/styles';
 import { ReactElement } from 'react';
 import styled from 'styled-components';
 
-const Header = styled.header`
+const Header = withTheme(styled.header`
   display: flex;
-  align-items: baseline;
+  align-items: center;
   justify-content: space-between;
   flex: 0 0 auto;
+  margin: 4rem 0 3rem;
+
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    margin: 2rem 0 1.5rem;
+  }
+`);
+
+const Title = styled(Typography)`
+  && {
+    grid-area: title;
+    margin: 0;
+  }
 `;
 
 interface Props {
   title: string;
   sideComponent?: ReactElement | ReactElement[];
+  className?: string;
 }
 
-const PageHeader = ({ title, sideComponent }: Props): ReactElement => (
-  <Header>
-    <Typography variant="h1">{title}</Typography>
+const PageHeader = ({
+  title,
+  sideComponent,
+  className,
+}: Props): ReactElement => (
+  <Header className={className}>
+    <Title variant="h1">{title}</Title>
     {sideComponent}
   </Header>
 );

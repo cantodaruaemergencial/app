@@ -93,6 +93,8 @@ const theme = createMuiTheme({
         boxShadow: Shadows[2],
       },
     },
+    MuiAppBar: { root: { boxShadow: 'none' } },
+    MuiContainer: { root: { paddingTop: '2rem', paddingBottom: '2rem' } },
     MuiFormHelperText: { root: { opacity: 1 } },
   },
 });

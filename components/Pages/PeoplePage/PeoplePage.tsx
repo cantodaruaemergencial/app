@@ -1,6 +1,6 @@
 import { Box, Button, Container as MuiContainer } from '@material-ui/core';
+import { withTheme } from '@material-ui/core/styles';
 import { AddCircleRounded } from '@material-ui/icons';
-import Link from 'next/link';
 import { ReactElement, useState } from 'react';
 import styled from 'styled-components';
 
@@ -19,9 +19,29 @@ const Container = styled(MuiContainer)`
   && {
     display: flex;
     flex-direction: column;
+    padding-bottom: 0;
     height: 100%;
     flex: 1;
   }
+`;
+
+const Header = withTheme(styled(PageHeader)`
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: 1fr auto auto;
+  grid-template-areas: 'title search add-new';
+
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    grid-template-columns: 1fr auto;
+    grid-template-areas:
+      'title add-new'
+      'search search';
+  }
+`);
+
+const AddNew = styled(Button)`
+  grid-area: add-new;
+  height: 42px;
 `;
 
 const ListContainer = styled(Box)`
@@ -34,17 +54,6 @@ const List = styled(InfiniteList)`
   flex: 1;
 `;
 
-const Controls = styled(Box)`
-  padding: 1rem 0;
-  display: flex;
-  justify-content: flex-end;
-  position: relative;
-
-  && > * {
-    margin-left: 1rem;
-  }
-`;
-
 const PeoplePage = (): ReactElement => {
   const [selectedFilter, setSelectedFilter] = useState({});
 
@@ -55,14 +64,16 @@ const PeoplePage = (): ReactElement => {
     setSelectedFilter({ nameOrCardNumber: value });
 
   const renderControls = () => (
-    <Controls>
+    <>
       <SearchField placeholder="Nome ou cartão" onFilter={onChangeFilter} />
-      <Link href="/people/new-person">
-        <Button variant="contained" startIcon={<AddCircleRounded />}>
-          Nova Pessoa
-        </Button>
-      </Link>
-    </Controls>
+      <AddNew
+        href="/people/new-person"
+        variant="contained"
+        startIcon={<AddCircleRounded />}
+      >
+        Nova Pessoa
+      </AddNew>
+    </>
   );
 
   const rowRenderer: InfiniteListRowRenderer = (item, isRowLoaded, props) => (
@@ -71,7 +82,7 @@ const PeoplePage = (): ReactElement => {
 
   return (
     <Container>
-      <PageHeader title="Pessoas" sideComponent={renderControls()} />
+      <Header title="Pessoas" sideComponent={renderControls()} />
       <ListContainer>
         <List
           fetchRows={fetchPeople}
