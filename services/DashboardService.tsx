@@ -1,8 +1,9 @@
 import { Api } from '#/packages/api/strapi';
+import { DashboardGender } from '#/types/Dashboard';
 
 class DashboardService {
   static getGenders = () =>
-    Api.get<any[]>('dashboard/genders').then((res) => res.data);
+    Api.get<DashboardGender[]>('dashboard/genders').then((res) => res.data);
 }
 
 export default DashboardService;
