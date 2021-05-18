@@ -36,6 +36,9 @@ export default function ButtonAppBar(): React.ReactElement {
           <Link href="/people">
             <Button>Pessoas</Button>
           </Link>
+          <Link href="/dashboard">
+            <Button>Dashboard</Button>
+          </Link>
         </Links>
       </Toolbar>
     </AppBar>

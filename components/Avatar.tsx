@@ -20,8 +20,8 @@ interface Props {
 }
 
 const Avatar = ({ name, color, className }: Props): ReactElement => {
-  const label = initials(name).slice(0, 2);
-
+  let label = initials(name);
+  label = `${label.slice(0, 1)}${label.slice(label.length - 1, label.length)}`;
   return (
     <CustomAvatar className={clsx(className, color)}>{label}</CustomAvatar>
   );

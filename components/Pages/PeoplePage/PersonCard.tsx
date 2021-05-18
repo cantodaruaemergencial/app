@@ -82,7 +82,7 @@ const PersonCard = ({
 
   const color = enteredToday ? 'success' : '';
 
-  const lastEntrance = enteredToday ? 'Entrou Hoje' : 'Não entrou';
+  const lastEntrance = enteredToday ? 'Entrou Hoje' : 'Ainda não entrou hoje';
 
   return (
     <PersonWrapper style={style} key={item.id}>
