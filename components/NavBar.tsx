@@ -2,6 +2,8 @@ import { Avatar, AppBar, Container, Box, Button } from '@material-ui/core';
 import Link from 'next/link';
 import styled from 'styled-components';
 
+import { useAuthState } from '#/packages/auth/auth-context';
+
 const Logo = styled(Avatar)`
   && {
     width: 4rem;
@@ -26,6 +28,18 @@ const Links = styled(Box)`
 `;
 
 export default function ButtonAppBar(): React.ReactElement {
+  const { isLogged } = useAuthState();
+  if (!isLogged)
+    return (
+      <AppBar position="static" color="default">
+        <Toolbar>
+          <Link href="/dashboard">
+            <Logo alt="Canto da Rua" src="/images/logo.png" />
+          </Link>
+        </Toolbar>
+      </AppBar>
+    );
+
   return (
     <AppBar position="static" color="default">
       <Toolbar>
