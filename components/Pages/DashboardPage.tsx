@@ -4,6 +4,7 @@ import styled from 'styled-components';
 
 import PageHeader from '../PageHeader';
 
+import DateComponent from './Dashboard/DateComponent';
 import GenderComponent from './Dashboard/GenderComponent';
 
 import { useAuthState } from '#/packages/auth/auth-context';
@@ -21,6 +22,9 @@ const DashboardPage = (): ReactElement => {
   return (
     <Container>
       <PageHeader title={title} />
+      <DashboardCard>
+        <DateComponent />
+      </DashboardCard>
       <DashboardCard>
         <GenderComponent />
       </DashboardCard>
