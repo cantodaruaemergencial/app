@@ -1,13 +1,12 @@
-import { ReactElement } from 'react';
+import DashboardService from '#/services/DashboardService';
+import { ReactElement, useEffect, useState } from 'react';
 
-interface Props {
-  fetchData: Promise<any>;
-}
+const DashboardGenderComponent = (): ReactElement => {
+  const [genders, setGenders] = useState<any[]>([]);
 
-const DashboardGenderComponent = ({ fetchData }: Props): ReactElement => {
-  fetchData.then((data) => {    
-    console.log(data);
-  });
+  useEffect(() => {
+    DashboardService.getGenders().then((genderList) => setGenders(genderList));
+  }, []);
 
   return (
     <ul>

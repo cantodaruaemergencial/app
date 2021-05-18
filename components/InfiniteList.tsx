@@ -85,6 +85,7 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
         parent={parent}
       >
         {({ registerChild }) => (
+          // @ts-ignore
           <Box ref={registerChild} style={style}>
             {rowRenderer(getItem(props), isRowLoaded(props), props)}
           </Box>
