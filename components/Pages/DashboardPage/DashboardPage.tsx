@@ -3,7 +3,6 @@ import moment from 'moment';
 import { ReactElement } from 'react';
 import styled from 'styled-components';
 
-import Card from '../../Card';
 import DashboardCard from '../../DashboardCard/DashboardCard';
 import PageHeader from '../../PageHeader';
 
