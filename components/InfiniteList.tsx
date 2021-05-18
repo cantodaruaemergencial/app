@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 import { Box } from '@material-ui/core';
 import { ReactNode, useEffect, useMemo, useState } from 'react';
 import {
@@ -84,9 +85,9 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
         rowIndex={index}
         parent={parent}
       >
-        {({ registerChild }) => (
+        {({ measure, registerChild }) => (
           // @ts-ignore
-          <Box ref={registerChild} style={style}>
+          <Box onLoad={measure} ref={registerChild} style={style}>
             {rowRenderer(getItem(props), isRowLoaded(props), props)}
           </Box>
         )}

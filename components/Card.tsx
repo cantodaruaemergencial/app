@@ -8,7 +8,7 @@ const StyledCard = styled(MuiCard)`
     padding: 2rem 1.5rem;
 
     &.condensed {
-      padding: 1rem;
+      padding: 1.25rem 1rem;
     }
   }
 `;

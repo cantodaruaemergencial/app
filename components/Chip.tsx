@@ -1,8 +1,5 @@
 import { Chip as MuiChip } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
-import clsx from 'clsx';
-import { ReactElement } from 'react';
-import styled from 'styled-components';
 import {
   CheckCircleRounded,
   ErrorRounded,
@@ -10,10 +7,15 @@ import {
   RemoveCircleRounded,
 } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
+import clsx from 'clsx';
+import { ReactElement } from 'react';
+import styled from 'styled-components';
+
+import { Color } from '#/types/Color';
 
 const CustomChip = withTheme(styled(MuiChip)`
   &.success {
-    background-color: ${({ theme }) => theme.palette.success.light + '30'};
+    background-color: ${({ theme }) => `${theme.palette.success.light}30`};
     color: ${({ theme }) => theme.palette.success.dark};
 
     .MuiSvgIcon-root {
@@ -22,7 +24,7 @@ const CustomChip = withTheme(styled(MuiChip)`
   }
 
   &.error {
-    background-color: ${({ theme }) => theme.palette.error.light + '30'};
+    background-color: ${({ theme }) => `${theme.palette.error.light}30`};
     color: ${({ theme }) => theme.palette.error.dark};
 
     .MuiSvgIcon-root {
@@ -31,7 +33,7 @@ const CustomChip = withTheme(styled(MuiChip)`
   }
 
   &.info {
-    background-color: ${({ theme }) => theme.palette.info.light + '30'};
+    background-color: ${({ theme }) => `${theme.palette.info.light}30`};
     color: ${({ theme }) => theme.palette.info.dark};
 
     .MuiSvgIcon-root {
@@ -53,55 +55,47 @@ const ChipSkeleton = styled(Skeleton)`
   }
 `;
 
-export enum ChipType {
-  default,
-  success,
-  error,
-  info,
-  disabled,
-}
-
 interface Props {
   label?: string;
-  type?: ChipType;
+  color?: Color;
   loading?: boolean;
   className?: string;
 }
 
 const Chip = ({
   label,
-  type,
+  color,
   className,
   loading = false,
 }: Props): ReactElement => {
-  if (loading) return <ChipSkeleton variant="rect" width={120} height={24} />;
+  if (loading) return <ChipSkeleton variant="rect" width={100} height={24} />;
 
   const getAvatar = () => {
-    switch (type) {
-      case ChipType.success:
+    switch (color) {
+      case Color.success:
         return <CheckCircleRounded />;
-      case ChipType.info:
+      case Color.info:
         return <InfoRounded />;
-      case ChipType.error:
+      case Color.error:
         return <ErrorRounded />;
-      case ChipType.disabled:
+      case Color.disabled:
         return <RemoveCircleRounded />;
       default:
         return null;
     }
   };
 
-  const getClassType = () => ({
-    default: ChipType.default === type,
-    success: ChipType.success === type,
-    error: ChipType.error === type,
-    info: ChipType.info === type,
-    disabled: ChipType.disabled === type,
+  const getClassColor = () => ({
+    default: Color.default === color,
+    success: Color.success === color,
+    error: Color.error === color,
+    info: Color.info === color,
+    disabled: Color.disabled === color,
   });
 
   return (
     <CustomChip
-      className={clsx(className, getClassType())}
+      className={clsx(className, getClassColor())}
       label={label}
       avatar={getAvatar()}
       size="small"

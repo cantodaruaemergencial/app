@@ -1,5 +1,7 @@
-import { Box, Typography, withTheme } from '@material-ui/core';
+import { Box, Button, Typography, withTheme } from '@material-ui/core';
+import { AddCircleRounded } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
+import moment from 'moment';
 import { ReactElement } from 'react';
 import { ListRowProps } from 'react-virtualized';
 import styled from 'styled-components';
@@ -7,12 +9,12 @@ import styled from 'styled-components';
 import Card from '../../Card';
 
 import Avatar from '#/components/Avatar';
+import Chip from '#/components/Chip';
+import { Color } from '#/types/Color';
 import { BasePerson } from '#/types/People';
-import moment from 'moment';
-import Chip, { ChipType } from '#/components/Chip';
 
 const PersonWrapper = styled(Box)`
-  padding-bottom: 0.5rem;
+  padding-bottom: 0.75rem;
   flex: 0 0 auto;
 `;
 
@@ -32,35 +34,50 @@ const Info = withTheme(styled(Box)`
   display: flex;
   align-items: center;
   height: 100%;
+  flex: 1;
 
   ${({ theme }) => theme.breakpoints.down('xs')} {
     margin-bottom: 1rem;
   }
 `);
 
-const Title = styled(Typography)`
+const Title = withTheme(styled(Typography)`
   && {
     font-weight: 600;
-  }
-`;
 
-const PersonInfo = styled(Box)`
+    ${({ theme }) => theme.breakpoints.down('xs')} {
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+  }
+`);
+
+const PersonInfo = withTheme(styled(Box)`
   display: flex;
   flex-direction: column;
   padding: 0 1rem;
   flex: 1;
-`;
 
-const Options = styled(Box)`
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    width: 90%;
+  }
+`);
+
+const Options = withTheme(styled(Box)`
   display: flex;
-  flex-direction: column;
   justify-content: space-between;
-`;
+  align-items: center;
+
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    padding-left: 40px;
+  }
+`);
 
 const Option = styled(Box)`
   display: flex;
   flex-direction: column;
-  align-self: flex-start;
+  margin-left: 1rem;
 `;
 
 interface Props {
@@ -77,18 +94,23 @@ const PersonCard = ({
   const renderSkeleton = () => (
     <PersonWrapper key={`${key}-${index}-skeleton`}>
       <PersonBox condensed>
-        <Skeleton variant="circle" width={40} height={40} />
-        <PersonInfo>
-          <Title variant="body2">
-            <Skeleton variant="text" width={160} />
-          </Title>
-          <Typography variant="caption">
-            <Skeleton variant="text" width={80} />
-          </Typography>
-        </PersonInfo>
+        <Info>
+          <Skeleton variant="circle" width={40} height={40} />
+          <PersonInfo>
+            <Title variant="body2">
+              <Skeleton variant="text" width={160} />
+            </Title>
+            <Typography variant="caption">
+              <Skeleton variant="text" width={80} />
+            </Typography>
+          </PersonInfo>
+        </Info>
         <Options>
           <Option>
             <Chip loading />
+          </Option>
+          <Option>
+            <Skeleton variant="rect" width={95} height={27} />
           </Option>
         </Options>
       </PersonBox>
@@ -106,44 +128,55 @@ const PersonCard = ({
     LastEntranceDate,
   } = item;
 
-  const color = EnteredToday ? 'success' : '';
-
   const lastEntranceLabel = () => {
     if (LastEntranceDate === null) return 'Nunca entrou';
 
-    const text = EnteredToday ? 'Entrou ' : 'Última entrada ';
+    const text = EnteredToday ? 'Entrou ' : 'Últ. vez ';
 
     const fromText = moment(LastEntranceDate).fromNow();
 
     return text + fromText;
   };
 
-  const getChipType = () => {
-    if (EnteredToday) return ChipType.success;
-    if (LastEntranceDate !== null) return ChipType.info;
-    return ChipType.disabled;
+  const getColor = () => {
+    if (EnteredToday) return Color.success;
+    if (LastEntranceDate !== null) return Color.info;
+    return Color.disabled;
   };
 
   return (
-    <PersonBox key={Id} condensed>
-      <Info>
-        <Avatar name={Name} color={color} />
-        <PersonInfo>
-          <Title variant="body2">
-            {Name}
-            {SocialName ? ` (${SocialName})` : ''}
-          </Title>
-          <Typography variant="caption">
-            <b>Cartão</b> {CardNumber}
-          </Typography>
-        </PersonInfo>
-      </Info>
-      <Options>
-        <Option>
-          <Chip label={lastEntranceLabel()} type={getChipType()} />
-        </Option>
-      </Options>
-    </PersonBox>
+    <PersonWrapper key={Id}>
+      <PersonBox condensed>
+        <Info>
+          <Avatar name={Name} color={getColor()} />
+          <PersonInfo>
+            <Title variant="body2">
+              {Name}
+              {SocialName ? ` (${SocialName})` : ''}
+            </Title>
+            <Typography variant="caption">
+              <b>Cartão</b> {CardNumber}
+            </Typography>
+          </PersonInfo>
+        </Info>
+        <Options>
+          <Option>
+            <Chip label={lastEntranceLabel()} color={getColor()} />
+          </Option>
+          {!EnteredToday && (
+            <Option>
+              <Button
+                variant="outlined"
+                size="small"
+                startIcon={<AddCircleRounded />}
+              >
+                Entrada
+              </Button>
+            </Option>
+          )}
+        </Options>
+      </PersonBox>
+    </PersonWrapper>
   );
 };
 

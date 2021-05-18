@@ -79,6 +79,9 @@ const theme = createMuiTheme({
         backgroundColor: '#fff',
         boxShadow: Shadows[1],
       },
+      outlinedSizeSmall: {
+        fontSize: '.7rem',
+      },
     },
     MuiMenu: {
       paper: {
@@ -93,6 +96,14 @@ const theme = createMuiTheme({
         boxShadow: Shadows[2],
       },
     },
+    MuiAvatar: {
+      colorDefault: {
+        backgroundColor: '#e0e0e0',
+        color: 'rgba(0, 0, 0, 0.87)',
+      },
+    },
+    // @ts-ignore
+    MuiSkeleton: { root: { borderRadius: '4px' } },
     MuiAppBar: { root: { boxShadow: 'none' } },
     MuiContainer: { root: { paddingTop: '2rem', paddingBottom: '2rem' } },
     MuiFormHelperText: { root: { opacity: 1 } },
