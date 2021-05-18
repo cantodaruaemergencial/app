@@ -1,5 +1,4 @@
-import { Box, Typography } from '@material-ui/core';
-import CheckCircleRoundedIcon from '@material-ui/icons/CheckCircleRounded';
+import { Box, Typography, withTheme } from '@material-ui/core';
 import { Skeleton } from '@material-ui/lab';
 import { ReactElement } from 'react';
 import { ListRowProps } from 'react-virtualized';
@@ -8,19 +7,38 @@ import styled from 'styled-components';
 import Card from '../../Card';
 
 import Avatar from '#/components/Avatar';
+import { BasePerson } from '#/types/People';
+import moment from 'moment';
+import Chip, { ChipType } from '#/components/Chip';
 
 const PersonWrapper = styled(Box)`
   padding-bottom: 0.5rem;
   flex: 0 0 auto;
 `;
 
-const PersonBox = styled(Card)`
+const PersonBox = withTheme(styled(Card)`
   display: flex;
   align-items: center;
   height: 100%;
-`;
+  width: 100%;
 
-const Name = styled(Typography)`
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    flex-direction: column;
+    align-items: stretch;
+  }
+`);
+
+const Info = withTheme(styled(Box)`
+  display: flex;
+  align-items: center;
+  height: 100%;
+
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    margin-bottom: 1rem;
+  }
+`);
+
+const Title = styled(Typography)`
   && {
     font-weight: 600;
   }
@@ -36,16 +54,17 @@ const PersonInfo = styled(Box)`
 const Options = styled(Box)`
   display: flex;
   flex-direction: column;
+  justify-content: space-between;
 `;
 
 const Option = styled(Box)`
   display: flex;
   flex-direction: column;
-  align-items: center;
+  align-self: flex-start;
 `;
 
 interface Props {
-  item: any;
+  item: BasePerson;
   isRowLoaded: boolean;
   props: ListRowProps;
 }
@@ -53,24 +72,24 @@ interface Props {
 const PersonCard = ({
   item,
   isRowLoaded,
-  props: { key, style, index },
+  props: { key, index },
 }: Props): ReactElement => {
   const renderSkeleton = () => (
-    <PersonWrapper style={style} key={`${key}-${index}-skeleton`}>
+    <PersonWrapper key={`${key}-${index}-skeleton`}>
       <PersonBox condensed>
         <Skeleton variant="circle" width={40} height={40} />
         <PersonInfo>
-          <Typography>
+          <Title variant="body2">
             <Skeleton variant="text" width={160} />
-          </Typography>
+          </Title>
           <Typography variant="caption">
             <Skeleton variant="text" width={80} />
           </Typography>
         </PersonInfo>
         <Options>
-          <Typography variant="caption">
-            <Skeleton variant="text" width={120} />
-          </Typography>
+          <Option>
+            <Chip loading />
+          </Option>
         </Options>
       </PersonBox>
     </PersonWrapper>
@@ -78,33 +97,53 @@ const PersonCard = ({
 
   if (!isRowLoaded) return renderSkeleton();
 
-  const enteredToday = !!item.TodayEntranceTime;
+  const {
+    Id,
+    Name,
+    SocialName,
+    CardNumber,
+    EnteredToday,
+    LastEntranceDate,
+  } = item;
 
-  const color = enteredToday ? 'success' : '';
+  const color = EnteredToday ? 'success' : '';
 
-  const lastEntrance = enteredToday ? 'Entrou Hoje' : 'Ainda não entrou hoje';
+  const lastEntranceLabel = () => {
+    if (LastEntranceDate === null) return 'Nunca entrou';
+
+    const text = EnteredToday ? 'Entrou ' : 'Última entrada ';
+
+    const fromText = moment(LastEntranceDate).fromNow();
+
+    return text + fromText;
+  };
+
+  const getChipType = () => {
+    if (EnteredToday) return ChipType.success;
+    if (LastEntranceDate !== null) return ChipType.info;
+    return ChipType.disabled;
+  };
 
   return (
-    <PersonWrapper style={style} key={item.id}>
-      <PersonBox condensed>
-        <Avatar name={item.Name} color={color} />
+    <PersonBox key={Id} condensed>
+      <Info>
+        <Avatar name={Name} color={color} />
         <PersonInfo>
-          <Name variant="body2">
-            {item.Name}
-            {item.SocialName ? ` (${item.SocialName})` : ''}
-          </Name>
+          <Title variant="body2">
+            {Name}
+            {SocialName ? ` (${SocialName})` : ''}
+          </Title>
           <Typography variant="caption">
-            <b>Cartão</b> {item.CardNumber}
+            <b>Cartão</b> {CardNumber}
           </Typography>
         </PersonInfo>
-        <Options>
-          <Option>
-            <CheckCircleRoundedIcon />
-            <Typography variant="caption">{lastEntrance}</Typography>
-          </Option>
-        </Options>
-      </PersonBox>
-    </PersonWrapper>
+      </Info>
+      <Options>
+        <Option>
+          <Chip label={lastEntranceLabel()} type={getChipType()} />
+        </Option>
+      </Options>
+    </PersonBox>
   );
 };
 

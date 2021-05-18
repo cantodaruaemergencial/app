@@ -9,6 +9,7 @@ import { useEffect } from 'react';
 
 import AuthProvider from '#/packages/auth/auth-context';
 import DefaultTheme from '#/utils/theme';
+import moment from 'moment';
 
 const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
   const snackbarConfig: SnackbarOrigin = {
@@ -18,6 +19,8 @@ const App = ({ Component, pageProps }: AppProps): React.ReactElement => {
 
   useEffect(() => {
     // Remove the server-side injected CSS.
+    moment.locale('pt-br');
+
     const jssStyles = document.querySelector('#jss-server-side');
     if (jssStyles) {
       jssStyles.parentElement?.removeChild(jssStyles);

@@ -7,7 +7,7 @@ import {
   ExternalService,
   Gender,
   MaritalStatus,
-  Person,
+  BasePerson,
   SchoolTraining,
   SkinColor,
 } from '#/types/People';
@@ -18,30 +18,23 @@ class PeopleService {
     limit: number,
     filter?: { nameOrCardNumber?: string },
   ) => {
-    const filterQuery = filter?.nameOrCardNumber
-      ? {
-          _where: {
-            _or: [
-              [{ Name_contains: filter?.nameOrCardNumber }],
-              [{ CardNumber_contains: filter?.nameOrCardNumber }],
-            ],
-          },
-        }
-      : {};
-
     const query = {
-      _start: startIndex,
-      _limit: limit,
-      ...filterQuery,
+      start: startIndex,
+      limit: limit,
+      filter: filter?.nameOrCardNumber,
     };
 
-    return Api.get<Person[]>('people', query).then((res) => res.data);
-    // .then((l) => {
-    //   l.forEach((p) => {
-    //     p.TodayEntranceTime = Math.random() > 0.5 ? new Date() : null;
-    //   });
-    //   return l;
-    // });
+    return Api.get<BasePerson[]>('people2', query)
+      .then((res) => res.data)
+      .then((data) =>
+        data?.map((p) => {
+          p.LastEntranceDate = p.LastEntranceDate
+            ? new Date(p.LastEntranceDate)
+            : null;
+          p.EnteredToday = +p.EnteredToday === 1;
+          return p;
+        }),
+      );
   };
 
   static getGenders = () =>
@@ -67,24 +60,19 @@ class PeopleService {
   static getPersonForm = async (): Promise<Form> => {
     const [
       genders,
-      // skinColors,
+      skinColors,
       maritalStatuses,
       schoolTrainings,
       externalServices,
       benefits,
     ] = await Promise.all([
       PeopleService.getGenders(),
-      // PeopleService.getSkinColors(),
+      PeopleService.getSkinColors(),
       PeopleService.getMaritalStatuses(),
       PeopleService.getSchoolTrainings(),
       PeopleService.getExternalServices(),
       PeopleService.getBenefits(),
     ]);
-
-    const skinColors = [
-      { id: 1, SkinColor: 'Preto' },
-      { id: 2, SkinColor: 'Branco' },
-    ];
 
     const sections: FormSection[] = [
       {

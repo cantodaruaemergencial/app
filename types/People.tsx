@@ -65,15 +65,13 @@ export interface Person {
   // skin_color: SkinColor;
   CardNumber: string;
   entrances: Entrance[];
-
-  TodayEntranceTime?: Date | null;
 }
 
-export interface PersonSimplified {
+export interface BasePerson {
   Id: number;
   Name: string;
   SocialName: string;
   CardNumber: string;
-  TodayEntranceTime?: Date;
-  Entrances: string;
+  LastEntranceDate?: Date | null;
+  EnteredToday: boolean;
 }

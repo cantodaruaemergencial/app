@@ -1,6 +1,9 @@
-import { ReactNode, useEffect, useState } from 'react';
+import { Box } from '@material-ui/core';
+import { ReactNode, useEffect, useMemo, useState } from 'react';
 import {
   AutoSizer,
+  CellMeasurer,
+  CellMeasurerCache,
   Index,
   IndexRange,
   InfiniteLoader,
@@ -38,6 +41,15 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
 
   const rowCount = hasNextPage ? list.length + 8 : list.length;
 
+  const cellMeasurerCache = useMemo(
+    () =>
+      new CellMeasurerCache({
+        fixedWidth: true,
+        minHeight: 50,
+      }),
+    [],
+  );
+
   const isRowLoaded = ({ index }: ListRowProps | Index) => Boolean(list[index]);
 
   const getItem = ({ index }: ListRowProps) => list[index];
@@ -59,6 +71,26 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
       setHasNextPage(result.length > 0);
       setList([...list, ...result]);
     });
+  };
+
+  const handleRowRender = (props: ListRowProps) => {
+    const { key, index, parent, style } = props;
+
+    return (
+      <CellMeasurer
+        cache={cellMeasurerCache}
+        columnIndex={0}
+        key={key}
+        rowIndex={index}
+        parent={parent}
+      >
+        {({ registerChild }) => (
+          <Box ref={registerChild} style={style}>
+            {rowRenderer(getItem(props), isRowLoaded(props), props)}
+          </Box>
+        )}
+      </CellMeasurer>
+    );
   };
 
   useEffect(() => {
@@ -86,11 +118,10 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
               ref={registerChild}
               onRowsRendered={onRowsRendered}
               rowCount={rowCount}
-              rowHeight={100}
               noRowsRenderer={() => <EmptyState />}
-              rowRenderer={(props) =>
-                rowRenderer(getItem(props), isRowLoaded(props), props)
-              }
+              rowRenderer={handleRowRender}
+              deferredMeasurementCache={cellMeasurerCache}
+              rowHeight={cellMeasurerCache.rowHeight}
               height={height}
               width={width}
             />
