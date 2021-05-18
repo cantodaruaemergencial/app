@@ -7,7 +7,6 @@ import DashboardService from '#/services/DashboardService';
 import { DashboardGender } from '#/types/Dashboard';
 
 const ChartBox = withTheme(styled(Box)`
-  height: 200px;
   border: solid 1px #000;
 `);
 
@@ -36,7 +35,7 @@ const GenderComponent = (): ReactElement => {
 
   return (
     <ChartBox>
-      <Pie type="pie" data={data} height={10} />
+      <Pie type="pie" data={data} />
     </ChartBox>
   );
 };
