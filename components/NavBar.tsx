@@ -2,7 +2,7 @@ import { Avatar, AppBar, Container, Box, Button } from '@material-ui/core';
 import Link from 'next/link';
 import styled from 'styled-components';
 
-import { useAuthState } from '#/packages/auth/auth-context';
+import { useAuthState, useAuthMethods } from '#/packages/auth/auth-context';
 
 const Logo = styled(Avatar)`
   && {
@@ -29,6 +29,7 @@ const Links = styled(Box)`
 
 export default function ButtonAppBar(): React.ReactElement {
   const { isLogged } = useAuthState();
+  const { logout } = useAuthMethods();
   if (!isLogged)
     return (
       <AppBar position="static" color="default">
@@ -54,6 +55,7 @@ export default function ButtonAppBar(): React.ReactElement {
             <Button>Dashboard</Button>
           </Link>
         </Links>
+        <Button onClick={logout}>Sair</Button>
       </Toolbar>
     </AppBar>
   );

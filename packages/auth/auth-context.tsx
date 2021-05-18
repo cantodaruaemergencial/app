@@ -28,7 +28,7 @@ interface Props {
   readonly children: ReactNode;
 }
 
-const publicRoutes = ['/', '/login', '/dashboard'];
+const publicRoutes = ['/', '/login'];
 
 const AuthStateCtx = createContext<AuthState>({
   isLogged: false,
@@ -76,6 +76,7 @@ const AuthProvider = ({ children }: Props): ReactElement => {
     logout: () => {
       setUserProfile(null);
       makeLogout();
+      router.replace('/login');
     },
   };
 
