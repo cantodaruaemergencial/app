@@ -4,11 +4,9 @@ import styled from 'styled-components';
 
 import PageHeader from '../PageHeader';
 
-import DashboardGenderComponent from './Dashboard/DashboardGenderComponent';
+import GenderComponent from './Dashboard/GenderComponent';
 
 import { useAuthState } from '#/packages/auth/auth-context';
-
-import DashboardService from '#/services/DashboardService';
 
 const DashboardCard = styled(Card)`
   padding: 2rem;
@@ -24,7 +22,7 @@ const DashboardPage = (): ReactElement => {
     <Container>
       <PageHeader title={title} />
       <DashboardCard>
-        <DashboardGenderComponent fetchData={DashboardService.getGenders()} />
+        <GenderComponent />
       </DashboardCard>
     </Container>
   );
