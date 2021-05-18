@@ -1,5 +1,4 @@
 import { Box, Container, withTheme } from '@material-ui/core';
-import moment from 'moment';
 import { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
