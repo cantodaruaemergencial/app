@@ -3,12 +3,12 @@ import { Moment } from 'moment';
 import { Format } from './Format';
 
 export interface DashboardTotalByCategory {
-  name: number;
+  name: string;
   total: number;
 }
 
 export interface DashboardTotalByCategoryAndHistoric {
-  name: number;
+  name: string;
   total: number;
   monthTotal: number;
   weekTotal: number;

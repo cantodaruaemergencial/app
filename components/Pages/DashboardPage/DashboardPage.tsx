@@ -15,23 +15,32 @@ const DashboardContainer = withTheme(styled(Box)`
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas:
     'people entrances entrances attendances attendances'
-    'services services services services services';
+    'services services services services services'
+    'genders ages ages schoolTrainings schoolTrainings'
+    'skinColors homelessness homelessness schoolTrainings schoolTrainings';
 
   ${({ theme }) => theme.breakpoints.down('sm')} {
     grid-template-columns: 1fr 1fr;
     grid-template-areas:
       'people people'
       'entrances attendances'
-      'services services';
+      'services services'
+      'genders ages'
+      'skinColors homelessness'
+      'schoolTrainings schoolTrainings';
   }
 
   ${({ theme }) => theme.breakpoints.down('xs')} {
-    grid-template-columns: 1fr;
+    grid-template-columns: 1fr 1fr;
     grid-template-areas:
-      'people'
-      'attendances'
-      'entrances'
-      'services';
+      'people people'
+      'entrances entrances'
+      'attendances attendances'
+      'services services'
+      'genders skinColors'
+      'ages ages'
+      'homelessness homelessness'
+      'schoolTrainings schoolTrainings';
   }
 `);
 

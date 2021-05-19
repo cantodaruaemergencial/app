@@ -23,7 +23,7 @@ const TheDashboardCardChart = ({
   format = Format.number,
   className,
 }: Props) => {
-  const formatLabel = (x: Moment) => moment(x).format('DD MMM, YYYY');
+  const formatLabel = (x: Moment) => moment(x).format('MMMM YYYY');
 
   const getLabels = () => values.map((v) => formatLabel(v.date));
 

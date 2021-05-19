@@ -90,6 +90,7 @@ const DashboardCard = ({
 }: Props) => {
   const renderOtherValue = (otherValue: OtherValueType) => (
     <OtherValue
+      key={otherValue.label}
       format={format}
       value={otherValue.value}
       label={otherValue.label}
