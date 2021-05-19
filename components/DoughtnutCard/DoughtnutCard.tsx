@@ -1,4 +1,3 @@
-import { Typography, withTheme } from '@material-ui/core';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -15,14 +14,6 @@ const DashCard = styled(Card)`
     padding: 2rem;
   }
 `;
-
-const Title = withTheme(styled(Typography)`
-  && {
-    font-weight: 600;
-    font-size: 0.8rem;
-    margin-bottom: 2rem;
-  }
-`);
 
 const Chart = styled(DoughtnutCardChart)`
   flex: 1;
