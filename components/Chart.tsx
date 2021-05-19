@@ -1,4 +1,9 @@
-import { ChartOptions, ChartType, DatasetChartOptions } from 'chart.js';
+import {
+  Chart as ChartInterface,
+  ChartOptions,
+  ChartType,
+  DatasetChartOptions,
+} from 'chart.js';
 import React from 'react';
 import { Bar, Line } from 'react-chartjs-2';
 
@@ -27,8 +32,10 @@ const defaultData = {
 
 const getDefaultOptions = (
   format: Format,
+  plugins: any[],
   tooltipCallbacksTitle?: (tooltipItem: any) => string,
 ) => ({
+  plugins,
   maintainAspectRatio: false,
   layout: {
     padding: {
@@ -94,6 +101,7 @@ interface Props {
   options: ChartOptions;
   type: ChartType;
   format?: Format;
+  shadowed?: boolean;
   tooltipCallbacksTitle?: (tooltipItem: any) => string;
 }
 
@@ -103,11 +111,28 @@ const Chart = ({
   dataset,
   options,
   format = Format.number,
+  shadowed = false,
   tooltipCallbacksTitle,
 }: Props) => {
-  const customizedOptions = {
-    ...getDefaultOptions(format, tooltipCallbacksTitle),
-    ...options,
+  const getPlugins = () => {
+    const plugins = [];
+
+    if (shadowed) {
+      const shadowedPlugin = {
+        beforeDatasetsDraw: (chart: ChartInterface) => {
+          chart.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
+          chart.ctx.shadowBlur = 40;
+        },
+        afterDatasetsDraw: (chart: ChartInterface) => {
+          chart.ctx.shadowColor = 'rgba(0, 0, 0, 0)';
+          chart.ctx.shadowBlur = 0;
+        },
+      };
+
+      plugins.push(shadowedPlugin);
+    }
+
+    return plugins;
   };
 
   const getColorProperties = () => {
@@ -138,6 +163,11 @@ const Chart = ({
       labels,
       datasets,
     };
+  };
+
+  const customizedOptions = {
+    ...getDefaultOptions(format, getPlugins(), tooltipCallbacksTitle),
+    ...options,
   };
 
   switch (type) {
