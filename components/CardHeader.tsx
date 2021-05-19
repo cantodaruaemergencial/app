@@ -22,8 +22,11 @@ const Title = withTheme(styled(Typography)`
   }
 `);
 
+const Description = withTheme(styled(Typography)``);
+
 interface Props {
   title: string;
+  description?: string | null;
   sideComponent?: ReactNode;
   contrast?: boolean;
   className?: string;
@@ -31,14 +34,20 @@ interface Props {
 
 const CardHeader = ({
   title,
+  description,
   contrast = false,
   sideComponent,
   className,
 }: Props) => (
   <Header className={className}>
-    <Title color="textPrimary" className={clsx({ contrast })}>
-      {title}
-    </Title>
+    <Box>
+      <Title color="textPrimary" className={clsx({ contrast })}>
+        {title}
+      </Title>
+      {description && (
+        <Description variant="caption">{description}</Description>
+      )}
+    </Box>
     {sideComponent}
   </Header>
 );

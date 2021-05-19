@@ -3,156 +3,74 @@ import moment from 'moment';
 import { Api } from '#/packages/api/strapi';
 import {
   DashboardCard,
+  DashboardChartCard,
   DashboardData,
-  DashboardTotalHistoricalListCard,
   DashboardTotal,
   DashboardTotalByCategory,
+  DashboardTotalByCategoryAndAverage,
   DashboardTotalByCategoryAndHistoric,
-  DashboardTotalByYearsAndAverage,
-  DashboardHistogramCard,
-  DashboardChartCard,
+  DashboardTotalHistoricalListCard,
 } from '#/types/Dashboard';
 
 class DashboardService {
-  private static get = async <T extends unknown>(route: string): Promise<T> => {
-    if (route === 'service-attendances')
-      return Promise.resolve<T>({
-        total: 204300,
-        monthTotal: 756,
-        weekTotal: 25,
-        totalByMonth: [
-          {
-            month: moment().clone().subtract(1, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(2, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(3, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(4, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(5, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(6, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(7, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(8, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(9, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(10, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-        ],
-      } as T);
+  private static get = async <T extends unknown>(route: string): Promise<T> =>
+    // if (route === 'services')
+    //   return Promise.resolve<T>([
+    //     {
+    //       name: 'Nome do serviço 1',
+    //       total: Math.round(Math.random() * 100),
+    //       monthTotal: Math.round(Math.random() * 500),
+    //       weekTotal: Math.round(Math.random() * 1000),
+    //     },
+    //     {
+    //       name: 'Nome do serviço 2',
+    //       total: Math.round(Math.random() * 100),
+    //       monthTotal: Math.round(Math.random() * 500),
+    //       weekTotal: Math.round(Math.random() * 1000),
+    //     },
+    //     {
+    //       name: 'Nome do serviço 3',
+    //       total: Math.round(Math.random() * 100),
+    //       monthTotal: Math.round(Math.random() * 500),
+    //       weekTotal: Math.round(Math.random() * 1000),
+    //     },
+    //     {
+    //       name: 'Nome do serviço 4',
+    //       total: Math.round(Math.random() * 100),
+    //       monthTotal: Math.round(Math.random() * 500),
+    //       weekTotal: Math.round(Math.random() * 1000),
+    //     },
+    //     {
+    //       name: 'Nome do serviço 5',
+    //       total: Math.round(Math.random() * 100),
+    //       monthTotal: Math.round(Math.random() * 500),
+    //       weekTotal: Math.round(Math.random() * 1000),
+    //     },
+    //     {
+    //       name: 'Nome do serviço 6',
+    //       total: Math.round(Math.random() * 100),
+    //       monthTotal: Math.round(Math.random() * 500),
+    //       weekTotal: Math.round(Math.random() * 1000),
+    //     },
+    //     {
+    //       name: 'Nome do serviço 7',
+    //       total: Math.round(Math.random() * 100),
+    //       monthTotal: Math.round(Math.random() * 500),
+    //       weekTotal: Math.round(Math.random() * 1000),
+    //     },
+    //     {
+    //       name: 'Nome do serviço 8',
+    //       total: Math.round(Math.random() * 100),
+    //       monthTotal: Math.round(Math.random() * 500),
+    //       weekTotal: Math.round(Math.random() * 1000),
+    //     },
+    //   ] as T);
 
-    if (route === 'services')
-      return Promise.resolve<T>([
-        {
-          name: 'Nome do serviço',
-          total: Math.round(Math.random() * 100),
-          monthTotal: Math.round(Math.random() * 100),
-          weekTotal: Math.round(Math.random() * 100),
-        },
-        {
-          name: 'Nome do serviço',
-          total: Math.round(Math.random() * 100),
-          monthTotal: Math.round(Math.random() * 100),
-          weekTotal: Math.round(Math.random() * 100),
-        },
-        {
-          name: 'Nome do serviço',
-          total: Math.round(Math.random() * 100),
-          monthTotal: Math.round(Math.random() * 100),
-          weekTotal: Math.round(Math.random() * 100),
-        },
-        {
-          name: 'Nome do serviço',
-          total: Math.round(Math.random() * 100),
-          monthTotal: Math.round(Math.random() * 100),
-          weekTotal: Math.round(Math.random() * 100),
-        },
-        {
-          name: 'Nome do serviço',
-          total: Math.round(Math.random() * 100),
-          monthTotal: Math.round(Math.random() * 100),
-          weekTotal: Math.round(Math.random() * 100),
-        },
-        {
-          name: 'Nome do serviço',
-          total: Math.round(Math.random() * 100),
-          monthTotal: Math.round(Math.random() * 100),
-          weekTotal: Math.round(Math.random() * 100),
-        },
-        {
-          name: 'Nome do serviço',
-          total: Math.round(Math.random() * 100),
-          monthTotal: Math.round(Math.random() * 100),
-          weekTotal: Math.round(Math.random() * 100),
-        },
-        {
-          name: 'Nome do serviço',
-          total: Math.round(Math.random() * 100),
-          monthTotal: Math.round(Math.random() * 100),
-          weekTotal: Math.round(Math.random() * 100),
-        },
-      ] as T);
-
-    if (route === 'ages')
-      return Promise.resolve<T>({
-        average: Math.round(Math.random() * 100),
-        totalByYear: [
-          { years: 25, total: Math.round(Math.random() * 100) },
-          { years: 26, total: Math.round(Math.random() * 100) },
-          { years: 27, total: Math.round(Math.random() * 100) },
-          { years: 28, total: Math.round(Math.random() * 100) },
-          { years: 29, total: Math.round(Math.random() * 100) },
-          { years: 30, total: Math.round(Math.random() * 100) },
-          { years: 31, total: Math.round(Math.random() * 100) },
-          { years: 32, total: Math.round(Math.random() * 100) },
-          { years: 33, total: Math.round(Math.random() * 100) },
-        ],
-      } as T);
-
-    if (route === 'homelessness')
-      return Promise.resolve<T>({
-        average: Math.round(Math.random() * 100),
-        totalByYear: [
-          { years: 1, total: Math.round(Math.random() * 100) },
-          { years: 2, total: Math.round(Math.random() * 100) },
-          { years: 3, total: Math.round(Math.random() * 100) },
-          { years: 4, total: Math.round(Math.random() * 100) },
-          { years: 5, total: Math.round(Math.random() * 100) },
-          { years: 6, total: Math.round(Math.random() * 100) },
-          { years: 7, total: Math.round(Math.random() * 100) },
-          { years: 8, total: Math.round(Math.random() * 100) },
-        ],
-      } as T);
-
-    return Api.get<T>(`dashboard/${route}`).then((res) => res.data);
-  };
+    Api.get<T>(`dashboard/${route}`).then((res) => res.data);
 
   private static toCard = (
     label: string,
-    { total, monthTotal, weekTotal, totalByMonth }: DashboardTotal,
+    { total, monthTotal, weekTotal, totalByCategory }: DashboardTotal,
   ): DashboardCard => {
     let otherValues = null;
 
@@ -162,9 +80,9 @@ class DashboardService {
         { value: weekTotal || 0, label: 'na semana' },
       ];
 
-    const historicalValues = totalByMonth?.map((tbm) => ({
-      value: tbm.total,
-      date: moment(tbm.month),
+    const historicalValues = totalByCategory?.map((tbc) => ({
+      value: tbc.total,
+      date: moment(tbc.name),
     }));
 
     return {
@@ -188,18 +106,18 @@ class DashboardService {
     data: DashboardTotalByCategory[],
   ): DashboardChartCard => ({
     label,
-    values: data.sort((a, b) => (a.total > b.total ? 1 : -1)),
+    values: data.sort((a, b) => (+a.total < +b.total ? 1 : -1)),
   });
 
-  private static toHistogramCard = (
+  private static toChartCardWithAverage = (
     label: string,
-    { average, totalByYear }: DashboardTotalByYearsAndAverage,
-  ): DashboardHistogramCard => ({
+    description: string | null = null,
+    { average, totalByCategory }: DashboardTotalByCategoryAndAverage,
+  ): DashboardChartCard => ({
     label,
+    description,
     average,
-    values: totalByYear
-      .map((tby) => ({ x: tby.years, y: tby.total }))
-      .sort((a, b) => (a.x > b.x ? 1 : -1)),
+    values: totalByCategory,
   });
 
   static getDashboardData = async (): Promise<DashboardData> => {
@@ -221,8 +139,8 @@ class DashboardService {
       DashboardService.get<DashboardTotalByCategory[]>('genders'),
       DashboardService.get<DashboardTotalByCategory[]>('skin-colors'),
       DashboardService.get<DashboardTotalByCategory[]>('school-trainings'),
-      DashboardService.get<DashboardTotalByYearsAndAverage>('ages'),
-      DashboardService.get<DashboardTotalByYearsAndAverage>('homelessness'),
+      DashboardService.get<DashboardTotalByCategoryAndAverage>('ages'),
+      DashboardService.get<DashboardTotalByCategoryAndAverage>('homelessness'),
     ]);
 
     return {
@@ -238,9 +156,10 @@ class DashboardService {
       ),
       genders: DashboardService.toChartCard('Gênero', genders),
       skinColors: DashboardService.toChartCard('Cor/Raça', skinColors),
-      ages: DashboardService.toHistogramCard('Idade', ages),
-      homelessness: DashboardService.toHistogramCard(
+      ages: DashboardService.toChartCardWithAverage('Idade', 'em anos', ages),
+      homelessness: DashboardService.toChartCardWithAverage(
         'Tempo de rua',
+        'em meses',
         homelessness,
       ),
       schoolTrainings: DashboardService.toChartCard(

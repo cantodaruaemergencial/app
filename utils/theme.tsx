@@ -69,9 +69,9 @@ const theme = createMuiTheme({
     },
     caption: {
       fontSize: '.75rem',
-      fontWeight: 500,
+      fontWeight: 600,
       lineHeight: 1.4,
-      opacity: 0.5,
+      opacity: 0.6,
     },
   },
   overrides: {

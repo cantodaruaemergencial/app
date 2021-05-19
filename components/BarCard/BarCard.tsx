@@ -6,14 +6,16 @@ import Card from '../Card';
 import CardHeader from '../CardHeader';
 import Value from '../Value';
 
-import HistogramCardChart from './HistogramCardChart';
+import BarCardChart from './BarCardChart';
 
-import { DashboardHistogramCard } from '#/types/Dashboard';
+import { DashboardChartCard } from '#/types/Dashboard';
 import { Format } from '#/types/Format';
 
 const DashCard = styled(Card)`
   && {
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
@@ -22,37 +24,43 @@ const Header = styled(Box)`
   justify-content: space-between;
 `;
 
-const Chart = styled(HistogramCardChart)`
+const Chart = styled(BarCardChart)`
   flex: 1;
-  height: 100px;
+  min-height: 100px;
   width: 100%;
 `;
 
-interface Props extends DashboardHistogramCard {
+interface Props extends DashboardChartCard {
   format?: Format;
+  horizontal?: boolean;
   className?: string;
 }
 
-const HistogramCard = ({
+const BarCard = ({
   label,
+  description,
   values,
   average,
   format = Format.number,
+  horizontal = false,
   className,
 }: Props) => (
   <DashCard className={className} rounder>
     <Header>
       <CardHeader
         title={label}
+        description={description}
         sideComponent={
-          average !== null && (
-            <Value value={average} label="média" small inline />
+          average != null && (
+            <Value value={average || 0} label="média" small inline />
           )
         }
       />
     </Header>
-    {values && <Chart values={values} format={format} />}
+    {values && (
+      <Chart values={values} format={format} horizontal={horizontal} />
+    )}
   </DashCard>
 );
 
-export default HistogramCard;
+export default BarCard;

@@ -12,12 +12,14 @@ import { Format } from '#/types/Format';
 const DashCard = styled(Card)`
   && {
     padding: 2rem;
+    display: flex;
+    flex-direction: column;
   }
 `;
 
 const Chart = styled(DoughtnutCardChart)`
   flex: 1;
-  height: 100px;
+  min-height: 100px;
   width: 100%;
 `;
 

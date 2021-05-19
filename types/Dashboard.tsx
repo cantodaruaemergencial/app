@@ -2,87 +2,69 @@ import { Moment } from 'moment';
 
 import { Format } from './Format';
 
-export interface DashboardTotalByCategory {
+export type DashboardTotalByCategory = {
   name: string;
   total: number;
-}
+};
 
-export interface DashboardTotalByCategoryAndHistoric {
+export type DashboardTotalByCategoryAndHistoric = {
   name: string;
   total: number;
   monthTotal: number;
   weekTotal: number;
+  icon?: string;
+};
+
+export interface DashboardTotalByCategoryAndAverage {
+  average: number;
+  totalByCategory: DashboardTotalByCategory[];
 }
 
-export interface DashboardTotal {
+export type DashboardTotal = {
   total: number;
   monthTotal?: number;
   weekTotal?: number;
-  totalByMonth?: DashboardTotalByMonth[];
-}
+  totalByCategory?: DashboardTotalByCategory[];
+};
 
-export interface DashboardTotalByMonth {
-  month: Date;
-  total: number;
-}
-
-export interface DashboardTotalByYears {
-  years: number;
-  total: number;
-}
-
-export interface DashboardTotalByYearsAndAverage {
-  average: number;
-  totalByYear: DashboardTotalByYears[];
-}
-
-export interface DashboardCardOtherValue {
+export type DashboardCardOtherValue = {
   label: string;
   value: number;
-}
+};
 
-export interface DashboardCardHistoricalValue {
+export type DashboardCardHistoricalValue = {
   date: Moment;
   value: number;
-}
+};
 
-export interface DashboardCoordinateValue {
-  x: number;
-  y: number;
-}
-
-export interface DashboardCard {
+export type DashboardCard = {
   label: string;
   value: number;
   format?: Format;
   historicalValues?: DashboardCardHistoricalValue[] | null;
   otherValues?: DashboardCardOtherValue[] | null;
-}
+};
 
-export interface DashboardTotalHistoricalListCard {
+export type DashboardTotalHistoricalListCard = {
   label: string;
   values: DashboardTotalByCategoryAndHistoric[];
-}
+};
 
-export interface DashboardChartCard {
+export type DashboardChartCard = {
   label: string;
+  description?: string | null;
+  average?: number;
   values: DashboardTotalByCategory[];
-}
+};
 
-export interface DashboardHistogramCard {
-  label: string;
-  average: number;
-  values?: DashboardCoordinateValue[];
-}
-
-export interface DashboardData {
+export type DashboardData = {
   people: DashboardCard;
   entrances: DashboardCard;
   serviceAttendances: DashboardCard;
   services: DashboardTotalHistoricalListCard;
   genders: DashboardChartCard;
   skinColors: DashboardChartCard;
-  ages: DashboardHistogramCard;
-  homelessness: DashboardHistogramCard;
+  ages: DashboardChartCard;
+  homelessness: DashboardChartCard;
   schoolTrainings: DashboardChartCard;
-}
+};

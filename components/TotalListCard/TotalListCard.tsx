@@ -1,10 +1,12 @@
 import { Box, withTheme } from '@material-ui/core';
 import { BookRounded } from '@material-ui/icons';
-import React from 'react';
+import React, { useState } from 'react';
 import styled from 'styled-components';
 
 import Card from '../Card';
 import CardHeader from '../CardHeader';
+import Icon from '../Icon';
+import Selector, { SelectorOption } from '../Selector';
 import Value from '../Value';
 
 import {
@@ -64,18 +66,40 @@ interface Props extends DashboardTotalHistoricalListCard {
 }
 
 const TotalListCard = ({ values, className }: Props) => {
+  const [property, setProperty] = useState<
+    keyof DashboardTotalByCategoryAndHistoric
+  >('total');
+
+  const renderSelector = () => {
+    const options = [
+      { id: 0, label: 'Semana', value: 'weekTotal' },
+      { id: 1, label: 'Mês', value: 'monthTotal' },
+      { id: 2, label: 'Total', value: 'total' },
+    ];
+
+    const onSelect = (option: SelectorOption) => setProperty(option.value);
+
+    return (
+      <Selector
+        options={options}
+        onSelect={onSelect}
+        inititalValue={options[2]}
+      />
+    );
+  };
+
   const renderValue = (value: DashboardTotalByCategoryAndHistoric) => (
-    <Item>
+    <Item key={value.name}>
       <IconWrapper>
-        <BookRounded />
+        <Icon icon={value.icon} />
       </IconWrapper>
-      <ValueItem value={value.total} label={value.name} />
+      <ValueItem value={+(value[property] || 0)} label={value.name} />
     </Item>
   );
 
   return (
     <Card className={className} rounder>
-      <CardHeader title="Serviços" />
+      <CardHeader title="Serviços" sideComponent={renderSelector()} />
       <List>{values && values.map(renderValue)}</List>
     </Card>
   );

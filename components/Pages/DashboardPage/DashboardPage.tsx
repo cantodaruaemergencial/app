@@ -2,12 +2,11 @@ import { Box, Container, withTheme } from '@material-ui/core';
 import { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import HistogramCard from '../../HistogramCard/HistogramCard';
 import PageHeader from '../../PageHeader';
 
-import DashboardCard from '#/components/DashboardCard copy/DashboardCard';
+import BarCard from '#/components/BarCard/BarCard';
+import DashboardCard from '#/components/DashboardCard/DashboardCard';
 import DoughtnutCard from '#/components/DoughtnutCard/DoughtnutCard';
-import HorizontalBarCard from '#/components/HorizontalBarCard/HorizontalBarCard';
 import TotalListCard from '#/components/TotalListCard/TotalListCard';
 import DashboardService from '#/services/DashboardService';
 import { DashboardData } from '#/types/Dashboard';
@@ -67,7 +66,7 @@ const Genders = styled(DoughtnutCard)`
   grid-area: genders;
 `;
 
-const Ages = styled(HistogramCard)`
+const Ages = styled(BarCard)`
   grid-area: ages;
 `;
 
@@ -75,12 +74,13 @@ const SkinColors = styled(DoughtnutCard)`
   grid-area: skinColors;
 `;
 
-const Homelessness = styled(HistogramCard)`
+const Homelessness = styled(BarCard)`
   grid-area: homelessness;
 `;
 
-const SchoolTrainings = styled(HorizontalBarCard)`
+const SchoolTrainings = styled(BarCard)`
   grid-area: schoolTrainings;
+  min-height: 420px;
 `;
 
 const DashboardPage = (): ReactElement => {
@@ -118,7 +118,7 @@ const DashboardPage = (): ReactElement => {
         <Ages {...ages} />
         <SkinColors {...skinColors} />
         <Homelessness {...homelessness} />
-        <SchoolTrainings {...schoolTrainings} />
+        <SchoolTrainings {...schoolTrainings} horizontal />
       </DashboardContainer>
     </Container>
   );
