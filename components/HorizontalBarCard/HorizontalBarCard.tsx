@@ -25,7 +25,7 @@ const Header = styled(Box)`
 
 const Chart = styled(HorizontalBarCardChart)`
   flex: 1;
-  min-height: 200px;
+  min-height: 300px;
   width: 100%;
 `;
 

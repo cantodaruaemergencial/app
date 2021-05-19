@@ -1,9 +1,5 @@
-import {
-  Chart as ChartInterface,
-  ChartOptions,
-  ChartType,
-  DatasetChartOptions,
-} from 'chart.js';
+import { useTheme } from '@material-ui/core';
+import { ChartOptions, ChartType, DatasetChartOptions } from 'chart.js';
 import React from 'react';
 import { Bar, Doughnut, Line } from 'react-chartjs-2';
 
@@ -32,10 +28,8 @@ const defaultData = {
 
 const getDefaultOptions = (
   format: Format,
-  plugins: any[],
   tooltipCallbacksTitle?: (tooltipItem: any) => string,
 ) => ({
-  plugins,
   maintainAspectRatio: false,
   layout: {
     padding: {
@@ -101,7 +95,6 @@ interface Props {
   options: ChartOptions;
   type: ChartType | 'horizontalBar';
   format?: Format;
-  shadowed?: boolean;
   tooltipCallbacksTitle?: (tooltipItem: any) => string;
 }
 
@@ -111,32 +104,12 @@ const Chart = ({
   dataset,
   options,
   format = Format.number,
-  shadowed = false,
   tooltipCallbacksTitle,
 }: Props) => {
-  const getPlugins = () => {
-    const plugins = [];
-
-    if (shadowed) {
-      const shadowedPlugin = {
-        beforeDatasetsDraw: (chart: ChartInterface) => {
-          chart.ctx.shadowColor = 'rgba(0, 0, 0, 0.25)';
-          chart.ctx.shadowBlur = 40;
-        },
-        afterDatasetsDraw: (chart: ChartInterface) => {
-          chart.ctx.shadowColor = 'rgba(0, 0, 0, 0)';
-          chart.ctx.shadowBlur = 0;
-        },
-      };
-
-      plugins.push(shadowedPlugin);
-    }
-
-    return plugins;
-  };
+  const theme = useTheme();
 
   const getColorProperties = () => {
-    const color = 'rgb(37 31 30 / 70%)';
+    const color = `${theme.palette.primary.main}C2`;
 
     return {
       borderColor: color,
@@ -166,7 +139,7 @@ const Chart = ({
   };
 
   const customizedOptions = {
-    ...getDefaultOptions(format, getPlugins(), tooltipCallbacksTitle),
+    ...getDefaultOptions(format, tooltipCallbacksTitle),
     ...options,
   };
 

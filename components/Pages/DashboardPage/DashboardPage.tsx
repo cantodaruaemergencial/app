@@ -14,7 +14,7 @@ import { DashboardData } from '#/types/Dashboard';
 
 const DashboardContainer = withTheme(styled(Box)`
   display: grid;
-  grid-gap: 1rem;
+  grid-gap: 1.5rem;
   grid-template-columns: 1fr 1fr 1fr 1fr 1fr;
   grid-template-areas:
     'people entrances entrances attendances attendances'

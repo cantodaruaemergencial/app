@@ -4,6 +4,7 @@ import React from 'react';
 import styled from 'styled-components';
 
 import Card from '../Card';
+import CardHeader from '../CardHeader';
 import Value from '../Value';
 
 import {
@@ -16,7 +17,7 @@ const List = withTheme(styled(Box)`
   column-gap: 1rem;
   row-gap: 4rem;
   grid-template-columns: repeat(4, 1fr);
-  padding: 2rem;
+  padding: 2rem 0;
 
   ${({ theme }) => theme.breakpoints.down('sm')} {
     grid-template-columns: repeat(3, 1fr);
@@ -48,7 +49,7 @@ const IconWrapper = withTheme(styled(Box)`
 
 const ValueItem = styled(Value)`
   && {
-    font-size: 0.5rem;
+    font-size: 0.7rem;
 
     .MuiTypography-colorTextSecondary {
       font-size: 0.7rem;
@@ -74,6 +75,7 @@ const TotalListCard = ({ values, className }: Props) => {
 
   return (
     <Card className={className} rounder>
+      <CardHeader title="Serviços" />
       <List>{values && values.map(renderValue)}</List>
     </Card>
   );

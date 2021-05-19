@@ -12,8 +12,8 @@ const Header = styled(Box)`
 
 const Title = withTheme(styled(Typography)`
   && {
-    font-weight: 600;
-    font-size: 0.8rem;
+    font-weight: 700;
+    font-size: 0.9rem;
 
     &.contrast {
       color: ${({ theme }) => theme.palette.primary.contrastText};
@@ -36,7 +36,7 @@ const CardHeader = ({
   className,
 }: Props) => (
   <Header className={className}>
-    <Title color="textSecondary" className={clsx({ contrast })}>
+    <Title color="textPrimary" className={clsx({ contrast })}>
       {title}
     </Title>
     {sideComponent}

@@ -15,57 +15,6 @@ import {
 
 class DashboardService {
   private static get = async <T extends unknown>(route: string): Promise<T> => {
-    if (route === 'people') return Promise.resolve<T>({ total: 7000 } as T);
-
-    if (route === 'entrances')
-      return Promise.resolve<T>({
-        total: 102343,
-        monthTotal: 2332,
-        weekTotal: 342,
-        totalByMonth: [
-          {
-            month: moment().clone().subtract(1, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(2, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(3, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(4, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(5, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(6, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(7, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(8, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(9, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-          {
-            month: moment().clone().subtract(10, 'month'),
-            total: Math.round(Math.random() * 100),
-          },
-        ],
-      } as T);
-
     if (route === 'service-attendances')
       return Promise.resolve<T>({
         total: 204300,
@@ -167,33 +116,6 @@ class DashboardService {
         },
       ] as T);
 
-    if (route === 'genders')
-      return Promise.resolve<T>([
-        { name: 'Masculino', total: 6000 },
-        { name: 'Feminino', total: 509 },
-        { name: 'outros', total: 343 },
-      ] as T);
-
-    if (route === 'skin-colors')
-      return Promise.resolve<T>([
-        { name: 'Preto', total: 6000 },
-        { name: 'Branco', total: 509 },
-        { name: 'Pardo', total: 343 },
-        { name: 'Indigena', total: 32 },
-        { name: 'Amarelo', total: 434 },
-      ] as T);
-
-    if (route === 'school-trainings')
-      return Promise.resolve<T>([
-        { name: 'Analfabeto', total: 3434 },
-        { name: 'Ensino fundamento completo', total: 343 },
-        { name: 'Ensino fundamento incompleto', total: 233 },
-        { name: 'Ensino médio incompleto', total: 509 },
-        { name: 'Ensino médio completo', total: 344 },
-        { name: 'Ensino superior incompleto', total: 43 },
-        { name: 'Ensino superior completo', total: 23 },
-      ] as T);
-
     if (route === 'ages')
       return Promise.resolve<T>({
         average: Math.round(Math.random() * 100),
@@ -266,7 +188,7 @@ class DashboardService {
     data: DashboardTotalByCategory[],
   ): DashboardChartCard => ({
     label,
-    values: data,
+    values: data.sort((a, b) => (a.total > b.total ? 1 : -1)),
   });
 
   private static toHistogramCard = (
