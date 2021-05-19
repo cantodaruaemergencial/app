@@ -2,13 +2,13 @@ import { Box, Container, withTheme } from '@material-ui/core';
 import { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
-import DashboardCard from '../../DashboardCard/DashboardCard';
+import HistogramCard from '../../HistogramCard/HistogramCard';
 import PageHeader from '../../PageHeader';
 
-import Card from '#/components/Card';
+import DashboardCard from '#/components/DashboardCard copy/DashboardCard';
 import DoughtnutCard from '#/components/DoughtnutCard/DoughtnutCard';
-import HistogramCard from '#/components/HistogramCard/HistogramCard';
 import HorizontalBarCard from '#/components/HorizontalBarCard/HorizontalBarCard';
+import TotalListCard from '#/components/TotalListCard/TotalListCard';
 import DashboardService from '#/services/DashboardService';
 import { DashboardData } from '#/types/Dashboard';
 
@@ -59,7 +59,7 @@ const Entrances = styled(DashboardCard)`
   grid-area: entrances;
 `;
 
-const Services = styled(Card)`
+const Services = styled(TotalListCard)`
   grid-area: services;
 `;
 
@@ -113,7 +113,7 @@ const DashboardPage = (): ReactElement => {
         <People {...people} primary alignCenter />
         <Entrances {...entrances} />
         <ServiceAttendances {...serviceAttendances} />
-        <Services {...services} rounder />
+        <Services {...services} />
         <Genders {...genders} />
         <Ages {...ages} />
         <SkinColors {...skinColors} />

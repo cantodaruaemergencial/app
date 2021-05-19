@@ -66,7 +66,8 @@ const ValueNumber = styled(Typography)`
 
 const Label = styled(Typography)`
   && {
-    font-size: 0.9em;
+    font-weight: 600;
+    font-size: 0.8rem;
   }
 `;
 

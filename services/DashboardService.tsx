@@ -25,43 +25,43 @@ class DashboardService {
         totalByMonth: [
           {
             month: moment().clone().subtract(1, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(2, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(3, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(4, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(5, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(6, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(7, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(8, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(9, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(10, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
         ],
       } as T);
@@ -74,43 +74,43 @@ class DashboardService {
         totalByMonth: [
           {
             month: moment().clone().subtract(1, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(2, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(3, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(4, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(5, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(6, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(7, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(8, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(9, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
           {
             month: moment().clone().subtract(10, 'month'),
-            total: Math.random() * 100,
+            total: Math.round(Math.random() * 100),
           },
         ],
       } as T);
@@ -119,51 +119,51 @@ class DashboardService {
       return Promise.resolve<T>([
         {
           name: 'Nome do serviço',
-          total: Math.random() * 1000,
-          monthTotal: Math.random() * 1000,
-          weekTotal: Math.random() * 1000,
+          total: Math.round(Math.random() * 100),
+          monthTotal: Math.round(Math.random() * 100),
+          weekTotal: Math.round(Math.random() * 100),
         },
         {
           name: 'Nome do serviço',
-          total: Math.random() * 1000,
-          monthTotal: Math.random() * 1000,
-          weekTotal: Math.random() * 1000,
+          total: Math.round(Math.random() * 100),
+          monthTotal: Math.round(Math.random() * 100),
+          weekTotal: Math.round(Math.random() * 100),
         },
         {
           name: 'Nome do serviço',
-          total: Math.random() * 1000,
-          monthTotal: Math.random() * 1000,
-          weekTotal: Math.random() * 1000,
+          total: Math.round(Math.random() * 100),
+          monthTotal: Math.round(Math.random() * 100),
+          weekTotal: Math.round(Math.random() * 100),
         },
         {
           name: 'Nome do serviço',
-          total: Math.random() * 1000,
-          monthTotal: Math.random() * 1000,
-          weekTotal: Math.random() * 1000,
+          total: Math.round(Math.random() * 100),
+          monthTotal: Math.round(Math.random() * 100),
+          weekTotal: Math.round(Math.random() * 100),
         },
         {
           name: 'Nome do serviço',
-          total: Math.random() * 1000,
-          monthTotal: Math.random() * 1000,
-          weekTotal: Math.random() * 1000,
+          total: Math.round(Math.random() * 100),
+          monthTotal: Math.round(Math.random() * 100),
+          weekTotal: Math.round(Math.random() * 100),
         },
         {
           name: 'Nome do serviço',
-          total: Math.random() * 1000,
-          monthTotal: Math.random() * 1000,
-          weekTotal: Math.random() * 1000,
+          total: Math.round(Math.random() * 100),
+          monthTotal: Math.round(Math.random() * 100),
+          weekTotal: Math.round(Math.random() * 100),
         },
         {
           name: 'Nome do serviço',
-          total: Math.random() * 1000,
-          monthTotal: Math.random() * 1000,
-          weekTotal: Math.random() * 1000,
+          total: Math.round(Math.random() * 100),
+          monthTotal: Math.round(Math.random() * 100),
+          weekTotal: Math.round(Math.random() * 100),
         },
         {
           name: 'Nome do serviço',
-          total: Math.random() * 1000,
-          monthTotal: Math.random() * 1000,
-          weekTotal: Math.random() * 1000,
+          total: Math.round(Math.random() * 100),
+          monthTotal: Math.round(Math.random() * 100),
+          weekTotal: Math.round(Math.random() * 100),
         },
       ] as T);
 
@@ -196,32 +196,32 @@ class DashboardService {
 
     if (route === 'ages')
       return Promise.resolve<T>({
-        average: Math.random() * 100,
+        average: Math.round(Math.random() * 100),
         totalByYear: [
-          { years: 25, total: Math.random() * 100 },
-          { years: 26, total: Math.random() * 100 },
-          { years: 27, total: Math.random() * 100 },
-          { years: 28, total: Math.random() * 100 },
-          { years: 29, total: Math.random() * 100 },
-          { years: 30, total: Math.random() * 100 },
-          { years: 31, total: Math.random() * 100 },
-          { years: 32, total: Math.random() * 100 },
-          { years: 33, total: Math.random() * 100 },
+          { years: 25, total: Math.round(Math.random() * 100) },
+          { years: 26, total: Math.round(Math.random() * 100) },
+          { years: 27, total: Math.round(Math.random() * 100) },
+          { years: 28, total: Math.round(Math.random() * 100) },
+          { years: 29, total: Math.round(Math.random() * 100) },
+          { years: 30, total: Math.round(Math.random() * 100) },
+          { years: 31, total: Math.round(Math.random() * 100) },
+          { years: 32, total: Math.round(Math.random() * 100) },
+          { years: 33, total: Math.round(Math.random() * 100) },
         ],
       } as T);
 
     if (route === 'homelessness')
       return Promise.resolve<T>({
-        average: Math.random() * 100,
+        average: Math.round(Math.random() * 100),
         totalByYear: [
-          { years: 1, total: Math.random() * 100 },
-          { years: 2, total: Math.random() * 100 },
-          { years: 3, total: Math.random() * 100 },
-          { years: 4, total: Math.random() * 100 },
-          { years: 5, total: Math.random() * 100 },
-          { years: 6, total: Math.random() * 100 },
-          { years: 7, total: Math.random() * 100 },
-          { years: 8, total: Math.random() * 100 },
+          { years: 1, total: Math.round(Math.random() * 100) },
+          { years: 2, total: Math.round(Math.random() * 100) },
+          { years: 3, total: Math.round(Math.random() * 100) },
+          { years: 4, total: Math.round(Math.random() * 100) },
+          { years: 5, total: Math.round(Math.random() * 100) },
+          { years: 6, total: Math.round(Math.random() * 100) },
+          { years: 7, total: Math.round(Math.random() * 100) },
+          { years: 8, total: Math.round(Math.random() * 100) },
         ],
       } as T);
 
