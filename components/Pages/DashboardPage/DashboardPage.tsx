@@ -6,6 +6,9 @@ import DashboardCard from '../../DashboardCard/DashboardCard';
 import PageHeader from '../../PageHeader';
 
 import Card from '#/components/Card';
+import DoughtnutCard from '#/components/DoughtnutCard/DoughtnutCard';
+import HistogramCard from '#/components/HistogramCard/HistogramCard';
+import HorizontalBarCard from '#/components/HorizontalBarCard/HorizontalBarCard';
 import DashboardService from '#/services/DashboardService';
 import { DashboardData } from '#/types/Dashboard';
 
@@ -60,23 +63,23 @@ const Services = styled(Card)`
   grid-area: services;
 `;
 
-const Genders = styled(Card)`
+const Genders = styled(DoughtnutCard)`
   grid-area: genders;
 `;
 
-const Ages = styled(Card)`
+const Ages = styled(HistogramCard)`
   grid-area: ages;
 `;
 
-const SkinColors = styled(Card)`
+const SkinColors = styled(DoughtnutCard)`
   grid-area: skinColors;
 `;
 
-const Homelessness = styled(Card)`
+const Homelessness = styled(HistogramCard)`
   grid-area: homelessness;
 `;
 
-const SchoolTrainings = styled(Card)`
+const SchoolTrainings = styled(HorizontalBarCard)`
   grid-area: schoolTrainings;
 `;
 
@@ -111,11 +114,11 @@ const DashboardPage = (): ReactElement => {
         <Entrances {...entrances} />
         <ServiceAttendances {...serviceAttendances} />
         <Services {...services} rounder />
-        <Genders {...genders} rounder />
-        <Ages {...ages} rounder />
-        <SkinColors {...skinColors} rounder />
-        <Homelessness {...homelessness} rounder />
-        <SchoolTrainings {...schoolTrainings} rounder />
+        <Genders {...genders} />
+        <Ages {...ages} />
+        <SkinColors {...skinColors} />
+        <Homelessness {...homelessness} />
+        <SchoolTrainings {...schoolTrainings} />
       </DashboardContainer>
     </Container>
   );

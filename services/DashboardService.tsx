@@ -199,6 +199,7 @@ class DashboardService {
         average: Math.random() * 100,
         totalByYear: [
           { years: 25, total: Math.random() * 100 },
+          { years: 26, total: Math.random() * 100 },
           { years: 27, total: Math.random() * 100 },
           { years: 28, total: Math.random() * 100 },
           { years: 29, total: Math.random() * 100 },
@@ -274,7 +275,9 @@ class DashboardService {
   ): DashboardHistogramCard => ({
     label,
     average,
-    values: totalByYear.map((tby) => ({ x: tby.years, y: tby.total })),
+    values: totalByYear
+      .map((tby) => ({ x: tby.years, y: tby.total }))
+      .sort((a, b) => (a.x > b.x ? 1 : -1)),
   });
 
   static getDashboardData = async (): Promise<DashboardData> => {

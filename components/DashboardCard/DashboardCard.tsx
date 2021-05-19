@@ -1,9 +1,10 @@
-import { Box, Typography, withTheme } from '@material-ui/core';
+import { Box, withTheme } from '@material-ui/core';
 import clsx from 'clsx';
 import React from 'react';
 import styled from 'styled-components';
 
 import Card from '../Card';
+import CardHeader from '../CardHeader';
 import Value from '../Value';
 
 import DashboardCardChart from './DashboardCardChart';
@@ -36,20 +37,13 @@ const Numbers = withTheme(styled(Box)`
   }
 `);
 
-const Title = withTheme(styled(Typography)`
+const Header = styled(CardHeader)`
   && {
-    font-weight: 600;
-    font-size: 0.8rem;
     margin-bottom: 0.5rem;
-
-    &.contrast {
-      color: ${({ theme }) => theme.palette.primary.contrastText};
-      opacity: 0.8;
-    }
   }
-`);
+`;
 
-const HistoricalValues = styled(DashboardCardChart)`
+const Chart = styled(DashboardCardChart)`
   flex: 1;
   height: 100px;
   width: 100%;
@@ -103,9 +97,7 @@ const DashboardCard = ({
     <DashCard className={className} rounder primary={primary}>
       <Numbers className={clsx({ alignCenter })}>
         <Box>
-          <Title color="textSecondary" className={clsx({ contrast: primary })}>
-            {label}
-          </Title>
+          <Header title={label} contrast={primary} />
           <Value
             format={format}
             value={value}
@@ -117,9 +109,7 @@ const DashboardCard = ({
           <OtherValues>{otherValues.map(renderOtherValue)}</OtherValues>
         )}
       </Numbers>
-      {historicalValues && (
-        <HistoricalValues values={historicalValues} format={format} />
-      )}
+      {historicalValues && <Chart values={historicalValues} format={format} />}
     </DashCard>
   );
 };

@@ -5,7 +5,7 @@ import {
   DatasetChartOptions,
 } from 'chart.js';
 import React from 'react';
-import { Bar, Line } from 'react-chartjs-2';
+import { Bar, Doughnut, Line } from 'react-chartjs-2';
 
 import { Format } from '#/types/Format';
 import { Numerals } from '#/utils/numerals';
@@ -96,10 +96,10 @@ const getDefaultOptions = (
 });
 
 interface Props {
-  labels: string[];
+  labels?: string[];
   dataset: DatasetChartOptions;
   options: ChartOptions;
-  type: ChartType;
+  type: ChartType | 'horizontalBar';
   format?: Format;
   shadowed?: boolean;
   tooltipCallbacksTitle?: (tooltipItem: any) => string;
@@ -107,7 +107,7 @@ interface Props {
 
 const Chart = ({
   type = 'bar',
-  labels,
+  labels = [],
   dataset,
   options,
   format = Format.number,
@@ -171,6 +171,14 @@ const Chart = ({
   };
 
   switch (type) {
+    case 'doughnut':
+      return (
+        <Doughnut
+          type="doughnut"
+          data={customizedData}
+          options={customizedOptions}
+        />
+      );
     case 'bar':
       return (
         <Bar type="bar" data={customizedData} options={customizedOptions} />
