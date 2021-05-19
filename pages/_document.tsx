@@ -55,6 +55,11 @@ const pwaMetaData = (
       *:focus {
         outline: none;
       }
+
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
       `}</style>
   </>
 );

@@ -53,7 +53,7 @@ const ValueItem = styled(Value)`
     font-size: 0.7rem;
 
     .MuiTypography-colorTextSecondary {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       line-height: 1.3;
       margin-top: 4px;
     }

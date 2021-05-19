@@ -1,4 +1,4 @@
-import { Box, Container, withTheme } from '@material-ui/core';
+import { Avatar, Box, Container, withTheme } from '@material-ui/core';
 import { ReactElement, useEffect, useState } from 'react';
 import styled from 'styled-components';
 
@@ -8,8 +8,25 @@ import BarCard from '#/components/BarCard/BarCard';
 import DashboardCard from '#/components/DashboardCard/DashboardCard';
 import DoughtnutCard from '#/components/DoughtnutCard/DoughtnutCard';
 import TotalListCard from '#/components/TotalListCard/TotalListCard';
+import { useAuthState } from '#/packages/auth/auth-context';
 import DashboardService from '#/services/DashboardService';
 import { DashboardData } from '#/types/Dashboard';
+
+const Logo = styled(Avatar)`
+  && {
+    width: 5rem;
+    height: 5rem;
+    margin-right: 1.5rem;
+  }
+`;
+
+const Title = styled.span`
+  && {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+  }
+`;
 
 const DashboardContainer = withTheme(styled(Box)`
   display: grid;
@@ -84,6 +101,8 @@ const SchoolTrainings = styled(BarCard)`
 `;
 
 const DashboardPage = (): ReactElement => {
+  const { isLogged } = useAuthState();
+
   const [dashboardData, setDashboardData] = useState<DashboardData>();
 
   useEffect(() => {
@@ -106,9 +125,20 @@ const DashboardPage = (): ReactElement => {
     homelessness,
   } = dashboardData;
 
+  const renderTitle = () => {
+    if (isLogged) return 'Dashboard';
+
+    return (
+      <Title>
+        <Logo src="/images/logo.png" />
+        Canto da Rua
+      </Title>
+    );
+  };
+
   return (
     <Container>
-      <PageHeader title="Dashboard" />
+      <PageHeader title={renderTitle()} />
       <DashboardContainer>
         <People {...people} primary alignCenter />
         <Entrances {...entrances} />

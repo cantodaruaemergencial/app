@@ -1,6 +1,6 @@
 import { Typography } from '@material-ui/core';
 import { withTheme } from '@material-ui/core/styles';
-import { ReactElement } from 'react';
+import { ReactElement, ReactNode } from 'react';
 import styled from 'styled-components';
 
 const Header = withTheme(styled.header`
@@ -23,7 +23,7 @@ const Title = styled(Typography)`
 `;
 
 interface Props {
-  title: string;
+  title: string | ReactNode;
   sideComponent?: ReactElement | ReactElement[];
   className?: string;
 }
