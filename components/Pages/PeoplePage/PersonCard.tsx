@@ -11,7 +11,8 @@ import Card from '../../Card';
 import Avatar from '#/components/Avatar';
 import Chip from '#/components/Chip';
 import { Color } from '#/types/Color';
-import { BasePerson, Entrance } from '#/types/People';
+import { Entrance } from '#/types/Entrance';
+import { BasePerson } from '#/types/People';
 
 const PersonWrapper = styled(Box)`
   padding-bottom: 0.75rem;
