@@ -64,7 +64,6 @@ const TheHorizontalBarCardChart = ({
           labels={getLabels()}
           dataset={getDataset()}
           options={getChartOptions()}
-          shadowed
         />
       </NoSsr>
     </ChartWrapper>

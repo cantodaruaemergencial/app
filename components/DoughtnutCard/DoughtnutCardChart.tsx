@@ -70,7 +70,6 @@ const TheDoughtnutCardChart = ({
           labels={getLabels()}
           dataset={getDataset()}
           options={getChartOptions()}
-          shadowed
         />
       </NoSsr>
     </ChartWrapper>

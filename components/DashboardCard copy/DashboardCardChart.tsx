@@ -63,7 +63,6 @@ const TheDashboardCardChart = ({
           dataset={getDataset()}
           options={getChartOptions()}
           tooltipCallbacksTitle={tooltipCallbacksTitle}
-          shadowed
         />
       </NoSsr>
     </ChartWrapper>
