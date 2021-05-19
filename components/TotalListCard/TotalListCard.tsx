@@ -1,5 +1,4 @@
 import { Box, withTheme } from '@material-ui/core';
-import { BookRounded } from '@material-ui/icons';
 import React, { useState } from 'react';
 import styled from 'styled-components';
 
