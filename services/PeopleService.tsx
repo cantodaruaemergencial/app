@@ -10,11 +10,10 @@ import {
   BasePerson,
   SchoolTraining,
   SkinColor,
-  Entrance,
 } from '#/types/People';
 
 class PeopleService {
-  static getPeople = (
+  static get = (
     startIndex: number,
     limit: number,
     filter?: { nameOrCardNumber?: string },
@@ -361,15 +360,6 @@ class PeopleService {
     });
 
     return Api.post('people', body);
-  };
-
-  static postEntrance = async (person: BasePerson) => {
-    const body = {
-      person: person.Id,
-      DateTime: new Date(),
-    };
-
-    return Api.post<Entrance>('/person-entrances', body);
   };
 }
 

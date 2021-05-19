@@ -5,7 +5,7 @@ import styled from 'styled-components';
 
 import Chart from '../Chart';
 
-import { HistoricalValue } from '#/types/Dashboard';
+import { DashboardCardHistoricalValue } from '#/types/Dashboard';
 import { Format } from '#/types/Format';
 
 const ChartWrapper = styled(Box)`
@@ -13,7 +13,7 @@ const ChartWrapper = styled(Box)`
 `;
 
 interface Props {
-  values: HistoricalValue[];
+  values: DashboardCardHistoricalValue[];
   format?: Format;
   className?: string;
 }

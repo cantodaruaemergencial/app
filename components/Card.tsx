@@ -1,9 +1,15 @@
-import { Box, Card as MuiCard, CardProps, Typography } from '@material-ui/core';
+import {
+  Box,
+  Card as MuiCard,
+  CardProps,
+  Typography,
+  withTheme,
+} from '@material-ui/core';
 import clsx from 'clsx';
 import { ReactNode } from 'react';
 import styled from 'styled-components';
 
-const StyledCard = styled(MuiCard)`
+const StyledCard = withTheme(styled(MuiCard)`
   && {
     padding: 2rem 1.5rem;
 
@@ -14,8 +20,12 @@ const StyledCard = styled(MuiCard)`
     &.rounder {
       border-radius: 16px;
     }
+
+    &.primary {
+      background-color: ${({ theme }) => theme.palette.primary.main};
+    }
   }
-`;
+`);
 
 const CardHeader = styled(Box)``;
 
@@ -30,6 +40,7 @@ interface Props extends CardProps {
   children?: ReactNode;
   condensed?: boolean;
   rounder?: boolean;
+  primary?: boolean;
 }
 
 const Card = ({
@@ -37,10 +48,14 @@ const Card = ({
   children,
   condensed = false,
   rounder = false,
+  primary = false,
   className,
   ...props
 }: Props) => (
-  <StyledCard {...props} className={clsx(className, { condensed, rounder })}>
+  <StyledCard
+    {...props}
+    className={clsx(className, { condensed, rounder, primary })}
+  >
     {title && (
       <CardHeader>
         <Title variant="h4">{title}</Title>

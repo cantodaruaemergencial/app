@@ -61,7 +61,6 @@ export interface Person {
   Observation: string;
   // skin_color: SkinColor;
   CardNumber: string;
-  entrances: Entrance[];
 }
 
 export interface BasePerson {
@@ -71,10 +70,4 @@ export interface BasePerson {
   CardNumber: string;
   LastEntranceDate?: Moment | null;
   EnteredToday: boolean;
-}
-
-export interface Entrance {
-  id: number;
-  DateTime: Moment;
-  person: Person;
 }

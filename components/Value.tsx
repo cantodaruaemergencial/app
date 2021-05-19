@@ -12,16 +12,13 @@ const Container = styled(Box)`
   display: flex;
 `;
 
-const ValueContainer = styled(Box)`
+const ValueContainer = withTheme(styled(Box)`
   display: flex;
   flex-direction: column;
 
-  &.right {
-    text-align: right;
-  }
-
-  &.center {
+  &.alignCenter {
     text-align: center;
+    margin: 0 auto;
   }
 
   &.small {
@@ -46,7 +43,18 @@ const ValueContainer = styled(Box)`
       margin-left: 0.25rem;
     }
   }
-`;
+
+  &.light {
+    .value {
+      color: ${({ theme }) => theme.palette.primary.contrastText};
+    }
+
+    .label {
+      color: ${({ theme }) => theme.palette.primary.contrastText};
+      opacity: 0.8;
+    }
+  }
+`);
 
 const ValueNumber = styled(Typography)`
   && {
@@ -99,9 +107,10 @@ interface Props {
   format?: Format;
   value: number;
   label?: string;
-  align?: 'left' | 'center' | 'right';
+  alignCenter?: boolean;
   small?: boolean;
   inline?: boolean;
+  light?: boolean;
   growth?: number;
   className?: string;
 }
@@ -110,9 +119,10 @@ const Value = ({
   format = Format.number,
   value,
   label,
-  align = 'left',
+  alignCenter = false,
   small = false,
   inline = false,
+  light = false,
   growth,
   className,
 }: Props) => {
@@ -131,7 +141,7 @@ const Value = ({
 
   return (
     <Container className={className}>
-      <ValueContainer className={clsx(align, { small, inline })}>
+      <ValueContainer className={clsx({ small, inline, alignCenter, light })}>
         <ValueNumber color="textPrimary" className="value">
           {valueNumber}
         </ValueNumber>

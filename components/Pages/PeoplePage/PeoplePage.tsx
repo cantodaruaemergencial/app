@@ -15,9 +15,11 @@ import PersonCard from './PersonCard';
 
 import ConfirmationModal from '#/components/ConfirmationModal';
 import SearchField from '#/components/SearchField';
+import EntrancesService from '#/services/EntrancesService';
 import PeopleService from '#/services/PeopleService';
 import { ConfirmationModal as ConfirmationModalType } from '#/types/ConfirmationModal';
-import { BasePerson, Entrance } from '#/types/People';
+import { Entrance } from '#/types/Entrance';
+import { BasePerson } from '#/types/People';
 
 const Container = styled(MuiContainer)`
   && {
@@ -72,7 +74,7 @@ const PeoplePage = (): ReactElement => {
   });
 
   const fetchPeople: InfiniteListFetchRows = (startIndex, limit, filter) =>
-    PeopleService.getPeople(startIndex, limit, filter);
+    PeopleService.get(startIndex, limit, filter);
 
   const onChangeFilter = (value?: string) =>
     setSelectedFilter({ nameOrCardNumber: value });
@@ -98,7 +100,7 @@ const PeoplePage = (): ReactElement => {
     setConfirmationModal({ ...confirmationModal, open: false });
 
   const confirmEntrance = () => {
-    PeopleService.postEntrance(confirmationModal.data.person).then(
+    EntrancesService.post(confirmationModal.data.person).then(
       ({ status, data }) => {
         if (status === 200) {
           handleCloseConfirmationModal();

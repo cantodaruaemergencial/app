@@ -1,4 +1,5 @@
-import { Box, Typography } from '@material-ui/core';
+import { Box, Typography, withTheme } from '@material-ui/core';
+import clsx from 'clsx';
 import React from 'react';
 import styled from 'styled-components';
 
@@ -7,7 +8,7 @@ import Value from '../Value';
 
 import DashboardCardChart from './DashboardCardChart';
 
-import { HistoricalValue } from '#/types/Dashboard';
+import { DashboardCard as DashboardCardInterface } from '#/types/Dashboard';
 import { Format } from '#/types/Format';
 
 const DashCard = styled(Card)`
@@ -16,42 +17,64 @@ const DashCard = styled(Card)`
   }
 `;
 
-const Numbers = styled(Box)`
+const Numbers = withTheme(styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
   padding: 2rem;
-`;
 
-const Title = styled(Typography)`
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  &.alignCenter {
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    height: 100%;
+  }
+`);
+
+const Title = withTheme(styled(Typography)`
   && {
     font-weight: 600;
     font-size: 0.8rem;
+    margin-bottom: 0.5rem;
+
+    &.contrast {
+      color: ${({ theme }) => theme.palette.primary.contrastText};
+      opacity: 0.8;
+    }
   }
-`;
+`);
 
 const HistoricalValues = styled(DashboardCardChart)`
   flex: 1;
-  height: 120px;
-  margin-top: 2rem;
+  height: 100px;
+  width: 100%;
 `;
 
-const OtherValues = styled(Box)`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-`;
+const OtherValues = withTheme(styled(Box)`
+  display: grid;
+  grid-template-columns: 1fr;
+  justify-items: flex-end;
+
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    grid-template-columns: 1fr 1fr;
+    justify-items: flex-start;
+    grid-gap: 0.75rem;
+    margin-top: 1rem;
+  }
+`);
 
 const OtherValue = styled(Value)``;
 
 type OtherValueType = { value: number; label: string };
 
-interface Props {
-  label: string;
-  value: number;
-  format?: Format;
-  historicalValues: HistoricalValue[];
-  otherValues?: OtherValueType[];
+interface Props extends DashboardCardInterface {
+  primary?: boolean;
+  alignCenter?: boolean;
   className?: string;
 }
 
@@ -59,7 +82,9 @@ const DashboardCard = ({
   label,
   value,
   format = Format.number,
-  otherValues = [],
+  primary = false,
+  alignCenter = false,
+  otherValues,
   historicalValues,
   className,
 }: Props) => {
@@ -70,20 +95,30 @@ const DashboardCard = ({
       label={otherValue.label}
       small
       inline
-      align="right"
     />
   );
 
   return (
-    <DashCard rounder className={className}>
-      <Numbers>
+    <DashCard className={className} rounder primary={primary}>
+      <Numbers className={clsx({ alignCenter })}>
         <Box>
-          <Title color="textSecondary">{label}</Title>
-          <Value format={format} value={value} />
+          <Title color="textSecondary" className={clsx({ contrast: primary })}>
+            {label}
+          </Title>
+          <Value
+            format={format}
+            value={value}
+            light={primary}
+            alignCenter={alignCenter}
+          />
         </Box>
-        <OtherValues>{otherValues.map(renderOtherValue)}</OtherValues>
+        {otherValues && (
+          <OtherValues>{otherValues.map(renderOtherValue)}</OtherValues>
+        )}
       </Numbers>
-      <HistoricalValues values={historicalValues} format={format} />
+      {historicalValues && (
+        <HistoricalValues values={historicalValues} format={format} />
+      )}
     </DashCard>
   );
 };

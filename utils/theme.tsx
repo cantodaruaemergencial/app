@@ -57,12 +57,12 @@ const theme = createMuiTheme({
     body1: {
       fontSize: '1rem',
       fontWeight: 500,
-      lineHeight: 1.8,
+      lineHeight: 1.5,
     },
     body2: {
       fontSize: '.9rem',
       fontWeight: 500,
-      lineHeight: 1.6,
+      lineHeight: 1.5,
     },
     caption: {
       fontSize: '.75rem',
