@@ -24,6 +24,7 @@ env:
   PROJECT_ID: ${{ secrets.PROJECT_ID }}
   RUN_REGION: us-east1
   SERVICE_NAME: app
+  NEXT_PUBLIC_STRAPI_API_URL: https://api.cantodaruaemergencial.com.br
 
 jobs:
   setup-build-deploy:
