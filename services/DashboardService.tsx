@@ -159,7 +159,7 @@ class DashboardService {
       ages: DashboardService.toChartCardWithAverage('Idade', 'em anos', ages),
       homelessness: DashboardService.toChartCardWithAverage(
         'Tempo de rua',
-        'em meses',
+        '',
         homelessness,
       ),
       schoolTrainings: DashboardService.toChartCard(
