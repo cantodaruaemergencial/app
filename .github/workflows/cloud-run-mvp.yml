@@ -50,7 +50,7 @@ jobs:
       - name: Build
         run: |
           gcloud builds submit --config=build.yaml \
-            --substitutions=NEXT_PUBLIC_STRAPI_API_URL=$NEXT_PUBLIC_STRAPI_API_URL,PROJECT_ID=$PROJECT_ID,SERVICE_NAME=$SERVICE_NAME,GITHUB_SHA=$GITHUB_SHA
+            --substitutions=_NEXT_PUBLIC_STRAPI_API_URL=$NEXT_PUBLIC_STRAPI_API_URL,_PROJECT_ID=$PROJECT_ID,_SERVICE_NAME=$SERVICE_NAME,_GITHUB_SHA=$GITHUB_SHA
       # Deploy image to Cloud Run
       - name: Deploy
         run: |
