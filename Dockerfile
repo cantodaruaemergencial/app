@@ -2,6 +2,7 @@
 
 # base image
 FROM node:alpine
+ARG NEXT_PUBLIC_STRAPI_API_URL
 
 # create & set working directory
 RUN mkdir -p /usr/src
