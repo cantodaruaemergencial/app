@@ -34,9 +34,11 @@ const SearchField = ({ placeholder, onFilter, className }: Props) => {
   return (
     <Container className={className}>
       <Input
+        id="search-field"
         placeholder={placeholder}
         startAdornment={<SearchRounded />}
         onKeyDown={(e) => onKeyDown(e)}
+        onFocus={(e) => e.target.select()}
         autoFocus
       />
     </Container>

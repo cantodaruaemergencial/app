@@ -41,7 +41,7 @@ const Info = withTheme(styled(Box)`
   flex: 1;
 
   ${({ theme }) => theme.breakpoints.down('xs')} {
-    margin-bottom: .75rem;
+    margin-bottom: 0.75rem;
   }
 `);
 
@@ -60,7 +60,7 @@ const Title = withTheme(styled(Typography)`
 const PersonInfo = withTheme(styled(Box)`
   display: flex;
   flex-direction: column;
-  padding: 0 .75rem;
+  padding: 0 0.75rem;
   flex: 1;
 
   ${({ theme }) => theme.breakpoints.down('xs')} {
@@ -184,7 +184,6 @@ const PersonCard = ({
           {!entrance.EnteredToday && (
             <Option>
               <Button
-                id={`entrance-${CardNumber}`}
                 variant="outlined"
                 size="small"
                 startIcon={<AddCircleRounded />}

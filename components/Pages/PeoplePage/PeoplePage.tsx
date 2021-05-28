@@ -118,8 +118,10 @@ const PeoplePage = (): ReactElement => {
     });
   };
 
-  const handleCloseConfirmationModal = () =>
+  const handleCloseConfirmationModal = () => {
     setConfirmationModal({ ...confirmationModal, open: false });
+    document.getElementById('search-field')?.focus();
+  };
 
   const confirmEntrance = () => {
     EntrancesService.post(confirmationModal.data.person).then(
