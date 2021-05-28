@@ -8,7 +8,7 @@ const Header = withTheme(styled.header`
   align-items: center;
   justify-content: space-between;
   flex: 0 0 auto;
-  margin: 3rem 0 2rem;
+  margin: 2.5rem 0 2rem;
 
   ${({ theme }) => theme.breakpoints.down('xs')} {
     margin: 2rem 0 1.5rem;

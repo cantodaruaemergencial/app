@@ -5,6 +5,7 @@ import {
   DashboardCard,
   DashboardChartCard,
   DashboardData,
+  DashboardToday,
   DashboardTotal,
   DashboardTotalByCategory,
   DashboardTotalByCategoryAndAverage,
@@ -13,59 +14,12 @@ import {
 } from '#/types/Dashboard';
 
 class DashboardService {
-  private static get = async <T extends unknown>(route: string): Promise<T> =>
-    // if (route === 'services')
-    //   return Promise.resolve<T>([
-    //     {
-    //       name: 'Nome do serviço 1',
-    //       total: Math.round(Math.random() * 100),
-    //       monthTotal: Math.round(Math.random() * 500),
-    //       weekTotal: Math.round(Math.random() * 1000),
-    //     },
-    //     {
-    //       name: 'Nome do serviço 2',
-    //       total: Math.round(Math.random() * 100),
-    //       monthTotal: Math.round(Math.random() * 500),
-    //       weekTotal: Math.round(Math.random() * 1000),
-    //     },
-    //     {
-    //       name: 'Nome do serviço 3',
-    //       total: Math.round(Math.random() * 100),
-    //       monthTotal: Math.round(Math.random() * 500),
-    //       weekTotal: Math.round(Math.random() * 1000),
-    //     },
-    //     {
-    //       name: 'Nome do serviço 4',
-    //       total: Math.round(Math.random() * 100),
-    //       monthTotal: Math.round(Math.random() * 500),
-    //       weekTotal: Math.round(Math.random() * 1000),
-    //     },
-    //     {
-    //       name: 'Nome do serviço 5',
-    //       total: Math.round(Math.random() * 100),
-    //       monthTotal: Math.round(Math.random() * 500),
-    //       weekTotal: Math.round(Math.random() * 1000),
-    //     },
-    //     {
-    //       name: 'Nome do serviço 6',
-    //       total: Math.round(Math.random() * 100),
-    //       monthTotal: Math.round(Math.random() * 500),
-    //       weekTotal: Math.round(Math.random() * 1000),
-    //     },
-    //     {
-    //       name: 'Nome do serviço 7',
-    //       total: Math.round(Math.random() * 100),
-    //       monthTotal: Math.round(Math.random() * 500),
-    //       weekTotal: Math.round(Math.random() * 1000),
-    //     },
-    //     {
-    //       name: 'Nome do serviço 8',
-    //       total: Math.round(Math.random() * 100),
-    //       monthTotal: Math.round(Math.random() * 500),
-    //       weekTotal: Math.round(Math.random() * 1000),
-    //     },
-    //   ] as T);
+  static getToday = async (): Promise<DashboardToday> =>
+    Api.get<DashboardToday[]>(`dashboard/today`)
+      .then((res) => res.data)
+      .then((data) => data[0]);
 
+  private static get = async <T extends unknown>(route: string): Promise<T> =>
     Api.get<T>(`dashboard/${route}`).then((res) => res.data);
 
   private static toCard = (

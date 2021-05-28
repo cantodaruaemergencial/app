@@ -2,6 +2,10 @@ import { Moment } from 'moment';
 
 import { Format } from './Format';
 
+export type DashboardToday = {
+  entrances: number;
+};
+
 export type DashboardTotalByCategory = {
   name: string;
   total: number;

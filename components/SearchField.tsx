@@ -1,21 +1,21 @@
 import { Box, InputBase } from '@material-ui/core';
 import { SearchRounded } from '@material-ui/icons';
-import { KeyboardEventHandler } from 'react';
 import styled from 'styled-components';
 
-import { Shadows } from '#/utils/theme';
-
 const Container = styled(Box)`
-  background-color: #fff;
-  padding: 0.25rem 0.5rem;
+  background-color: rgba(0, 0, 0, 0.05);
+  padding: 0.2rem 0.4rem;
   border-radius: 4px;
-  box-shadow: ${Shadows[1]};
   grid-area: search;
 
   .MuiSvgIcon-root {
     margin: 0 0.5rem;
     fill: darkgray;
   }
+`;
+
+const Input = styled(InputBase)`
+  width: 100%;
 `;
 
 interface Props {
@@ -26,16 +26,18 @@ interface Props {
 
 const SearchField = ({ placeholder, onFilter, className }: Props) => {
   const onKeyDown = ({ key, target: { value } }: any) => {
-    if (key === 'Enter' || key === 'ArrowDown') onFilter(value);
+    if (key === 'Enter') {
+      onFilter(value);
+    }
   };
 
   return (
     <Container className={className}>
-      <InputBase
+      <Input
         placeholder={placeholder}
         startAdornment={<SearchRounded />}
-        onBlur={(e) => onFilter(e.target.value)}
         onKeyDown={(e) => onKeyDown(e)}
+        autoFocus
       />
     </Container>
   );

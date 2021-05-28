@@ -21,6 +21,11 @@ const ValueContainer = withTheme(styled(Box)`
     margin: 0 auto;
   }
 
+  &.alignRight {
+    text-align: right;
+    align-items: flex-end;
+  }
+
   &.small {
     .value {
       font-weight: 600;
@@ -106,9 +111,10 @@ const Growth = styled(Typography)`
 
 interface Props {
   format?: Format;
-  value: number;
+  value: number | string;
   label?: string;
   alignCenter?: boolean;
+  alignRight?: boolean;
   small?: boolean;
   inline?: boolean;
   light?: boolean;
@@ -121,13 +127,15 @@ const Value = ({
   value,
   label,
   alignCenter = false,
+  alignRight = false,
   small = false,
   inline = false,
   light = false,
   growth,
   className,
 }: Props) => {
-  const valueNumber = Numerals.format(value, format);
+  const valueNumber =
+    typeof value === 'number' ? Numerals.format(value, format) : value;
 
   const renderGrowth = () => {
     const growthNumber = growth || 0;
@@ -142,7 +150,9 @@ const Value = ({
 
   return (
     <Container className={className}>
-      <ValueContainer className={clsx({ small, inline, alignCenter, light })}>
+      <ValueContainer
+        className={clsx({ small, inline, alignCenter, alignRight, light })}
+      >
         <ValueNumber color="textPrimary" className="value">
           {valueNumber}
         </ValueNumber>

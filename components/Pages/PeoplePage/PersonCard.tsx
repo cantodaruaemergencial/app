@@ -1,3 +1,7 @@
+import Chip from '#/components/Chip';
+import { Color } from '#/types/Color';
+import { Entrance } from '#/types/Entrance';
+import { BasePerson } from '#/types/People';
 import { Box, Button, Typography, withTheme } from '@material-ui/core';
 import { AddCircleRounded } from '@material-ui/icons';
 import { Skeleton } from '@material-ui/lab';
@@ -5,14 +9,7 @@ import moment from 'moment';
 import { ReactElement, useState } from 'react';
 import { ListRowProps } from 'react-virtualized';
 import styled from 'styled-components';
-
-import Card from '../../Card';
-
-import Avatar from '#/components/Avatar';
-import Chip from '#/components/Chip';
-import { Color } from '#/types/Color';
-import { Entrance } from '#/types/Entrance';
-import { BasePerson } from '#/types/People';
+import TheTag from './../../Tag';
 
 const PersonWrapper = styled(Box)`
   flex: 0 0 auto;
@@ -44,7 +41,7 @@ const Info = withTheme(styled(Box)`
   flex: 1;
 
   ${({ theme }) => theme.breakpoints.down('xs')} {
-    margin-bottom: 1rem;
+    margin-bottom: .75rem;
   }
 `);
 
@@ -63,7 +60,7 @@ const Title = withTheme(styled(Typography)`
 const PersonInfo = withTheme(styled(Box)`
   display: flex;
   flex-direction: column;
-  padding: 0 1rem;
+  padding: 0 .75rem;
   flex: 1;
 
   ${({ theme }) => theme.breakpoints.down('xs')} {
@@ -71,20 +68,24 @@ const PersonInfo = withTheme(styled(Box)`
   }
 `);
 
-const Options = withTheme(styled(Box)`
+const Options = styled(Box)`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
 
-  ${({ theme }) => theme.breakpoints.down('xs')} {
-    padding-left: 40px;
-  }
-`);
-
-const Option = styled(Box)`
+const Option = withTheme(styled(Box)`
   display: flex;
   flex-direction: column;
   margin-left: 1rem;
+
+  ${({ theme }) => theme.breakpoints.down('xs')} {
+    margin-left: 0;
+  }
+`);
+
+const Tag = styled(TheTag)`
+  min-width: 48px;
 `;
 
 interface Props {
@@ -107,7 +108,7 @@ const PersonCard = ({
     <PersonWrapper key={`${key}-${index}-skeleton`}>
       <PersonBox condensed>
         <Info>
-          <Skeleton variant="circle" width={40} height={40} />
+          <Skeleton variant="rect" width={64} height={24} />
           <PersonInfo>
             <Title variant="body2">
               <Skeleton variant="text" width={160} />
@@ -168,15 +169,12 @@ const PersonCard = ({
     <PersonWrapper key={Id}>
       <PersonBox condensed>
         <Info>
-          <Avatar name={Name} color={getColor()} />
+          <Tag label={CardNumber} color={getColor()} />
           <PersonInfo>
-            <Title variant="body2">
-              {Name}
-              {SocialName ? ` (${SocialName})` : ''}
-            </Title>
-            <Typography variant="caption">
-              <b>Cartão</b> {CardNumber}
-            </Typography>
+            <Title variant="body2">{Name}</Title>
+            {SocialName && (
+              <Typography variant="caption">{SocialName}</Typography>
+            )}
           </PersonInfo>
         </Info>
         <Options>
@@ -186,6 +184,7 @@ const PersonCard = ({
           {!entrance.EnteredToday && (
             <Option>
               <Button
+                id={`entrance-${CardNumber}`}
                 variant="outlined"
                 size="small"
                 startIcon={<AddCircleRounded />}

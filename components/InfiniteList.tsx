@@ -117,6 +117,7 @@ const InfiniteList = ({ fetchRows, rowRenderer, filter, className }: Props) => {
         <AutoSizer>
           {({ height, width }) => (
             <List
+              tabIndex={-1}
               ref={registerChild}
               onRowsRendered={onRowsRendered}
               rowCount={rowCount}

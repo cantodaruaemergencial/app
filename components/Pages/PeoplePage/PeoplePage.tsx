@@ -1,26 +1,26 @@
-import { Box, Button, Container as MuiContainer } from '@material-ui/core';
-import { withTheme } from '@material-ui/core/styles';
-import { AddCircleRounded } from '@material-ui/icons';
-import { useSnackbar } from 'notistack';
-import { ReactElement, useState } from 'react';
-import styled from 'styled-components';
-
-import InfiniteList, {
-  InfiniteListFetchRows,
-  InfiniteListRowRenderer,
-} from '../../InfiniteList';
-import PageHeader from '../../PageHeader';
-
-import PersonCard from './PersonCard';
-
 import Card from '#/components/Card';
 import ConfirmationModal from '#/components/ConfirmationModal';
 import SearchField from '#/components/SearchField';
+import DashboardService from '#/services/DashboardService';
 import EntrancesService from '#/services/EntrancesService';
 import PeopleService from '#/services/PeopleService';
 import { ConfirmationModal as ConfirmationModalType } from '#/types/ConfirmationModal';
 import { Entrance } from '#/types/Entrance';
 import { BasePerson } from '#/types/People';
+import { Shadows } from '#/utils/theme';
+import { Box, Button, Container as MuiContainer } from '@material-ui/core';
+import { withTheme } from '@material-ui/core/styles';
+import { AddCircleRounded } from '@material-ui/icons';
+import { useSnackbar } from 'notistack';
+import { ReactElement, useEffect, useState } from 'react';
+import styled from 'styled-components';
+import InfiniteList, {
+  InfiniteListFetchRows,
+  InfiniteListRowRenderer,
+} from '../../InfiniteList';
+import PageHeader from '../../PageHeader';
+import Value from './../../Value';
+import PersonCard from './PersonCard';
 
 const Container = styled(MuiContainer)`
   && {
@@ -32,19 +32,7 @@ const Container = styled(MuiContainer)`
   }
 `;
 
-const Header = withTheme(styled(PageHeader)`
-  display: grid;
-  grid-gap: 1rem;
-  grid-template-columns: 1fr auto auto;
-  grid-template-areas: 'title search add-new';
-
-  ${({ theme }) => theme.breakpoints.down('xs')} {
-    grid-template-columns: 1fr auto;
-    grid-template-areas:
-      'title add-new'
-      'search search';
-  }
-`);
+const Header = withTheme(styled(PageHeader)``);
 
 const AddNew = styled(Button)`
   grid-area: add-new;
@@ -53,26 +41,46 @@ const AddNew = styled(Button)`
 
 const ListContainer = styled(Card)`
   && {
-    flex: 1;
     display: flex;
     flex-direction: column;
+    margin-bottom: 3rem;
+    flex-shrink: 0;
     padding: 0;
-
-    &.rounder {
-      border-bottom-left-radius: 0;
-      border-bottom-right-radius: 0;
-    }
   }
+`;
+
+const ListWrapper = styled(Box)`
+  height: 70vh;
 `;
 
 const List = styled(InfiniteList)`
   flex: 1;
 `;
 
+const EntrancesToday = styled(Value)`
+  margin-left: 1rem;
+`;
+
+const SearchBar = styled(Box)`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.5rem 2rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  box-shadow: ${Shadows.bottom};
+`;
+
+const Search = styled(SearchField)`
+  flex: 1;
+  max-width: 400px;
+`;
+
 const PeoplePage = (): ReactElement => {
   const { enqueueSnackbar } = useSnackbar();
 
   const [selectedFilter, setSelectedFilter] = useState({});
+
+  const [todayEntrances, setTodayEntrances] = useState<number | null>();
 
   const [
     confirmationModal,
@@ -84,6 +92,11 @@ const PeoplePage = (): ReactElement => {
 
   const fetchPeople: InfiniteListFetchRows = (startIndex, limit, filter) =>
     PeopleService.get(startIndex, limit, filter);
+
+  const fetchEntrances = () =>
+    DashboardService.getToday().then(({ entrances }) =>
+      setTodayEntrances(entrances),
+    );
 
   const onChangeFilter = (value?: string) =>
     setSelectedFilter({ nameOrCardNumber: value });
@@ -114,6 +127,7 @@ const PeoplePage = (): ReactElement => {
         if (status === 200) {
           handleCloseConfirmationModal();
           confirmationModal.data.callback(data);
+          fetchEntrances();
         } else {
           enqueueSnackbar('Ocorreu um erro ao confirmar a entrada.', {
             variant: 'error',
@@ -124,17 +138,18 @@ const PeoplePage = (): ReactElement => {
   };
 
   const renderControls = () => (
-    <>
-      <SearchField placeholder="Nome ou cartão" onFilter={onChangeFilter} />
-      <AddNew
-        href="/people/new-person"
-        variant="contained"
-        startIcon={<AddCircleRounded />}
-      >
-        Nova Pessoa
-      </AddNew>
-    </>
+    <AddNew
+      href="/people/new-person"
+      variant="contained"
+      startIcon={<AddCircleRounded />}
+    >
+      Nova Pessoa
+    </AddNew>
   );
+
+  useEffect(() => {
+    fetchEntrances();
+  }, []);
 
   const rowRenderer: InfiniteListRowRenderer = (item, isRowLoaded, props) => (
     <PersonCard
@@ -149,11 +164,22 @@ const PeoplePage = (): ReactElement => {
     <Container>
       <Header title="Pessoas" sideComponent={renderControls()} />
       <ListContainer rounder>
-        <List
-          fetchRows={fetchPeople}
-          rowRenderer={rowRenderer}
-          filter={selectedFilter}
-        />
+        <SearchBar>
+          <Search placeholder="Nome ou cartão" onFilter={onChangeFilter} />
+          <EntrancesToday
+            value={todayEntrances != null ? todayEntrances : '-'}
+            label="entradas hoje"
+            small
+            alignRight
+          />
+        </SearchBar>
+        <ListWrapper>
+          <List
+            fetchRows={fetchPeople}
+            rowRenderer={rowRenderer}
+            filter={selectedFilter}
+          />
+        </ListWrapper>
       </ListContainer>
       <ConfirmationModal
         {...confirmationModal}

@@ -1,6 +1,7 @@
 import { createMuiTheme, responsiveFontSizes } from '@material-ui/core/styles';
 
 export const Shadows = {
+  bottom: '0 6px 8px rgba(0, 0, 0, 0.05)',
   1: '0px 2px 2px -3px rgba(0,0,0,0.02), 0px 8px 8px -1px rgba(0,0,0,0.05), 0px 2px 8px 2px rgba(0,0,0,0.02)',
   2: '0px 5px 5px -3px rgba(0,0,0,0.02),0px 12px 12px -1px rgba(0,0,0,0.05),0px 3px 12px 2px rgba(0,0,0,0.02)',
 };
