@@ -171,7 +171,7 @@ const PeoplePage = (): ReactElement => {
           <EntrancesToday
             value={todayEntrances != null ? todayEntrances : '-'}
             label="entradas hoje"
-            small
+            medium
             alignRight
           />
         </SearchBar>

@@ -40,6 +40,20 @@ const ValueContainer = withTheme(styled(Box)`
     }
   }
 
+  &.medium {
+    .value {
+      font-weight: 600;
+      font-size: 1rem;
+      line-height: 1.8;
+    }
+
+    .label {
+      font-size: 0.7rem;
+      font-weight: 600;
+      line-height: 1;
+    }
+  }
+
   &.inline {
     flex-direction: row;
     align-items: baseline;
@@ -116,6 +130,7 @@ interface Props {
   alignCenter?: boolean;
   alignRight?: boolean;
   small?: boolean;
+  medium?: boolean;
   inline?: boolean;
   light?: boolean;
   growth?: number;
@@ -129,6 +144,7 @@ const Value = ({
   alignCenter = false,
   alignRight = false,
   small = false,
+  medium = false,
   inline = false,
   light = false,
   growth,
@@ -151,7 +167,7 @@ const Value = ({
   return (
     <Container className={className}>
       <ValueContainer
-        className={clsx({ small, inline, alignCenter, alignRight, light })}
+        className={clsx({ small, medium, inline, alignCenter, alignRight, light })}
       >
         <ValueNumber color="textPrimary" className="value">
           {valueNumber}
