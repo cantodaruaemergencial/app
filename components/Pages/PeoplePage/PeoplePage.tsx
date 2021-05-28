@@ -13,6 +13,7 @@ import PageHeader from '../../PageHeader';
 
 import PersonCard from './PersonCard';
 
+import Card from '#/components/Card';
 import ConfirmationModal from '#/components/ConfirmationModal';
 import SearchField from '#/components/SearchField';
 import EntrancesService from '#/services/EntrancesService';
@@ -50,10 +51,18 @@ const AddNew = styled(Button)`
   height: 42px;
 `;
 
-const ListContainer = styled(Box)`
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+const ListContainer = styled(Card)`
+  && {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+
+    &.rounder {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
+    }
+  }
 `;
 
 const List = styled(InfiniteList)`
@@ -139,7 +148,7 @@ const PeoplePage = (): ReactElement => {
   return (
     <Container>
       <Header title="Pessoas" sideComponent={renderControls()} />
-      <ListContainer>
+      <ListContainer rounder>
         <List
           fetchRows={fetchPeople}
           rowRenderer={rowRenderer}

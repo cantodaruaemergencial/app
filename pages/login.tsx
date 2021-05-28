@@ -1,10 +1,5 @@
-import Layout from '#/components/Layout';
 import LoginPage from '#/components/LoginPage';
 
-const Login = (): React.ReactElement => (
-  <Layout title="Login - Canto da Rua">
-    <LoginPage />
-  </Layout>
-);
+const Login = (): React.ReactElement => <LoginPage />;
 
 export default Login;

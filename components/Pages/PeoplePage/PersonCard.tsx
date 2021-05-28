@@ -15,19 +15,25 @@ import { Entrance } from '#/types/Entrance';
 import { BasePerson } from '#/types/People';
 
 const PersonWrapper = styled(Box)`
-  padding-bottom: 0.75rem;
   flex: 0 0 auto;
+  height: 100%;
 `;
 
-const PersonBox = withTheme(styled(Card)`
+const PersonBox = withTheme(styled(Box)`
   display: flex;
   align-items: center;
   height: 100%;
   width: 100%;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 1.5rem 2rem;
 
   ${({ theme }) => theme.breakpoints.down('xs')} {
     flex-direction: column;
     align-items: stretch;
+  }
+
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.01);
   }
 `);
 
