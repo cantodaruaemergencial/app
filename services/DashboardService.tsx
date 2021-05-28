@@ -15,9 +15,9 @@ import {
 
 class DashboardService {
   static getToday = async (): Promise<DashboardToday> =>
-    Api.get<DashboardToday[]>(`dashboard/today`)
+    Api.get<DashboardToday>(`dashboard/today`)
       .then((res) => res.data)
-      .then((data) => data[0]);
+      .then((data) => data);
 
   private static get = async <T extends unknown>(route: string): Promise<T> =>
     Api.get<T>(`dashboard/${route}`).then((res) => res.data);
